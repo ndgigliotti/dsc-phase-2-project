@@ -26,6 +26,10 @@ def nan_rows(data: pd.DataFrame):
     return data[data.isna().any(axis=1)]
 
 
+def dup_rows(data: pd.DataFrame, **kwargs):
+    return data[data.duplicated(**kwargs)]
+
+
 def who_is_nan(data: pd.DataFrame, col: str, name_col: str):
     return nan_rows(data)[data[col].isna()][name_col]
 
@@ -69,12 +73,19 @@ def clip_outliers(data: pd.Series):
     return data.clip(lower=bounds["min"], upper=bounds["max"])
 
 
-def info(data: pd.DataFrame) -> pd.DataFrame:
+def trim_outliers(data: pd.Series):
+    outliers = find_outliers(data)
+    return data.loc[~outliers].copy()
+
+
+def info(data: pd.DataFrame, round_pct: int = 2) -> pd.DataFrame:
     n_rows = data.shape[0]
     nan = data.isna().sum().to_frame("nan")
     dup = data.apply(lambda x: x.duplicated()).sum().to_frame("dup")
-    info = pd.concat([nan, dup], axis=1)
+    uniq = data.nunique().to_frame("uniq")
+    info = pd.concat([nan, dup, uniq], axis=1)
     pcts = (info / n_rows) * 100
     pcts.columns = pcts.columns.map(lambda x: f"{x}_%")
+    pcts = pcts.round(round_pct)
     info = pd.concat([info, pcts], axis=1)
     return info.sort_index(axis=1).sort_values("nan", ascending=False)
