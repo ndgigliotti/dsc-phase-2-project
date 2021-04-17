@@ -103,13 +103,49 @@ def topn_ranking(
     ax = sns.barplot(data=rank_df, x=rankby, y=names, ec="gray", ax=ax, **kwargs)
     return ax
 
+
 def pair_corr_heatmap(data, ignore=None, figsize=(10, 10), **kwargs):
     if not ignore:
         ignore = []
     corr_df = data.corr().drop(columns=ignore, index=ignore)
     mask = np.triu(np.ones_like(corr_df, dtype="int64"), k=0)
     fig, ax = plt.subplots(figsize=figsize)
-    return sns.heatmap(data=corr_df, cmap="vlag", mask=mask, square=True, annot=True, ax=ax, **kwargs)
+    return sns.heatmap(
+        data=corr_df,
+        cmap="vlag",
+        mask=mask,
+        square=True,
+        annot=True,
+        fmt=".2f",
+        ax=ax,
+        **kwargs,
+    )
+
+
+def multi_scatter(data: pd.DataFrame, target: str, figsize=None) -> np.ndarray:
+    data = data.loc[:, utils.numeric_cols(data)]
+    if figsize is None:
+        figsize = (8, data.columns.size * 3)
+    fig, axs = plt.subplots(nrows=data.columns.size, ncols=2, figsize=figsize)
+    for i, column in enumerate(data.columns):
+        axs[i, 0] = sns.histplot(data=data, x=column, ax=axs[i, 0])
+        axs[i, 0].set_title(f"Distribution of `{column}`")
+        axs[i, 1] = sns.scatterplot(data=data, x=column, y=target, ax=axs[i, 1])
+        axs[i, 1].set_title(f"`{column}` vs. `{target}`")
+    return axs
+
+
+def multi_joint(data: pd.DataFrame, target: str, figsize=None) -> np.ndarray:
+    data = data.loc[:, utils.numeric_cols(data)]
+    # if figsize is None:
+    #     figsize = (8, data.columns.size * 3)
+    # fig, axs = plt.subplots(nrows=data.columns.size, ncols=2, figsize=figsize)
+    grids = []
+    for i, column in enumerate(data.columns):
+        g = sns.jointplot(data=data, x=column, y=target)
+        grids.append(g)
+    return np.array(grids)
+
 
 def heated_barplot(
     data: pd.Series, desat: float = 0.6, ax: Axes = None, figsize: tuple = (8, 10)
@@ -127,6 +163,7 @@ def heated_barplot(
     """
     if not ax:
         fig, ax = plt.subplots(figsize=figsize)
+    data.index = data.index.astype(str)
     data.sort_values(ascending=False, inplace=True)
     blues = sns.color_palette("Blues", (data <= 0).sum(), desat=desat)
     reds = sns.color_palette("Reds_r", (data > 0).sum(), desat=desat)
@@ -223,9 +260,7 @@ def boolean_violinplots(
         crosstab = crosstab.loc[:, include]
         nrows = int(np.ceil(len(include) / 2))
     corr = crosstab.corrwith(y_series)
-    fig, axs = plt.subplots(
-        nrows=nrows, ncols=ncols, sharey=True, figsize=figsize
-    )
+    fig, axs = plt.subplots(nrows=nrows, ncols=ncols, sharey=True, figsize=figsize)
     for i, ax in enumerate(axs.flat):
         ax = sns.violinplot(x=crosstab.iloc[:, i], y=y_series, ax=ax, **kwargs)
         ax.set_ylabel(None)
