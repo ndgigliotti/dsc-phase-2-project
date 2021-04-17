@@ -143,6 +143,8 @@ def multi_joint(data: pd.DataFrame, target: str, figsize=None) -> np.ndarray:
     grids = []
     for i, column in enumerate(data.columns):
         g = sns.jointplot(data=data, x=column, y=target)
+        g.fig.suptitle(f"`{column}` vs. `{target}`")
+        g.fig.subplots_adjust(top=0.9)
         grids.append(g)
     return np.array(grids)
 
