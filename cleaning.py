@@ -57,27 +57,6 @@ def coerce_list_likes(data):
     return clean
 
 
-def find_outliers(data: pd.Series) -> pd.Series:
-    q1 = data.quantile(0.25, interpolation="midpoint")
-    q3 = data.quantile(0.75, interpolation="midpoint")
-    iqr = q3 - q1
-    min_cut = q1 - 1.5 * iqr
-    max_cut = q3 + 1.5 * iqr
-    return (data < min_cut) | (data > max_cut)
-
-
-def clip_outliers(data: pd.Series):
-    outliers = find_outliers(data)
-    inliers = data.loc[~outliers]
-    bounds = inliers.agg(["min", "max"])
-    return data.clip(lower=bounds["min"], upper=bounds["max"])
-
-
-def trim_outliers(data: pd.Series):
-    outliers = find_outliers(data)
-    return data.loc[~outliers].copy()
-
-
 def info(data: pd.DataFrame, round_pct: int = 2) -> pd.DataFrame:
     n_rows = data.shape[0]
     nan = data.isna().sum().to_frame("nan")
@@ -89,3 +68,14 @@ def info(data: pd.DataFrame, round_pct: int = 2) -> pd.DataFrame:
     pcts = pcts.round(round_pct)
     info = pd.concat([info, pcts], axis=1)
     return info.sort_index(axis=1).sort_values("nan", ascending=False)
+
+
+def show_uniques(data: pd.DataFrame, include: list = None, cut: int = None):
+    if include:
+        data = data.loc[:, include]
+    if cut:
+        data = data.loc[:, data.nunique(dropna=False) <= cut]
+    for name, column in data.iteritems():
+        df = pd.DataFrame(data=column.unique(), columns=[name])
+        df = df.sort_values(name).reset_index(drop=True)
+        display(df)
