@@ -1,3 +1,4 @@
+from types import MappingProxyType
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -6,6 +7,19 @@ from matplotlib.axes import Axes
 from matplotlib import ticker
 
 import utils
+
+HEATMAP_STYLE = MappingProxyType(
+    {
+        "square": True,
+        "annot": True,
+        "fmt": ".2f",
+        "cbar": False,
+        "center": 0,
+        "cmap": "vlag",
+        "linewidths": 0.1,
+        "linecolor": "k",
+    }
+)
 
 
 def _format_big_number(num, dec):
@@ -49,6 +63,7 @@ def topn_ranking(
     rankby: str,
     names: str = None,
     topn: int = 15,
+    orient: str = "h",
     figsize: tuple = (5, 8),
     **kwargs,
 ) -> Axes:
@@ -65,10 +80,22 @@ def topn_ranking(
         Axes: Axes for the plot.
     """
     fig, ax = plt.subplots(figsize=figsize)
+    data.index = data.index.astype(str)
     rank_df = data.sort_values(rankby, ascending=False).head(topn)
     if not names:
         names = rank_df.index.to_numpy()
-    ax = sns.barplot(data=rank_df, x=rankby, y=names, ec="gray", ax=ax, **kwargs)
+    if orient.lower() == "h":
+        x, y = rankby, names
+    elif orient.lower() == "v":
+        y, x = rankby, names
+        if figsize == (5, 8):
+            figsize = (8, 5)
+    else:
+        raise ValueError("orient must be 'h' or 'v'")
+    ax = sns.barplot(data=rank_df, x=x, y=y, ec="gray", ax=ax, **kwargs)
+    if orient.lower() == "v":
+        for label in ax.get_xticklabels():
+            label.set_rotation(90)
     return ax
 
 
@@ -79,12 +106,10 @@ def pair_corr_heatmap(
         ignore = []
     corr_df = data.corr().drop(columns=ignore, index=ignore)
     center = 0
-    cbar = True
     if thresh is not None:
         if annot:
             annot = corr_df.values
         corr_df = corr_df > thresh
-        cbar = False
         center = None
     mask = np.triu(np.ones_like(corr_df, dtype="int64"), k=0)
     fig, ax = plt.subplots(figsize=figsize)
@@ -97,7 +122,7 @@ def pair_corr_heatmap(
         annot=annot,
         fmt=".2f",
         ax=ax,
-        cbar=cbar,
+        cbar=False,
         linewidths=0.1,
         linecolor="k",
         **kwargs,
@@ -124,10 +149,21 @@ def linearity_scatters(
     data: pd.DataFrame, target: str, ncols=3, sp_height=5, yformatter=None, **kwargs
 ) -> np.ndarray:
     data = data.loc[:, utils.numeric_cols(data)]
+    corr_df = data.corrwith(data[target]).round(2)
     nrows, figsize = _calc_figsize(data.columns.size, ncols, sp_height)
     fig, axs = plt.subplots(nrows=nrows, ncols=ncols, sharey=True, figsize=figsize)
     for ax, column in zip(axs.flat, data.columns):
         ax = sns.scatterplot(data=data, x=column, y=target, ax=ax, **kwargs)
+        text = f"r={corr_df[column]:.2f}"
+        ax.text(
+            0.975,
+            1.025,
+            text,
+            horizontalalignment="right",
+            verticalalignment="center",
+            transform=ax.transAxes,
+            fontsize=12,
+        )
         if yformatter:
             ax.yaxis.set_major_formatter(yformatter)
         ax.set_title(f"{column} vs. {target}")
