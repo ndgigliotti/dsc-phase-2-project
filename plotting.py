@@ -103,24 +103,28 @@ def pair_corr_heatmap(
         **kwargs,
     )
 
-def multi_dist(
-    data: pd.DataFrame, ncols=3, sp_height=5, **kwargs
-) -> np.ndarray:
-    data = data.loc[:, utils.numeric_cols(data)]
-    nrows = round(data.columns.size / ncols)
+
+def _calc_figsize(nplots, ncols, sp_height):
+    nrows = round(nplots / ncols)
     figsize = (ncols * sp_height, nrows * sp_height)
+    return nrows, figsize
+
+
+def multi_dist(data: pd.DataFrame, ncols=3, sp_height=5, **kwargs) -> np.ndarray:
+    data = data.loc[:, utils.numeric_cols(data)]
+    nrows, figsize = _calc_figsize(data.columns.size, ncols, sp_height)
     fig, axs = plt.subplots(nrows=nrows, ncols=ncols, figsize=figsize)
     for ax, column in zip(axs.flat, data.columns):
         ax = sns.histplot(data=data, x=column, ax=ax, **kwargs)
         ax.set_title(f"Distribution of `{column}`")
     return axs
 
+
 def linearity_scatters(
     data: pd.DataFrame, target: str, ncols=3, sp_height=5, yformatter=None, **kwargs
 ) -> np.ndarray:
     data = data.loc[:, utils.numeric_cols(data)]
-    nrows = round(data.columns.size / ncols)
-    figsize = (ncols * sp_height, nrows * sp_height)
+    nrows, figsize = _calc_figsize(data.columns.size, ncols, sp_height)
     fig, axs = plt.subplots(nrows=nrows, ncols=ncols, sharey=True, figsize=figsize)
     for ax, column in zip(axs.flat, data.columns):
         ax = sns.scatterplot(data=data, x=column, y=target, ax=ax, **kwargs)
