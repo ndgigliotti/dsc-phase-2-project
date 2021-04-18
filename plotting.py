@@ -44,44 +44,10 @@ def big_money_formatter(dec=0):
     return formatter
 
 
-def multi_hist(
-    data: pd.DataFrame,
-    include: list = None,
-    xlabel: str = None,
-    bins: int = "auto",
-    figsize: tuple = (15, 5),
-    **kwargs,
-) -> np.ndarray:
-    """Creates multiple histograms on subplots from columns in `data`.
-
-    Args:
-        data (pd.DataFrame): Data to plot.
-        include (list, optional): Columns to plot. Defaults to numeric columns.
-        xlabel (str, optional): Label for x-axes. Defaults to None.
-        bins (int, optional): Number of bins. Defaults to "auto".
-        figsize (tuple, optional): Figure size. Defaults to (15, 5).
-
-    Returns:
-        np.ndarray: Array of Axes.
-    """
-    if not include:
-        include = utils.numeric_cols(data)
-    fig, axs = plt.subplots(ncols=len(include), figsize=figsize)
-    for col, ax in zip(include, axs):
-        ax = sns.histplot(data=data, x=col, bins=bins, ax=ax, **kwargs)
-        ax.set_title(f"Distribution of `{col}`")
-        ax.set_ylabel("Count", labelpad=10)
-        if xlabel:
-            ax.set_xlabel(xlabel, labelpad=10)
-    for ax in axs[1:]:
-        ax.set_ylabel(None)
-    return axs
-
-
 def topn_ranking(
     data: pd.DataFrame,
-    names: str,
     rankby: str,
+    names: str = None,
     topn: int = 15,
     figsize: tuple = (5, 8),
     **kwargs,
@@ -100,14 +66,26 @@ def topn_ranking(
     """
     fig, ax = plt.subplots(figsize=figsize)
     rank_df = data.sort_values(rankby, ascending=False).head(topn)
+    if not names:
+        names = rank_df.index.to_numpy()
     ax = sns.barplot(data=rank_df, x=rankby, y=names, ec="gray", ax=ax, **kwargs)
     return ax
 
 
-def pair_corr_heatmap(data, ignore=None, figsize=(10, 10), **kwargs):
+def pair_corr_heatmap(
+    data, ignore=None, annot=True, thresh=None, figsize=(10, 10), **kwargs
+):
     if not ignore:
         ignore = []
     corr_df = data.corr().drop(columns=ignore, index=ignore)
+    center = 0
+    cbar = True
+    if thresh is not None:
+        if annot:
+            annot = corr_df.values
+        corr_df = corr_df > thresh
+        cbar = False
+        center = None
     mask = np.triu(np.ones_like(corr_df, dtype="int64"), k=0)
     fig, ax = plt.subplots(figsize=figsize)
     return sns.heatmap(
@@ -115,35 +93,69 @@ def pair_corr_heatmap(data, ignore=None, figsize=(10, 10), **kwargs):
         cmap="vlag",
         mask=mask,
         square=True,
-        annot=True,
+        center=center,
+        annot=annot,
         fmt=".2f",
         ax=ax,
+        cbar=cbar,
+        linewidths=0.1,
+        linecolor="k",
         **kwargs,
     )
 
-
-def multi_scatter(data: pd.DataFrame, target: str, figsize=None) -> np.ndarray:
+def multi_dist(
+    data: pd.DataFrame, ncols=3, sp_height=5, **kwargs
+) -> np.ndarray:
     data = data.loc[:, utils.numeric_cols(data)]
-    if figsize is None:
-        figsize = (8, data.columns.size * 3)
-    fig, axs = plt.subplots(nrows=data.columns.size, ncols=2, figsize=figsize)
-    for i, column in enumerate(data.columns):
-        axs[i, 0] = sns.histplot(data=data, x=column, ax=axs[i, 0])
-        axs[i, 0].set_title(f"Distribution of `{column}`")
-        axs[i, 1] = sns.scatterplot(data=data, x=column, y=target, ax=axs[i, 1])
-        axs[i, 1].set_title(f"`{column}` vs. `{target}`")
+    nrows = round(data.columns.size / ncols)
+    figsize = (ncols * sp_height, nrows * sp_height)
+    fig, axs = plt.subplots(nrows=nrows, ncols=ncols, figsize=figsize)
+    for ax, column in zip(axs.flat, data.columns):
+        ax = sns.histplot(data=data, x=column, ax=ax, **kwargs)
+        ax.set_title(f"Distribution of `{column}`")
+    return axs
+
+def linearity_scatters(
+    data: pd.DataFrame, target: str, ncols=3, sp_height=5, yformatter=None, **kwargs
+) -> np.ndarray:
+    data = data.loc[:, utils.numeric_cols(data)]
+    nrows = round(data.columns.size / ncols)
+    figsize = (ncols * sp_height, nrows * sp_height)
+    fig, axs = plt.subplots(nrows=nrows, ncols=ncols, sharey=True, figsize=figsize)
+    for ax, column in zip(axs.flat, data.columns):
+        ax = sns.scatterplot(data=data, x=column, y=target, ax=ax, **kwargs)
+        if yformatter:
+            ax.yaxis.set_major_formatter(yformatter)
+        ax.set_title(f"{column} vs. {target}")
     return axs
 
 
-def multi_joint(data: pd.DataFrame, target: str, figsize=None) -> np.ndarray:
+def linearity_hists(
+    data: pd.DataFrame,
+    target: str,
+    ncols=3,
+    sp_height=5,
+    cmap="dark:salmon_r",
+    yformatter=None,
+) -> np.ndarray:
     data = data.loc[:, utils.numeric_cols(data)]
-    # if figsize is None:
-    #     figsize = (8, data.columns.size * 3)
-    # fig, axs = plt.subplots(nrows=data.columns.size, ncols=2, figsize=figsize)
+    nrows = round(data.columns.size / ncols)
+    figsize = (ncols * sp_height, nrows * sp_height)
+    fig, axs = plt.subplots(nrows=nrows, ncols=ncols, sharey=True, figsize=figsize)
+    for ax, column in zip(axs.flat, data.columns):
+        ax = sns.histplot(data=data, x=column, y=target, ax=ax, cmap=cmap)
+        if yformatter:
+            ax.yaxis.set_major_formatter(yformatter)
+        ax.set_title(f"{column} vs. {target}")
+    return axs
+
+
+def multi_joint(data: pd.DataFrame, target: str, **kwargs) -> np.ndarray:
+    data = data.loc[:, utils.numeric_cols(data)]
     grids = []
     for i, column in enumerate(data.columns):
-        g = sns.jointplot(data=data, x=column, y=target)
-        g.fig.suptitle(f"`{column}` vs. `{target}`")
+        g = sns.jointplot(data=data, x=column, y=target, **kwargs)
+        g.fig.suptitle(f"{column} vs. {target}")
         g.fig.subplots_adjust(top=0.9)
         grids.append(g)
     return np.array(grids)
