@@ -17,6 +17,9 @@ def numeric_cols(data: pd.DataFrame) -> list:
     numeric = data.dtypes.map(pd.api.types.is_numeric_dtype)
     return data.columns[numeric].to_list()
 
+def noncat_cols(data: pd.DataFrame) -> list:
+    categorical = data.dtypes.map(pd.api.types.is_categorical_dtype)
+    return data.columns[~categorical].to_list()
 
 def map_list_likes(data: pd.Series, mapper: dict):
     """Apply `mapper` to elements of elements of `data`.
