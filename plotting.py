@@ -65,6 +65,7 @@ def topn_ranking(
     topn: int = 15,
     orient: str = "h",
     figsize: tuple = (5, 8),
+    reverse: bool = False,
     **kwargs,
 ) -> Axes:
     """Plot the top observations sorted by the specified column.
@@ -81,7 +82,7 @@ def topn_ranking(
     """
     fig, ax = plt.subplots(figsize=figsize)
     data.index = data.index.astype(str)
-    rank_df = data.sort_values(rankby, ascending=False).head(topn)
+    rank_df = data.sort_values(rankby, ascending=reverse).head(topn)
     if not names:
         names = rank_df.index.to_numpy()
     if orient.lower() == "h":

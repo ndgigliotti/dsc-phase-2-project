@@ -1,0 +1,1165 @@
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>          <td>price</td>      <th>  R-squared:         </th>  <td>   0.594</td>  
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th>  <td>   0.586</td>  
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th>  <td>   73.69</td>  
+</tr>
+<tr>
+  <th>Date:</th>             <td>Mon, 19 Apr 2021</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>   
+</tr>
+<tr>
+  <th>Time:</th>                 <td>18:00:32</td>     <th>  Log-Likelihood:    </th> <td>-2.5497e+05</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td> 19030</td>      <th>  AIC:               </th>  <td>5.107e+05</td> 
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td> 18658</td>      <th>  BIC:               </th>  <td>5.136e+05</td> 
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>   371</td>      <th>                     </th>      <td> </td>     
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>      <td> </td>     
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+                      <td></td>                        <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>                                <td>-1.112e+06</td> <td> 2.38e+04</td> <td>  -46.736</td> <td> 0.000</td> <td>-1.16e+06</td> <td>-1.07e+06</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-03 00:00:00')]</th> <td> 1.273e+05</td> <td> 8.31e+04</td> <td>    1.531</td> <td> 0.126</td> <td>-3.56e+04</td> <td>  2.9e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-04 00:00:00')]</th> <td>-7.303e+04</td> <td> 8.31e+04</td> <td>   -0.878</td> <td> 0.380</td> <td>-2.36e+05</td> <td> 8.99e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-05 00:00:00')]</th> <td> 5.468e+04</td> <td> 2.79e+04</td> <td>    1.961</td> <td> 0.050</td> <td>   31.189</td> <td> 1.09e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-06 00:00:00')]</th> <td>  3.29e+04</td> <td> 2.77e+04</td> <td>    1.187</td> <td> 0.235</td> <td>-2.14e+04</td> <td> 8.72e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-07 00:00:00')]</th> <td> 1.786e+04</td> <td>  2.7e+04</td> <td>    0.661</td> <td> 0.509</td> <td>-3.51e+04</td> <td> 7.08e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-08 00:00:00')]</th> <td> 4.117e+04</td> <td> 2.81e+04</td> <td>    1.467</td> <td> 0.142</td> <td>-1.38e+04</td> <td> 9.62e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-09 00:00:00')]</th> <td>-6391.8728</td> <td> 2.79e+04</td> <td>   -0.229</td> <td> 0.819</td> <td> -6.1e+04</td> <td> 4.83e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-10 00:00:00')]</th> <td> 2.434e+04</td> <td> 7.49e+04</td> <td>    0.325</td> <td> 0.745</td> <td>-1.23e+05</td> <td> 1.71e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-11 00:00:00')]</th> <td>  2.56e+04</td> <td> 1.16e+05</td> <td>    0.221</td> <td> 0.825</td> <td>-2.01e+05</td> <td> 2.52e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-12 00:00:00')]</th> <td> 9.959e+04</td> <td>  2.8e+04</td> <td>    3.561</td> <td> 0.000</td> <td> 4.48e+04</td> <td> 1.54e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-13 00:00:00')]</th> <td> 6.258e+04</td> <td> 2.79e+04</td> <td>    2.244</td> <td> 0.025</td> <td> 7924.635</td> <td> 1.17e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-14 00:00:00')]</th> <td> -996.5040</td> <td> 2.82e+04</td> <td>   -0.035</td> <td> 0.972</td> <td>-5.63e+04</td> <td> 5.43e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-15 00:00:00')]</th> <td>  2.13e+04</td> <td> 2.79e+04</td> <td>    0.764</td> <td> 0.445</td> <td>-3.34e+04</td> <td>  7.6e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-16 00:00:00')]</th> <td>-2717.4680</td> <td> 2.92e+04</td> <td>   -0.093</td> <td> 0.926</td> <td>-5.99e+04</td> <td> 5.44e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-17 00:00:00')]</th> <td> 1.774e+05</td> <td> 1.62e+05</td> <td>    1.093</td> <td> 0.275</td> <td>-1.41e+05</td> <td> 4.96e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-18 00:00:00')]</th> <td>  1.52e+04</td> <td> 7.49e+04</td> <td>    0.203</td> <td> 0.839</td> <td>-1.32e+05</td> <td> 1.62e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-19 00:00:00')]</th> <td> 1.753e+04</td> <td> 2.81e+04</td> <td>    0.625</td> <td> 0.532</td> <td>-3.75e+04</td> <td> 7.25e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-20 00:00:00')]</th> <td> 1.065e+04</td> <td>  2.6e+04</td> <td>    0.409</td> <td> 0.682</td> <td>-4.03e+04</td> <td> 6.16e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-21 00:00:00')]</th> <td> 3.243e+04</td> <td> 2.74e+04</td> <td>    1.183</td> <td> 0.237</td> <td>-2.13e+04</td> <td> 8.62e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-22 00:00:00')]</th> <td> 2.826e+04</td> <td> 2.74e+04</td> <td>    1.031</td> <td> 0.303</td> <td>-2.55e+04</td> <td>  8.2e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-23 00:00:00')]</th> <td> 1.503e+04</td> <td>  2.8e+04</td> <td>    0.537</td> <td> 0.591</td> <td>-3.98e+04</td> <td> 6.98e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-24 00:00:00')]</th> <td> 4.029e+04</td> <td>  5.5e+04</td> <td>    0.733</td> <td> 0.464</td> <td>-6.75e+04</td> <td> 1.48e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-25 00:00:00')]</th> <td>-6.642e+04</td> <td> 7.49e+04</td> <td>   -0.886</td> <td> 0.375</td> <td>-2.13e+05</td> <td> 8.05e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-26 00:00:00')]</th> <td> 1.407e+04</td> <td> 6.43e+04</td> <td>    0.219</td> <td> 0.827</td> <td>-1.12e+05</td> <td>  1.4e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-27 00:00:00')]</th> <td> 6.183e+04</td> <td> 2.64e+04</td> <td>    2.338</td> <td> 0.019</td> <td> 9996.972</td> <td> 1.14e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-28 00:00:00')]</th> <td> 3.598e+04</td> <td> 2.64e+04</td> <td>    1.361</td> <td> 0.174</td> <td>-1.58e+04</td> <td> 8.78e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-29 00:00:00')]</th> <td> 1.732e+04</td> <td> 2.86e+04</td> <td>    0.605</td> <td> 0.545</td> <td>-3.88e+04</td> <td> 7.34e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-30 00:00:00')]</th> <td> 5.203e+04</td> <td> 2.99e+04</td> <td>    1.739</td> <td> 0.082</td> <td>-6599.502</td> <td> 1.11e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-05-31 00:00:00')]</th> <td> 3.713e+04</td> <td> 7.49e+04</td> <td>    0.495</td> <td> 0.620</td> <td> -1.1e+05</td> <td> 1.84e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-01 00:00:00')]</th> <td> 1.242e+05</td> <td> 6.89e+04</td> <td>    1.802</td> <td> 0.072</td> <td>-1.09e+04</td> <td> 2.59e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-02 00:00:00')]</th> <td> 4.685e+04</td> <td> 2.81e+04</td> <td>    1.670</td> <td> 0.095</td> <td>-8135.520</td> <td> 1.02e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-03 00:00:00')]</th> <td> 2.281e+04</td> <td> 2.67e+04</td> <td>    0.854</td> <td> 0.393</td> <td>-2.96e+04</td> <td> 7.52e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-04 00:00:00')]</th> <td> 4.781e+04</td> <td> 2.68e+04</td> <td>    1.782</td> <td> 0.075</td> <td>-4785.358</td> <td>    1e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-05 00:00:00')]</th> <td> 3.842e+04</td> <td> 2.76e+04</td> <td>    1.390</td> <td> 0.165</td> <td>-1.58e+04</td> <td> 9.26e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-06 00:00:00')]</th> <td> 6.799e+04</td> <td> 3.01e+04</td> <td>    2.262</td> <td> 0.024</td> <td> 9085.299</td> <td> 1.27e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-07 00:00:00')]</th> <td> 3353.2910</td> <td> 8.31e+04</td> <td>    0.040</td> <td> 0.968</td> <td> -1.6e+05</td> <td> 1.66e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-08 00:00:00')]</th> <td> 1.268e+04</td> <td> 5.76e+04</td> <td>    0.220</td> <td> 0.826</td> <td>   -1e+05</td> <td> 1.25e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-09 00:00:00')]</th> <td> 2.371e+04</td> <td> 2.71e+04</td> <td>    0.874</td> <td> 0.382</td> <td>-2.95e+04</td> <td> 7.69e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-10 00:00:00')]</th> <td>  4.45e+04</td> <td> 2.69e+04</td> <td>    1.655</td> <td> 0.098</td> <td>-8208.073</td> <td> 9.72e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-11 00:00:00')]</th> <td> 2.022e+04</td> <td> 2.73e+04</td> <td>    0.739</td> <td> 0.460</td> <td>-3.34e+04</td> <td> 7.38e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-12 00:00:00')]</th> <td> 5.827e+04</td> <td> 2.78e+04</td> <td>    2.096</td> <td> 0.036</td> <td> 3768.586</td> <td> 1.13e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-13 00:00:00')]</th> <td> 7.517e+04</td> <td> 2.84e+04</td> <td>    2.645</td> <td> 0.008</td> <td> 1.95e+04</td> <td> 1.31e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-14 00:00:00')]</th> <td> 9.621e+04</td> <td> 6.06e+04</td> <td>    1.588</td> <td> 0.112</td> <td>-2.26e+04</td> <td> 2.15e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-15 00:00:00')]</th> <td>  8.12e+04</td> <td> 6.89e+04</td> <td>    1.178</td> <td> 0.239</td> <td>-5.39e+04</td> <td> 2.16e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-16 00:00:00')]</th> <td> 4.746e+04</td> <td>  2.7e+04</td> <td>    1.757</td> <td> 0.079</td> <td>-5495.423</td> <td>    1e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-17 00:00:00')]</th> <td> 3.484e+04</td> <td> 2.67e+04</td> <td>    1.307</td> <td> 0.191</td> <td>-1.74e+04</td> <td> 8.71e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-18 00:00:00')]</th> <td> 2.482e+04</td> <td> 2.69e+04</td> <td>    0.923</td> <td> 0.356</td> <td>-2.79e+04</td> <td> 7.75e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-19 00:00:00')]</th> <td> 1.565e+04</td> <td> 2.75e+04</td> <td>    0.569</td> <td> 0.569</td> <td>-3.82e+04</td> <td> 6.95e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-20 00:00:00')]</th> <td> 7.354e+04</td> <td> 2.67e+04</td> <td>    2.753</td> <td> 0.006</td> <td> 2.12e+04</td> <td> 1.26e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-21 00:00:00')]</th> <td> 1.824e+05</td> <td> 6.06e+04</td> <td>    3.011</td> <td> 0.003</td> <td> 6.37e+04</td> <td> 3.01e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-22 00:00:00')]</th> <td> 6.786e+04</td> <td>  5.5e+04</td> <td>    1.234</td> <td> 0.217</td> <td>-3.99e+04</td> <td> 1.76e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-23 00:00:00')]</th> <td>-3010.6440</td> <td> 2.53e+04</td> <td>   -0.119</td> <td> 0.905</td> <td>-5.26e+04</td> <td> 4.66e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-24 00:00:00')]</th> <td> 3.065e+04</td> <td> 2.61e+04</td> <td>    1.172</td> <td> 0.241</td> <td>-2.06e+04</td> <td> 8.19e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-25 00:00:00')]</th> <td> 3.929e+04</td> <td> 2.55e+04</td> <td>    1.543</td> <td> 0.123</td> <td>-1.06e+04</td> <td> 8.92e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-26 00:00:00')]</th> <td> 1.578e+04</td> <td> 2.56e+04</td> <td>    0.616</td> <td> 0.538</td> <td>-3.44e+04</td> <td>  6.6e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-27 00:00:00')]</th> <td>-1.256e+04</td> <td> 2.76e+04</td> <td>   -0.454</td> <td> 0.650</td> <td>-6.67e+04</td> <td> 4.16e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-28 00:00:00')]</th> <td> 1.815e+04</td> <td> 5.09e+04</td> <td>    0.357</td> <td> 0.721</td> <td>-8.16e+04</td> <td> 1.18e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-29 00:00:00')]</th> <td>-3.714e+04</td> <td> 6.89e+04</td> <td>   -0.539</td> <td> 0.590</td> <td>-1.72e+05</td> <td>  9.8e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-06-30 00:00:00')]</th> <td> 7.025e+04</td> <td> 2.84e+04</td> <td>    2.472</td> <td> 0.013</td> <td> 1.45e+04</td> <td> 1.26e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-01 00:00:00')]</th> <td> 4.653e+04</td> <td> 2.61e+04</td> <td>    1.783</td> <td> 0.075</td> <td>-4625.891</td> <td> 9.77e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-02 00:00:00')]</th> <td> 6.539e+04</td> <td> 2.76e+04</td> <td>    2.365</td> <td> 0.018</td> <td> 1.12e+04</td> <td>  1.2e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-03 00:00:00')]</th> <td>  5.72e+04</td> <td> 2.85e+04</td> <td>    2.006</td> <td> 0.045</td> <td> 1306.566</td> <td> 1.13e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-04 00:00:00')]</th> <td> 1.773e+05</td> <td> 1.16e+05</td> <td>    1.532</td> <td> 0.125</td> <td>-4.95e+04</td> <td> 4.04e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-05 00:00:00')]</th> <td> 3.035e+05</td> <td> 7.49e+04</td> <td>    4.050</td> <td> 0.000</td> <td> 1.57e+05</td> <td>  4.5e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-06 00:00:00')]</th> <td> 3.054e+04</td> <td> 1.16e+05</td> <td>    0.264</td> <td> 0.792</td> <td>-1.96e+05</td> <td> 2.57e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-07 00:00:00')]</th> <td> 4.522e+04</td> <td> 2.81e+04</td> <td>    1.612</td> <td> 0.107</td> <td>-9764.100</td> <td>    1e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-08 00:00:00')]</th> <td> 1.747e+04</td> <td> 2.57e+04</td> <td>    0.680</td> <td> 0.496</td> <td>-3.29e+04</td> <td> 6.78e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-09 00:00:00')]</th> <td> 1.965e+04</td> <td> 2.59e+04</td> <td>    0.758</td> <td> 0.448</td> <td>-3.12e+04</td> <td> 7.05e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-10 00:00:00')]</th> <td> 4.544e+04</td> <td> 2.73e+04</td> <td>    1.666</td> <td> 0.096</td> <td>-8030.133</td> <td> 9.89e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-11 00:00:00')]</th> <td> 6566.5081</td> <td> 2.83e+04</td> <td>    0.232</td> <td> 0.817</td> <td>-4.89e+04</td> <td> 6.21e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-12 00:00:00')]</th> <td> 1377.3805</td> <td> 6.06e+04</td> <td>    0.023</td> <td> 0.982</td> <td>-1.17e+05</td> <td>  1.2e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-13 00:00:00')]</th> <td> 5.732e+04</td> <td> 1.62e+05</td> <td>    0.353</td> <td> 0.724</td> <td>-2.61e+05</td> <td> 3.75e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-14 00:00:00')]</th> <td> 7.954e+04</td> <td>  2.6e+04</td> <td>    3.064</td> <td> 0.002</td> <td> 2.87e+04</td> <td>  1.3e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-15 00:00:00')]</th> <td>  2.97e+04</td> <td> 2.68e+04</td> <td>    1.109</td> <td> 0.267</td> <td>-2.28e+04</td> <td> 8.22e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-16 00:00:00')]</th> <td> 1.517e+04</td> <td> 2.65e+04</td> <td>    0.573</td> <td> 0.567</td> <td>-3.68e+04</td> <td> 6.71e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-17 00:00:00')]</th> <td>  2.87e+04</td> <td> 2.81e+04</td> <td>    1.020</td> <td> 0.308</td> <td>-2.65e+04</td> <td> 8.39e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-18 00:00:00')]</th> <td> 3.155e+04</td> <td> 2.67e+04</td> <td>    1.181</td> <td> 0.238</td> <td>-2.08e+04</td> <td> 8.39e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-19 00:00:00')]</th> <td>-4.922e+04</td> <td> 8.31e+04</td> <td>   -0.592</td> <td> 0.554</td> <td>-2.12e+05</td> <td> 1.14e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-20 00:00:00')]</th> <td> 2.376e+04</td> <td> 6.43e+04</td> <td>    0.370</td> <td> 0.712</td> <td>-1.02e+05</td> <td>  1.5e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-21 00:00:00')]</th> <td>  2.49e+04</td> <td> 2.67e+04</td> <td>    0.934</td> <td> 0.350</td> <td>-2.74e+04</td> <td> 7.72e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-22 00:00:00')]</th> <td> 7112.9576</td> <td> 2.67e+04</td> <td>    0.266</td> <td> 0.790</td> <td>-4.53e+04</td> <td> 5.95e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-23 00:00:00')]</th> <td> 2.937e+04</td> <td> 2.67e+04</td> <td>    1.099</td> <td> 0.272</td> <td> -2.3e+04</td> <td> 8.17e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-24 00:00:00')]</th> <td> 3.322e+04</td> <td> 2.74e+04</td> <td>    1.215</td> <td> 0.224</td> <td>-2.04e+04</td> <td> 8.68e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-25 00:00:00')]</th> <td> 4.704e+04</td> <td> 2.67e+04</td> <td>    1.761</td> <td> 0.078</td> <td>-5325.574</td> <td> 9.94e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-26 00:00:00')]</th> <td> 1.357e+04</td> <td> 6.89e+04</td> <td>    0.197</td> <td> 0.844</td> <td>-1.22e+05</td> <td> 1.49e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-27 00:00:00')]</th> <td> 2.581e+04</td> <td> 1.62e+05</td> <td>    0.159</td> <td> 0.874</td> <td>-2.92e+05</td> <td> 3.44e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-28 00:00:00')]</th> <td> 2.491e+04</td> <td> 2.71e+04</td> <td>    0.920</td> <td> 0.358</td> <td>-2.82e+04</td> <td>  7.8e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-29 00:00:00')]</th> <td> 8381.8456</td> <td> 2.63e+04</td> <td>    0.318</td> <td> 0.750</td> <td>-4.32e+04</td> <td>    6e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-30 00:00:00')]</th> <td> 6.042e+04</td> <td> 2.84e+04</td> <td>    2.126</td> <td> 0.034</td> <td> 4714.826</td> <td> 1.16e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-07-31 00:00:00')]</th> <td> 3.221e+04</td> <td> 2.75e+04</td> <td>    1.172</td> <td> 0.241</td> <td>-2.17e+04</td> <td> 8.61e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-01 00:00:00')]</th> <td> 3.404e+04</td> <td> 2.79e+04</td> <td>    1.221</td> <td> 0.222</td> <td>-2.06e+04</td> <td> 8.87e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-02 00:00:00')]</th> <td> 1.045e+05</td> <td> 8.31e+04</td> <td>    1.257</td> <td> 0.209</td> <td>-5.85e+04</td> <td> 2.67e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-03 00:00:00')]</th> <td> 9.572e+04</td> <td> 1.62e+05</td> <td>    0.590</td> <td> 0.555</td> <td>-2.22e+05</td> <td> 4.14e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-04 00:00:00')]</th> <td> 3.702e+04</td> <td> 2.76e+04</td> <td>    1.339</td> <td> 0.181</td> <td>-1.72e+04</td> <td> 9.12e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-05 00:00:00')]</th> <td> 3.515e+04</td> <td> 2.63e+04</td> <td>    1.337</td> <td> 0.181</td> <td>-1.64e+04</td> <td> 8.67e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-06 00:00:00')]</th> <td> 4960.0716</td> <td> 2.74e+04</td> <td>    0.181</td> <td> 0.856</td> <td>-4.88e+04</td> <td> 5.87e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-07 00:00:00')]</th> <td> 4.046e+04</td> <td> 3.01e+04</td> <td>    1.346</td> <td> 0.178</td> <td>-1.85e+04</td> <td> 9.94e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-08 00:00:00')]</th> <td>  4.05e+04</td> <td> 2.83e+04</td> <td>    1.430</td> <td> 0.153</td> <td> -1.5e+04</td> <td>  9.6e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-09 00:00:00')]</th> <td>-5.252e+04</td> <td> 1.16e+05</td> <td>   -0.454</td> <td> 0.650</td> <td>-2.79e+05</td> <td> 1.74e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-10 00:00:00')]</th> <td> 6.568e+04</td> <td> 1.16e+05</td> <td>    0.568</td> <td> 0.570</td> <td>-1.61e+05</td> <td> 2.92e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-11 00:00:00')]</th> <td> 4.296e+04</td> <td> 2.64e+04</td> <td>    1.625</td> <td> 0.104</td> <td>-8873.090</td> <td> 9.48e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-12 00:00:00')]</th> <td> 8699.1965</td> <td> 2.68e+04</td> <td>    0.325</td> <td> 0.745</td> <td>-4.38e+04</td> <td> 6.12e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-13 00:00:00')]</th> <td> 2.513e+04</td> <td> 2.74e+04</td> <td>    0.919</td> <td> 0.358</td> <td>-2.85e+04</td> <td> 7.87e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-14 00:00:00')]</th> <td> 3.439e+04</td> <td> 2.73e+04</td> <td>    1.261</td> <td> 0.207</td> <td>-1.91e+04</td> <td> 8.79e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-15 00:00:00')]</th> <td> 5.245e+04</td> <td> 2.98e+04</td> <td>    1.761</td> <td> 0.078</td> <td>-5917.602</td> <td> 1.11e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-16 00:00:00')]</th> <td> 5.417e+04</td> <td> 9.52e+04</td> <td>    0.569</td> <td> 0.570</td> <td>-1.33e+05</td> <td> 2.41e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-17 00:00:00')]</th> <td>-8.949e+04</td> <td> 8.31e+04</td> <td>   -1.076</td> <td> 0.282</td> <td>-2.52e+05</td> <td> 7.35e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-18 00:00:00')]</th> <td> 8169.5775</td> <td> 2.79e+04</td> <td>    0.293</td> <td> 0.770</td> <td>-4.65e+04</td> <td> 6.28e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-19 00:00:00')]</th> <td> 3.433e+04</td> <td> 2.75e+04</td> <td>    1.249</td> <td> 0.212</td> <td>-1.96e+04</td> <td> 8.82e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-20 00:00:00')]</th> <td> 3.685e+04</td> <td> 2.61e+04</td> <td>    1.414</td> <td> 0.157</td> <td>-1.42e+04</td> <td> 8.79e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-21 00:00:00')]</th> <td> 1.064e+04</td> <td> 2.74e+04</td> <td>    0.388</td> <td> 0.698</td> <td>-4.31e+04</td> <td> 6.44e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-22 00:00:00')]</th> <td> 9734.7336</td> <td> 2.64e+04</td> <td>    0.368</td> <td> 0.713</td> <td>-4.21e+04</td> <td> 6.16e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-23 00:00:00')]</th> <td> 2.141e+04</td> <td> 8.31e+04</td> <td>    0.258</td> <td> 0.797</td> <td>-1.42e+05</td> <td> 1.84e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-24 00:00:00')]</th> <td> 7560.1441</td> <td> 1.16e+05</td> <td>    0.065</td> <td> 0.948</td> <td>-2.19e+05</td> <td> 2.34e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-25 00:00:00')]</th> <td> 4.139e+04</td> <td> 2.64e+04</td> <td>    1.568</td> <td> 0.117</td> <td>-1.03e+04</td> <td> 9.31e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-26 00:00:00')]</th> <td> 1.214e+04</td> <td> 2.61e+04</td> <td>    0.464</td> <td> 0.642</td> <td>-3.91e+04</td> <td> 6.34e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-27 00:00:00')]</th> <td> 3.505e+04</td> <td> 2.69e+04</td> <td>    1.303</td> <td> 0.192</td> <td>-1.77e+04</td> <td> 8.78e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-28 00:00:00')]</th> <td> 1.856e+04</td> <td> 2.84e+04</td> <td>    0.653</td> <td> 0.514</td> <td>-3.71e+04</td> <td> 7.43e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-29 00:00:00')]</th> <td> 1.888e+04</td> <td>  3.1e+04</td> <td>    0.609</td> <td> 0.542</td> <td>-4.19e+04</td> <td> 7.96e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-08-31 00:00:00')]</th> <td>-2.369e+04</td> <td> 9.52e+04</td> <td>   -0.249</td> <td> 0.804</td> <td> -2.1e+05</td> <td> 1.63e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-01 00:00:00')]</th> <td> 1.184e+05</td> <td> 7.49e+04</td> <td>    1.581</td> <td> 0.114</td> <td>-2.84e+04</td> <td> 2.65e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-02 00:00:00')]</th> <td> 3.958e+04</td> <td> 2.86e+04</td> <td>    1.383</td> <td> 0.167</td> <td>-1.65e+04</td> <td> 9.57e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-03 00:00:00')]</th> <td> 5.825e+04</td> <td> 2.82e+04</td> <td>    2.063</td> <td> 0.039</td> <td> 2907.023</td> <td> 1.14e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-04 00:00:00')]</th> <td> 2.048e+04</td> <td> 2.87e+04</td> <td>    0.713</td> <td> 0.476</td> <td>-3.58e+04</td> <td> 7.68e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-05 00:00:00')]</th> <td> 6341.2290</td> <td> 2.84e+04</td> <td>    0.223</td> <td> 0.823</td> <td>-4.94e+04</td> <td>  6.2e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-06 00:00:00')]</th> <td>-1.256e+04</td> <td> 7.49e+04</td> <td>   -0.168</td> <td> 0.867</td> <td>-1.59e+05</td> <td> 1.34e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-07 00:00:00')]</th> <td>-2.991e+04</td> <td> 1.16e+05</td> <td>   -0.258</td> <td> 0.796</td> <td>-2.57e+05</td> <td> 1.97e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-08 00:00:00')]</th> <td> 3.102e+04</td> <td> 2.84e+04</td> <td>    1.091</td> <td> 0.275</td> <td>-2.47e+04</td> <td> 8.67e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-09 00:00:00')]</th> <td> 5.324e+04</td> <td> 2.72e+04</td> <td>    1.956</td> <td> 0.050</td> <td>  -98.755</td> <td> 1.07e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-10 00:00:00')]</th> <td> 3.037e+04</td> <td> 2.76e+04</td> <td>    1.102</td> <td> 0.271</td> <td>-2.37e+04</td> <td> 8.44e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-11 00:00:00')]</th> <td> 3.877e+04</td> <td> 2.81e+04</td> <td>    1.378</td> <td> 0.168</td> <td>-1.64e+04</td> <td> 9.39e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-12 00:00:00')]</th> <td> 1818.9521</td> <td> 3.02e+04</td> <td>    0.060</td> <td> 0.952</td> <td>-5.74e+04</td> <td>  6.1e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-13 00:00:00')]</th> <td>-4296.2319</td> <td> 8.31e+04</td> <td>   -0.052</td> <td> 0.959</td> <td>-1.67e+05</td> <td> 1.59e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-14 00:00:00')]</th> <td> 9.964e+04</td> <td> 8.31e+04</td> <td>    1.199</td> <td> 0.231</td> <td>-6.33e+04</td> <td> 2.63e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-15 00:00:00')]</th> <td> 4.312e+04</td> <td>  2.8e+04</td> <td>    1.542</td> <td> 0.123</td> <td>-1.17e+04</td> <td> 9.79e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-16 00:00:00')]</th> <td> 1.551e+04</td> <td> 2.72e+04</td> <td>    0.570</td> <td> 0.569</td> <td>-3.78e+04</td> <td> 6.89e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-17 00:00:00')]</th> <td> 1.737e+04</td> <td> 2.89e+04</td> <td>    0.601</td> <td> 0.548</td> <td>-3.93e+04</td> <td> 7.41e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-18 00:00:00')]</th> <td> 1.216e+04</td> <td> 2.82e+04</td> <td>    0.431</td> <td> 0.667</td> <td>-4.32e+04</td> <td> 6.75e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-19 00:00:00')]</th> <td> 8887.9599</td> <td> 2.88e+04</td> <td>    0.308</td> <td> 0.758</td> <td>-4.76e+04</td> <td> 6.54e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-20 00:00:00')]</th> <td> 7.777e+04</td> <td>  7.5e+04</td> <td>    1.038</td> <td> 0.299</td> <td>-6.91e+04</td> <td> 2.25e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-21 00:00:00')]</th> <td> 6.631e+04</td> <td> 9.52e+04</td> <td>    0.696</td> <td> 0.486</td> <td> -1.2e+05</td> <td> 2.53e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-22 00:00:00')]</th> <td> 4.378e+04</td> <td> 2.71e+04</td> <td>    1.617</td> <td> 0.106</td> <td>-9300.675</td> <td> 9.69e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-23 00:00:00')]</th> <td> 1.668e+04</td> <td> 2.69e+04</td> <td>    0.620</td> <td> 0.535</td> <td> -3.6e+04</td> <td> 6.94e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-24 00:00:00')]</th> <td> 2.536e+04</td> <td> 2.74e+04</td> <td>    0.927</td> <td> 0.354</td> <td>-2.83e+04</td> <td>  7.9e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-25 00:00:00')]</th> <td> 2.756e+04</td> <td> 2.81e+04</td> <td>    0.979</td> <td> 0.328</td> <td>-2.76e+04</td> <td> 8.27e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-26 00:00:00')]</th> <td>  482.9158</td> <td> 2.77e+04</td> <td>    0.017</td> <td> 0.986</td> <td>-5.39e+04</td> <td> 5.48e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-27 00:00:00')]</th> <td> 1.728e+05</td> <td> 7.49e+04</td> <td>    2.306</td> <td> 0.021</td> <td> 2.59e+04</td> <td>  3.2e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-28 00:00:00')]</th> <td>  6.07e+04</td> <td> 1.16e+05</td> <td>    0.525</td> <td> 0.600</td> <td>-1.66e+05</td> <td> 2.88e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-29 00:00:00')]</th> <td> 4.369e+04</td> <td> 2.78e+04</td> <td>    1.571</td> <td> 0.116</td> <td>-1.08e+04</td> <td> 9.82e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-09-30 00:00:00')]</th> <td> 4.316e+04</td> <td> 3.14e+04</td> <td>    1.376</td> <td> 0.169</td> <td>-1.83e+04</td> <td> 1.05e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-01 00:00:00')]</th> <td>  5.48e+04</td> <td>  2.8e+04</td> <td>    1.959</td> <td> 0.050</td> <td>  -22.003</td> <td>  1.1e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-02 00:00:00')]</th> <td> 3.036e+04</td> <td>  2.9e+04</td> <td>    1.045</td> <td> 0.296</td> <td>-2.66e+04</td> <td> 8.73e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-03 00:00:00')]</th> <td> 1.277e+04</td> <td> 2.93e+04</td> <td>    0.436</td> <td> 0.663</td> <td>-4.46e+04</td> <td> 7.01e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-04 00:00:00')]</th> <td>-9.879e+04</td> <td> 8.31e+04</td> <td>   -1.188</td> <td> 0.235</td> <td>-2.62e+05</td> <td> 6.42e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-05 00:00:00')]</th> <td>-8.262e+04</td> <td> 9.52e+04</td> <td>   -0.867</td> <td> 0.386</td> <td>-2.69e+05</td> <td> 1.04e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-06 00:00:00')]</th> <td>  1.56e+04</td> <td> 2.95e+04</td> <td>    0.528</td> <td> 0.597</td> <td>-4.23e+04</td> <td> 7.35e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-07 00:00:00')]</th> <td> 6.163e+04</td> <td> 2.71e+04</td> <td>    2.270</td> <td> 0.023</td> <td> 8425.144</td> <td> 1.15e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-08 00:00:00')]</th> <td> 5.031e+04</td> <td> 2.89e+04</td> <td>    1.739</td> <td> 0.082</td> <td>-6400.129</td> <td> 1.07e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-09 00:00:00')]</th> <td> 7645.4188</td> <td> 2.83e+04</td> <td>    0.270</td> <td> 0.787</td> <td>-4.79e+04</td> <td> 6.32e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-10 00:00:00')]</th> <td> 6.226e+04</td> <td> 2.78e+04</td> <td>    2.239</td> <td> 0.025</td> <td> 7762.468</td> <td> 1.17e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-11 00:00:00')]</th> <td> 8.536e+04</td> <td> 1.16e+05</td> <td>    0.738</td> <td> 0.461</td> <td>-1.41e+05</td> <td> 3.12e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-12 00:00:00')]</th> <td>-3560.5928</td> <td> 9.52e+04</td> <td>   -0.037</td> <td> 0.970</td> <td> -1.9e+05</td> <td> 1.83e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-13 00:00:00')]</th> <td> 4.021e+04</td> <td> 3.05e+04</td> <td>    1.318</td> <td> 0.187</td> <td>-1.96e+04</td> <td>    1e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-14 00:00:00')]</th> <td> 1.703e+04</td> <td> 2.79e+04</td> <td>    0.611</td> <td> 0.541</td> <td>-3.76e+04</td> <td> 7.17e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-15 00:00:00')]</th> <td>  3.97e+04</td> <td> 2.81e+04</td> <td>    1.415</td> <td> 0.157</td> <td>-1.53e+04</td> <td> 9.47e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-16 00:00:00')]</th> <td>     7e+04</td> <td> 2.76e+04</td> <td>    2.532</td> <td> 0.011</td> <td> 1.58e+04</td> <td> 1.24e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-17 00:00:00')]</th> <td> 4.695e+04</td> <td> 2.92e+04</td> <td>    1.610</td> <td> 0.107</td> <td>-1.02e+04</td> <td> 1.04e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-18 00:00:00')]</th> <td> 5.656e+04</td> <td> 6.89e+04</td> <td>    0.820</td> <td> 0.412</td> <td>-7.86e+04</td> <td> 1.92e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-19 00:00:00')]</th> <td>-1.149e+04</td> <td> 8.31e+04</td> <td>   -0.138</td> <td> 0.890</td> <td>-1.74e+05</td> <td> 1.51e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-20 00:00:00')]</th> <td> 2.805e+04</td> <td> 2.79e+04</td> <td>    1.006</td> <td> 0.314</td> <td>-2.66e+04</td> <td> 8.27e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-21 00:00:00')]</th> <td> 6691.4669</td> <td>  2.8e+04</td> <td>    0.239</td> <td> 0.811</td> <td>-4.81e+04</td> <td> 6.15e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-22 00:00:00')]</th> <td> 3.867e+04</td> <td> 2.83e+04</td> <td>    1.365</td> <td> 0.172</td> <td>-1.69e+04</td> <td> 9.42e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-23 00:00:00')]</th> <td>-8088.0046</td> <td> 2.82e+04</td> <td>   -0.286</td> <td> 0.775</td> <td>-6.34e+04</td> <td> 4.72e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-24 00:00:00')]</th> <td> 4.128e+04</td> <td> 3.08e+04</td> <td>    1.339</td> <td> 0.181</td> <td>-1.92e+04</td> <td> 1.02e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-25 00:00:00')]</th> <td> 8845.2564</td> <td> 8.31e+04</td> <td>    0.106</td> <td> 0.915</td> <td>-1.54e+05</td> <td> 1.72e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-26 00:00:00')]</th> <td> 6.882e+04</td> <td> 8.31e+04</td> <td>    0.828</td> <td> 0.408</td> <td>-9.41e+04</td> <td> 2.32e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-27 00:00:00')]</th> <td> 8863.9661</td> <td> 2.72e+04</td> <td>    0.326</td> <td> 0.745</td> <td>-4.45e+04</td> <td> 6.22e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-28 00:00:00')]</th> <td>  4.46e+04</td> <td> 2.59e+04</td> <td>    1.721</td> <td> 0.085</td> <td>-6205.066</td> <td> 9.54e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-29 00:00:00')]</th> <td> 4.989e+04</td> <td> 2.75e+04</td> <td>    1.815</td> <td> 0.070</td> <td>-3997.143</td> <td> 1.04e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-30 00:00:00')]</th> <td> 6.099e+04</td> <td> 2.79e+04</td> <td>    2.187</td> <td> 0.029</td> <td> 6334.917</td> <td> 1.16e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-10-31 00:00:00')]</th> <td> 9.339e+04</td> <td> 3.39e+04</td> <td>    2.752</td> <td> 0.006</td> <td> 2.69e+04</td> <td>  1.6e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-01 00:00:00')]</th> <td> 1.048e+05</td> <td> 8.31e+04</td> <td>    1.261</td> <td> 0.207</td> <td>-5.81e+04</td> <td> 2.68e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-02 00:00:00')]</th> <td> 1.463e+05</td> <td> 1.62e+05</td> <td>    0.901</td> <td> 0.368</td> <td>-1.72e+05</td> <td> 4.64e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-03 00:00:00')]</th> <td> 1.543e+04</td> <td> 2.85e+04</td> <td>    0.541</td> <td> 0.588</td> <td>-4.05e+04</td> <td> 7.13e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-04 00:00:00')]</th> <td> 1.094e+04</td> <td> 2.93e+04</td> <td>    0.374</td> <td> 0.709</td> <td>-4.64e+04</td> <td> 6.83e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-05 00:00:00')]</th> <td> 2.401e+04</td> <td> 2.85e+04</td> <td>    0.842</td> <td> 0.400</td> <td>-3.19e+04</td> <td> 7.99e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-06 00:00:00')]</th> <td> 3.513e+04</td> <td> 2.84e+04</td> <td>    1.236</td> <td> 0.216</td> <td>-2.06e+04</td> <td> 9.08e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-07 00:00:00')]</th> <td>-1.346e+04</td> <td> 2.87e+04</td> <td>   -0.469</td> <td> 0.639</td> <td>-6.97e+04</td> <td> 4.28e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-08 00:00:00')]</th> <td> 7.908e+04</td> <td> 8.31e+04</td> <td>    0.951</td> <td> 0.342</td> <td>-8.39e+04</td> <td> 2.42e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-09 00:00:00')]</th> <td> 5.509e+04</td> <td> 9.52e+04</td> <td>    0.578</td> <td> 0.563</td> <td>-1.32e+05</td> <td> 2.42e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-10 00:00:00')]</th> <td> 4.328e+04</td> <td> 2.81e+04</td> <td>    1.543</td> <td> 0.123</td> <td>-1.17e+04</td> <td> 9.83e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-11 00:00:00')]</th> <td> 1.153e+04</td> <td> 3.12e+04</td> <td>    0.370</td> <td> 0.711</td> <td>-4.96e+04</td> <td> 7.26e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-12 00:00:00')]</th> <td> 3.006e+04</td> <td> 2.84e+04</td> <td>    1.058</td> <td> 0.290</td> <td>-2.56e+04</td> <td> 8.58e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-13 00:00:00')]</th> <td>  1.47e+04</td> <td>  2.7e+04</td> <td>    0.545</td> <td> 0.586</td> <td>-3.81e+04</td> <td> 6.75e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-14 00:00:00')]</th> <td> 2.709e+04</td> <td>  2.9e+04</td> <td>    0.933</td> <td> 0.351</td> <td>-2.98e+04</td> <td>  8.4e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-15 00:00:00')]</th> <td> 1.829e+05</td> <td> 1.62e+05</td> <td>    1.127</td> <td> 0.260</td> <td>-1.35e+05</td> <td> 5.01e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-16 00:00:00')]</th> <td>-1.012e+05</td> <td> 9.52e+04</td> <td>   -1.063</td> <td> 0.288</td> <td>-2.88e+05</td> <td> 8.54e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-17 00:00:00')]</th> <td> 2.493e+04</td> <td> 2.75e+04</td> <td>    0.907</td> <td> 0.365</td> <td> -2.9e+04</td> <td> 7.88e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-18 00:00:00')]</th> <td> 2.245e+04</td> <td>  2.8e+04</td> <td>    0.803</td> <td> 0.422</td> <td>-3.24e+04</td> <td> 7.73e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-19 00:00:00')]</th> <td> 2.857e+04</td> <td> 2.78e+04</td> <td>    1.027</td> <td> 0.304</td> <td>-2.59e+04</td> <td> 8.31e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-20 00:00:00')]</th> <td> 4.313e+04</td> <td> 2.75e+04</td> <td>    1.569</td> <td> 0.117</td> <td>-1.08e+04</td> <td>  9.7e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-21 00:00:00')]</th> <td> 1.052e+04</td> <td> 2.81e+04</td> <td>    0.375</td> <td> 0.708</td> <td>-4.45e+04</td> <td> 6.55e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-22 00:00:00')]</th> <td> 1.194e+05</td> <td> 6.89e+04</td> <td>    1.732</td> <td> 0.083</td> <td>-1.57e+04</td> <td> 2.55e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-23 00:00:00')]</th> <td> 7.532e+04</td> <td> 9.52e+04</td> <td>    0.791</td> <td> 0.429</td> <td>-1.11e+05</td> <td> 2.62e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-24 00:00:00')]</th> <td>  1.02e+04</td> <td> 2.82e+04</td> <td>    0.361</td> <td> 0.718</td> <td>-4.51e+04</td> <td> 6.55e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-25 00:00:00')]</th> <td> 6.187e+04</td> <td> 2.88e+04</td> <td>    2.146</td> <td> 0.032</td> <td> 5371.875</td> <td> 1.18e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-26 00:00:00')]</th> <td> 4.596e+04</td> <td> 3.31e+04</td> <td>    1.388</td> <td> 0.165</td> <td>-1.89e+04</td> <td> 1.11e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-28 00:00:00')]</th> <td> 1.663e+05</td> <td> 1.16e+05</td> <td>    1.437</td> <td> 0.151</td> <td>-6.06e+04</td> <td> 3.93e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-29 00:00:00')]</th> <td>-1.236e+05</td> <td> 9.52e+04</td> <td>   -1.298</td> <td> 0.194</td> <td> -3.1e+05</td> <td> 6.31e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-11-30 00:00:00')]</th> <td> 3.763e+05</td> <td> 1.62e+05</td> <td>    2.318</td> <td> 0.020</td> <td> 5.81e+04</td> <td> 6.94e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-01 00:00:00')]</th> <td>  3.58e+04</td> <td> 2.75e+04</td> <td>    1.302</td> <td> 0.193</td> <td>-1.81e+04</td> <td> 8.97e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-02 00:00:00')]</th> <td> 2.222e+04</td> <td> 2.71e+04</td> <td>    0.821</td> <td> 0.412</td> <td>-3.09e+04</td> <td> 7.53e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-03 00:00:00')]</th> <td> 2.477e+04</td> <td>  2.8e+04</td> <td>    0.886</td> <td> 0.376</td> <td>   -3e+04</td> <td> 7.96e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-04 00:00:00')]</th> <td>-4470.7219</td> <td> 2.96e+04</td> <td>   -0.151</td> <td> 0.880</td> <td>-6.26e+04</td> <td> 5.36e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-05 00:00:00')]</th> <td> 3.943e+04</td> <td> 3.05e+04</td> <td>    1.293</td> <td> 0.196</td> <td>-2.04e+04</td> <td> 9.92e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-06 00:00:00')]</th> <td>  1.88e+04</td> <td> 7.49e+04</td> <td>    0.251</td> <td> 0.802</td> <td>-1.28e+05</td> <td> 1.66e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-07 00:00:00')]</th> <td>-1.638e+04</td> <td> 1.16e+05</td> <td>   -0.142</td> <td> 0.887</td> <td>-2.43e+05</td> <td>  2.1e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-08 00:00:00')]</th> <td>   6.6e+04</td> <td> 2.86e+04</td> <td>    2.307</td> <td> 0.021</td> <td> 9916.953</td> <td> 1.22e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-09 00:00:00')]</th> <td> 5432.4966</td> <td> 2.85e+04</td> <td>    0.191</td> <td> 0.849</td> <td>-5.05e+04</td> <td> 6.13e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-10 00:00:00')]</th> <td>-1.586e+04</td> <td> 2.82e+04</td> <td>   -0.562</td> <td> 0.574</td> <td>-7.12e+04</td> <td> 3.95e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-11 00:00:00')]</th> <td> 3.842e+04</td> <td>  2.9e+04</td> <td>    1.323</td> <td> 0.186</td> <td>-1.85e+04</td> <td> 9.53e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-12 00:00:00')]</th> <td>  638.9393</td> <td> 2.95e+04</td> <td>    0.022</td> <td> 0.983</td> <td>-5.72e+04</td> <td> 5.85e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-13 00:00:00')]</th> <td> 4.456e+04</td> <td> 8.31e+04</td> <td>    0.536</td> <td> 0.592</td> <td>-1.18e+05</td> <td> 2.08e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-14 00:00:00')]</th> <td>-5.574e+04</td> <td> 8.31e+04</td> <td>   -0.670</td> <td> 0.503</td> <td>-2.19e+05</td> <td> 1.07e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-15 00:00:00')]</th> <td> 4.495e+04</td> <td> 2.81e+04</td> <td>    1.602</td> <td> 0.109</td> <td>   -1e+04</td> <td> 9.99e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-16 00:00:00')]</th> <td> 3.725e+04</td> <td>  2.9e+04</td> <td>    1.283</td> <td> 0.200</td> <td>-1.97e+04</td> <td> 9.42e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-17 00:00:00')]</th> <td> 4.126e+04</td> <td> 2.98e+04</td> <td>    1.386</td> <td> 0.166</td> <td>-1.71e+04</td> <td> 9.96e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-18 00:00:00')]</th> <td> 5.423e+04</td> <td> 2.93e+04</td> <td>    1.853</td> <td> 0.064</td> <td>-3149.351</td> <td> 1.12e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-19 00:00:00')]</th> <td> -193.1619</td> <td> 3.29e+04</td> <td>   -0.006</td> <td> 0.995</td> <td>-6.46e+04</td> <td> 6.42e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-20 00:00:00')]</th> <td>-3.154e+04</td> <td> 6.89e+04</td> <td>   -0.458</td> <td> 0.647</td> <td>-1.67e+05</td> <td> 1.04e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-21 00:00:00')]</th> <td> 1.969e+05</td> <td> 1.16e+05</td> <td>    1.701</td> <td> 0.089</td> <td>   -3e+04</td> <td> 4.24e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-22 00:00:00')]</th> <td>-8996.5664</td> <td> 2.95e+04</td> <td>   -0.305</td> <td> 0.761</td> <td>-6.69e+04</td> <td> 4.89e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-23 00:00:00')]</th> <td>-8650.5974</td> <td> 3.08e+04</td> <td>   -0.281</td> <td> 0.779</td> <td>-6.91e+04</td> <td> 5.18e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-24 00:00:00')]</th> <td>  439.6570</td> <td> 3.68e+04</td> <td>    0.012</td> <td> 0.990</td> <td>-7.18e+04</td> <td> 7.27e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-26 00:00:00')]</th> <td>-1.463e+04</td> <td> 3.46e+04</td> <td>   -0.423</td> <td> 0.672</td> <td>-8.24e+04</td> <td> 5.31e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-27 00:00:00')]</th> <td>-1.794e+04</td> <td> 1.16e+05</td> <td>   -0.155</td> <td> 0.877</td> <td>-2.45e+05</td> <td> 2.09e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-29 00:00:00')]</th> <td> 2550.5342</td> <td> 2.98e+04</td> <td>    0.086</td> <td> 0.932</td> <td>-5.58e+04</td> <td> 6.09e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-30 00:00:00')]</th> <td> 7.649e+04</td> <td> 3.37e+04</td> <td>    2.273</td> <td> 0.023</td> <td> 1.05e+04</td> <td> 1.42e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2014-12-31 00:00:00')]</th> <td> 3.956e+04</td> <td> 3.24e+04</td> <td>    1.221</td> <td> 0.222</td> <td>-2.39e+04</td> <td> 1.03e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-02 00:00:00')]</th> <td> 2.775e+04</td> <td> 3.37e+04</td> <td>    0.825</td> <td> 0.410</td> <td>-3.82e+04</td> <td> 9.37e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-05 00:00:00')]</th> <td> 3.941e+04</td> <td> 3.07e+04</td> <td>    1.285</td> <td> 0.199</td> <td>-2.07e+04</td> <td> 9.95e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-06 00:00:00')]</th> <td> 2.368e+04</td> <td> 3.39e+04</td> <td>    0.697</td> <td> 0.486</td> <td>-4.29e+04</td> <td> 9.02e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-07 00:00:00')]</th> <td> 5.114e+04</td> <td>  3.2e+04</td> <td>    1.601</td> <td> 0.110</td> <td>-1.15e+04</td> <td> 1.14e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-08 00:00:00')]</th> <td> 9411.5540</td> <td> 3.31e+04</td> <td>    0.284</td> <td> 0.776</td> <td>-5.55e+04</td> <td> 7.43e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-09 00:00:00')]</th> <td> 7.059e+04</td> <td> 3.52e+04</td> <td>    2.003</td> <td> 0.045</td> <td> 1515.119</td> <td>  1.4e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-10 00:00:00')]</th> <td>  -1.5e+05</td> <td> 1.62e+05</td> <td>   -0.924</td> <td> 0.356</td> <td>-4.68e+05</td> <td> 1.68e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-12 00:00:00')]</th> <td> 1877.2273</td> <td> 3.39e+04</td> <td>    0.055</td> <td> 0.956</td> <td>-6.46e+04</td> <td> 6.84e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-13 00:00:00')]</th> <td> 9329.0863</td> <td> 3.37e+04</td> <td>    0.277</td> <td> 0.782</td> <td>-5.66e+04</td> <td> 7.53e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-14 00:00:00')]</th> <td> 3.794e+04</td> <td> 3.18e+04</td> <td>    1.195</td> <td> 0.232</td> <td>-2.43e+04</td> <td>    1e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-15 00:00:00')]</th> <td> 1.956e+04</td> <td> 3.31e+04</td> <td>    0.591</td> <td> 0.555</td> <td>-4.54e+04</td> <td> 8.45e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-16 00:00:00')]</th> <td> 4.233e+04</td> <td>  3.2e+04</td> <td>    1.325</td> <td> 0.185</td> <td>-2.03e+04</td> <td> 1.05e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-17 00:00:00')]</th> <td>-1.186e+05</td> <td> 1.62e+05</td> <td>   -0.731</td> <td> 0.465</td> <td>-4.37e+05</td> <td>    2e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-19 00:00:00')]</th> <td>-5.912e+04</td> <td> 6.43e+04</td> <td>   -0.919</td> <td> 0.358</td> <td>-1.85e+05</td> <td> 6.69e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-20 00:00:00')]</th> <td> 3.851e+04</td> <td> 3.34e+04</td> <td>    1.154</td> <td> 0.249</td> <td>-2.69e+04</td> <td> 1.04e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-21 00:00:00')]</th> <td> 5172.0242</td> <td> 3.05e+04</td> <td>    0.170</td> <td> 0.865</td> <td>-5.46e+04</td> <td>  6.5e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-22 00:00:00')]</th> <td> 2.423e+04</td> <td> 3.24e+04</td> <td>    0.748</td> <td> 0.454</td> <td>-3.93e+04</td> <td> 8.77e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-23 00:00:00')]</th> <td> 5.394e+04</td> <td> 3.17e+04</td> <td>    1.699</td> <td> 0.089</td> <td>-8297.202</td> <td> 1.16e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-24 00:00:00')]</th> <td>-1.145e+05</td> <td> 9.53e+04</td> <td>   -1.202</td> <td> 0.229</td> <td>-3.01e+05</td> <td> 7.22e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-25 00:00:00')]</th> <td>-6950.9292</td> <td> 9.52e+04</td> <td>   -0.073</td> <td> 0.942</td> <td>-1.94e+05</td> <td>  1.8e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-26 00:00:00')]</th> <td>  2.29e+04</td> <td> 3.26e+04</td> <td>    0.702</td> <td> 0.483</td> <td> -4.1e+04</td> <td> 8.68e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-27 00:00:00')]</th> <td> 1.873e+04</td> <td>  3.1e+04</td> <td>    0.604</td> <td> 0.546</td> <td> -4.2e+04</td> <td> 7.95e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-28 00:00:00')]</th> <td> -613.6957</td> <td> 2.99e+04</td> <td>   -0.021</td> <td> 0.984</td> <td>-5.92e+04</td> <td>  5.8e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-29 00:00:00')]</th> <td> 2.578e+04</td> <td> 3.34e+04</td> <td>    0.772</td> <td> 0.440</td> <td>-3.97e+04</td> <td> 9.12e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-01-30 00:00:00')]</th> <td> 7.446e+04</td> <td> 3.56e+04</td> <td>    2.091</td> <td> 0.037</td> <td> 4660.598</td> <td> 1.44e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-01 00:00:00')]</th> <td> -5.55e+04</td> <td> 1.62e+05</td> <td>   -0.342</td> <td> 0.732</td> <td>-3.74e+05</td> <td> 2.63e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-02 00:00:00')]</th> <td> 3.041e+04</td> <td> 3.24e+04</td> <td>    0.939</td> <td> 0.348</td> <td>-3.31e+04</td> <td> 9.39e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-03 00:00:00')]</th> <td> -2.45e+04</td> <td> 3.26e+04</td> <td>   -0.751</td> <td> 0.453</td> <td>-8.84e+04</td> <td> 3.94e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-04 00:00:00')]</th> <td> -294.1918</td> <td>  3.1e+04</td> <td>   -0.009</td> <td> 0.992</td> <td>-6.11e+04</td> <td> 6.05e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-05 00:00:00')]</th> <td>-7706.5372</td> <td> 3.26e+04</td> <td>   -0.236</td> <td> 0.813</td> <td>-7.17e+04</td> <td> 5.62e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-06 00:00:00')]</th> <td> 2.211e+04</td> <td>  3.2e+04</td> <td>    0.692</td> <td> 0.489</td> <td>-4.05e+04</td> <td> 8.47e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-07 00:00:00')]</th> <td>-9263.1246</td> <td> 1.16e+05</td> <td>   -0.080</td> <td> 0.936</td> <td>-2.36e+05</td> <td> 2.18e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-09 00:00:00')]</th> <td> 4.193e+04</td> <td> 3.07e+04</td> <td>    1.368</td> <td> 0.171</td> <td>-1.82e+04</td> <td> 1.02e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-10 00:00:00')]</th> <td> 6.856e+04</td> <td> 3.14e+04</td> <td>    2.186</td> <td> 0.029</td> <td> 7090.809</td> <td>  1.3e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-11 00:00:00')]</th> <td> 2.289e+04</td> <td> 3.07e+04</td> <td>    0.747</td> <td> 0.455</td> <td>-3.72e+04</td> <td>  8.3e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-12 00:00:00')]</th> <td> 2.486e+04</td> <td> 3.29e+04</td> <td>    0.757</td> <td> 0.449</td> <td>-3.95e+04</td> <td> 8.93e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-13 00:00:00')]</th> <td> 6.011e+04</td> <td> 2.93e+04</td> <td>    2.054</td> <td> 0.040</td> <td> 2736.145</td> <td> 1.17e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-14 00:00:00')]</th> <td> 3736.0722</td> <td> 9.52e+04</td> <td>    0.039</td> <td> 0.969</td> <td>-1.83e+05</td> <td>  1.9e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-16 00:00:00')]</th> <td> 6.194e+04</td> <td> 7.49e+04</td> <td>    0.827</td> <td> 0.408</td> <td>-8.49e+04</td> <td> 2.09e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-17 00:00:00')]</th> <td> 9766.4825</td> <td> 2.93e+04</td> <td>    0.334</td> <td> 0.739</td> <td>-4.76e+04</td> <td> 6.71e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-18 00:00:00')]</th> <td> 1.257e+04</td> <td> 2.83e+04</td> <td>    0.444</td> <td> 0.657</td> <td>-4.29e+04</td> <td> 6.81e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-19 00:00:00')]</th> <td> 8.866e+04</td> <td> 2.88e+04</td> <td>    3.076</td> <td> 0.002</td> <td> 3.22e+04</td> <td> 1.45e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-20 00:00:00')]</th> <td> 1.238e+04</td> <td> 2.93e+04</td> <td>    0.423</td> <td> 0.672</td> <td> -4.5e+04</td> <td> 6.98e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-21 00:00:00')]</th> <td> 2.231e+05</td> <td> 1.16e+05</td> <td>    1.928</td> <td> 0.054</td> <td>-3688.563</td> <td>  4.5e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-22 00:00:00')]</th> <td>-2.807e+04</td> <td> 5.09e+04</td> <td>   -0.551</td> <td> 0.581</td> <td>-1.28e+05</td> <td> 7.17e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-23 00:00:00')]</th> <td> 2.965e+04</td> <td> 2.93e+04</td> <td>    1.013</td> <td> 0.311</td> <td>-2.77e+04</td> <td>  8.7e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-24 00:00:00')]</th> <td> 2.513e+04</td> <td> 2.71e+04</td> <td>    0.926</td> <td> 0.355</td> <td>-2.81e+04</td> <td> 7.83e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-25 00:00:00')]</th> <td> 3.952e+04</td> <td> 2.72e+04</td> <td>    1.452</td> <td> 0.146</td> <td>-1.38e+04</td> <td> 9.29e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-26 00:00:00')]</th> <td> 1.168e+04</td> <td> 3.02e+04</td> <td>    0.387</td> <td> 0.699</td> <td>-4.75e+04</td> <td> 7.09e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-27 00:00:00')]</th> <td> 6.791e+04</td> <td> 3.29e+04</td> <td>    2.066</td> <td> 0.039</td> <td> 3485.862</td> <td> 1.32e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-02-28 00:00:00')]</th> <td> 7.548e+04</td> <td> 7.49e+04</td> <td>    1.007</td> <td> 0.314</td> <td>-7.14e+04</td> <td> 2.22e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-01 00:00:00')]</th> <td> 1.148e+05</td> <td>  6.9e+04</td> <td>    1.665</td> <td> 0.096</td> <td>-2.04e+04</td> <td>  2.5e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-02 00:00:00')]</th> <td> 6.761e+04</td> <td> 3.46e+04</td> <td>    1.957</td> <td> 0.050</td> <td> -123.149</td> <td> 1.35e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-03 00:00:00')]</th> <td> 9.108e+04</td> <td> 3.01e+04</td> <td>    3.030</td> <td> 0.002</td> <td> 3.22e+04</td> <td>  1.5e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-04 00:00:00')]</th> <td> 2626.0895</td> <td> 2.71e+04</td> <td>    0.097</td> <td> 0.923</td> <td>-5.05e+04</td> <td> 5.57e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-05 00:00:00')]</th> <td> 1.418e+04</td> <td> 2.89e+04</td> <td>    0.490</td> <td> 0.624</td> <td>-4.25e+04</td> <td> 7.09e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-06 00:00:00')]</th> <td> 6.687e+04</td> <td> 3.07e+04</td> <td>    2.181</td> <td> 0.029</td> <td> 6771.550</td> <td> 1.27e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-07 00:00:00')]</th> <td>-5.223e+04</td> <td> 8.31e+04</td> <td>   -0.628</td> <td> 0.530</td> <td>-2.15e+05</td> <td> 1.11e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-08 00:00:00')]</th> <td> 3.277e+04</td> <td> 1.62e+05</td> <td>    0.202</td> <td> 0.840</td> <td>-2.85e+05</td> <td> 3.51e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-09 00:00:00')]</th> <td> 2.941e+04</td> <td> 2.96e+04</td> <td>    0.992</td> <td> 0.321</td> <td>-2.87e+04</td> <td> 8.75e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-10 00:00:00')]</th> <td> 4.435e+04</td> <td> 2.93e+04</td> <td>    1.515</td> <td> 0.130</td> <td> -1.3e+04</td> <td> 1.02e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-11 00:00:00')]</th> <td> 4.113e+04</td> <td>  2.8e+04</td> <td>    1.471</td> <td> 0.141</td> <td>-1.37e+04</td> <td>  9.6e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-12 00:00:00')]</th> <td> 2163.7330</td> <td> 2.89e+04</td> <td>    0.075</td> <td> 0.940</td> <td>-5.45e+04</td> <td> 5.89e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-13 00:00:00')]</th> <td> 1.167e+05</td> <td> 2.92e+04</td> <td>    4.002</td> <td> 0.000</td> <td> 5.95e+04</td> <td> 1.74e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-14 00:00:00')]</th> <td> 1.181e+05</td> <td> 7.49e+04</td> <td>    1.575</td> <td> 0.115</td> <td>-2.88e+04</td> <td> 2.65e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-15 00:00:00')]</th> <td> 6.462e+04</td> <td> 9.52e+04</td> <td>    0.679</td> <td> 0.497</td> <td>-1.22e+05</td> <td> 2.51e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-16 00:00:00')]</th> <td> 5.958e+04</td> <td> 2.84e+04</td> <td>    2.096</td> <td> 0.036</td> <td> 3871.542</td> <td> 1.15e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-17 00:00:00')]</th> <td> 4.158e+04</td> <td> 2.72e+04</td> <td>    1.528</td> <td> 0.127</td> <td>-1.18e+04</td> <td> 9.49e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-18 00:00:00')]</th> <td> 3133.5331</td> <td> 2.77e+04</td> <td>    0.113</td> <td> 0.910</td> <td>-5.12e+04</td> <td> 5.75e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-19 00:00:00')]</th> <td> 6.322e+04</td> <td>  2.9e+04</td> <td>    2.177</td> <td> 0.030</td> <td> 6288.234</td> <td>  1.2e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-20 00:00:00')]</th> <td> 4.793e+04</td> <td> 3.03e+04</td> <td>    1.579</td> <td> 0.114</td> <td>-1.16e+04</td> <td> 1.07e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-21 00:00:00')]</th> <td> 1.111e+05</td> <td> 4.65e+04</td> <td>    2.392</td> <td> 0.017</td> <td> 2.01e+04</td> <td> 2.02e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-22 00:00:00')]</th> <td> 9.508e+04</td> <td> 9.52e+04</td> <td>    0.998</td> <td> 0.318</td> <td>-9.16e+04</td> <td> 2.82e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-23 00:00:00')]</th> <td> 3.549e+04</td> <td>  2.7e+04</td> <td>    1.317</td> <td> 0.188</td> <td>-1.73e+04</td> <td> 8.83e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-24 00:00:00')]</th> <td> 4.639e+04</td> <td> 2.68e+04</td> <td>    1.733</td> <td> 0.083</td> <td>-6085.596</td> <td> 9.89e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-25 00:00:00')]</th> <td>  5.84e+04</td> <td> 2.59e+04</td> <td>    2.256</td> <td> 0.024</td> <td> 7669.947</td> <td> 1.09e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-26 00:00:00')]</th> <td> 4.849e+04</td> <td> 2.68e+04</td> <td>    1.811</td> <td> 0.070</td> <td>-3997.244</td> <td> 1.01e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-27 00:00:00')]</th> <td>   7.5e+04</td> <td> 2.67e+04</td> <td>    2.807</td> <td> 0.005</td> <td> 2.26e+04</td> <td> 1.27e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-28 00:00:00')]</th> <td> 5.302e+04</td> <td> 6.43e+04</td> <td>    0.824</td> <td> 0.410</td> <td> -7.3e+04</td> <td> 1.79e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-29 00:00:00')]</th> <td> 2.159e+04</td> <td> 6.06e+04</td> <td>    0.356</td> <td> 0.722</td> <td>-9.72e+04</td> <td>  1.4e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-30 00:00:00')]</th> <td> 7.175e+04</td> <td> 2.76e+04</td> <td>    2.603</td> <td> 0.009</td> <td> 1.77e+04</td> <td> 1.26e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-03-31 00:00:00')]</th> <td> 1.031e+05</td> <td> 2.89e+04</td> <td>    3.565</td> <td> 0.000</td> <td> 4.64e+04</td> <td>  1.6e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-01 00:00:00')]</th> <td> 4.758e+04</td> <td> 2.77e+04</td> <td>    1.716</td> <td> 0.086</td> <td>-6760.204</td> <td> 1.02e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-02 00:00:00')]</th> <td> 5.913e+04</td> <td> 2.66e+04</td> <td>    2.223</td> <td> 0.026</td> <td> 6988.008</td> <td> 1.11e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-03 00:00:00')]</th> <td> 8.234e+04</td> <td> 2.88e+04</td> <td>    2.856</td> <td> 0.004</td> <td> 2.58e+04</td> <td> 1.39e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-04 00:00:00')]</th> <td> 2.212e+05</td> <td> 9.52e+04</td> <td>    2.323</td> <td> 0.020</td> <td> 3.45e+04</td> <td> 4.08e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-05 00:00:00')]</th> <td> 1.001e+05</td> <td> 6.89e+04</td> <td>    1.452</td> <td> 0.147</td> <td> -3.5e+04</td> <td> 2.35e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-06 00:00:00')]</th> <td> 3.538e+04</td> <td> 2.81e+04</td> <td>    1.257</td> <td> 0.209</td> <td>-1.98e+04</td> <td> 9.05e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-07 00:00:00')]</th> <td>  1.01e+05</td> <td> 2.68e+04</td> <td>    3.770</td> <td> 0.000</td> <td> 4.85e+04</td> <td> 1.53e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-08 00:00:00')]</th> <td> 8.676e+04</td> <td> 2.67e+04</td> <td>    3.254</td> <td> 0.001</td> <td> 3.45e+04</td> <td> 1.39e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-09 00:00:00')]</th> <td> 5.583e+04</td> <td> 2.74e+04</td> <td>    2.036</td> <td> 0.042</td> <td> 2074.814</td> <td>  1.1e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-10 00:00:00')]</th> <td> 8.206e+04</td> <td> 2.86e+04</td> <td>    2.868</td> <td> 0.004</td> <td>  2.6e+04</td> <td> 1.38e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-11 00:00:00')]</th> <td> 1.741e+04</td> <td> 4.93e+04</td> <td>    0.353</td> <td> 0.724</td> <td>-7.91e+04</td> <td> 1.14e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-12 00:00:00')]</th> <td>-1.001e+04</td> <td> 5.09e+04</td> <td>   -0.197</td> <td> 0.844</td> <td> -1.1e+05</td> <td> 8.98e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-13 00:00:00')]</th> <td> 6.774e+04</td> <td> 2.76e+04</td> <td>    2.450</td> <td> 0.014</td> <td> 1.35e+04</td> <td> 1.22e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-14 00:00:00')]</th> <td> 5.092e+04</td> <td> 2.59e+04</td> <td>    1.968</td> <td> 0.049</td> <td>  192.474</td> <td> 1.02e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-15 00:00:00')]</th> <td> 3.405e+04</td> <td> 2.85e+04</td> <td>    1.194</td> <td> 0.232</td> <td>-2.18e+04</td> <td> 8.99e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-16 00:00:00')]</th> <td> 4.792e+04</td> <td> 2.88e+04</td> <td>    1.663</td> <td> 0.096</td> <td>-8575.102</td> <td> 1.04e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-17 00:00:00')]</th> <td>  6.21e+04</td> <td>  2.8e+04</td> <td>    2.220</td> <td> 0.026</td> <td> 7271.267</td> <td> 1.17e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-18 00:00:00')]</th> <td> 1.536e+05</td> <td> 8.31e+04</td> <td>    1.847</td> <td> 0.065</td> <td>-9366.718</td> <td> 3.17e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-19 00:00:00')]</th> <td>  8.53e+04</td> <td> 6.89e+04</td> <td>    1.237</td> <td> 0.216</td> <td>-4.98e+04</td> <td>  2.2e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-20 00:00:00')]</th> <td> 5.383e+04</td> <td> 2.86e+04</td> <td>    1.881</td> <td> 0.060</td> <td>-2257.492</td> <td>  1.1e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-21 00:00:00')]</th> <td>  5.74e+04</td> <td> 2.59e+04</td> <td>    2.218</td> <td> 0.027</td> <td> 6674.564</td> <td> 1.08e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-22 00:00:00')]</th> <td> 5.874e+04</td> <td> 2.61e+04</td> <td>    2.255</td> <td> 0.024</td> <td> 7671.989</td> <td>  1.1e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-23 00:00:00')]</th> <td> 9.617e+04</td> <td> 2.63e+04</td> <td>    3.658</td> <td> 0.000</td> <td> 4.46e+04</td> <td> 1.48e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-24 00:00:00')]</th> <td> 6.805e+04</td> <td> 2.68e+04</td> <td>    2.536</td> <td> 0.011</td> <td> 1.55e+04</td> <td> 1.21e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-25 00:00:00')]</th> <td> 1.024e+05</td> <td> 4.78e+04</td> <td>    2.143</td> <td> 0.032</td> <td> 8721.592</td> <td> 1.96e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-26 00:00:00')]</th> <td> 3.049e+04</td> <td> 5.09e+04</td> <td>    0.599</td> <td> 0.549</td> <td>-6.93e+04</td> <td>  1.3e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-27 00:00:00')]</th> <td> 6.358e+04</td> <td> 2.61e+04</td> <td>    2.440</td> <td> 0.015</td> <td> 1.25e+04</td> <td> 1.15e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-28 00:00:00')]</th> <td> 6.638e+04</td> <td>  2.6e+04</td> <td>    2.556</td> <td> 0.011</td> <td> 1.55e+04</td> <td> 1.17e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-29 00:00:00')]</th> <td> 7.183e+04</td> <td> 2.66e+04</td> <td>    2.705</td> <td> 0.007</td> <td> 1.98e+04</td> <td> 1.24e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-04-30 00:00:00')]</th> <td> 1.833e+04</td> <td> 2.84e+04</td> <td>    0.645</td> <td> 0.519</td> <td>-3.74e+04</td> <td>  7.4e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-05-01 00:00:00')]</th> <td>  5.78e+04</td> <td> 2.89e+04</td> <td>    1.998</td> <td> 0.046</td> <td> 1099.962</td> <td> 1.15e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-05-02 00:00:00')]</th> <td>  1.65e+05</td> <td> 6.89e+04</td> <td>    2.394</td> <td> 0.017</td> <td> 2.99e+04</td> <td>    3e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-05-03 00:00:00')]</th> <td> 1.401e+05</td> <td> 5.76e+04</td> <td>    2.433</td> <td> 0.015</td> <td> 2.72e+04</td> <td> 2.53e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-05-04 00:00:00')]</th> <td> 7.318e+04</td> <td> 2.73e+04</td> <td>    2.682</td> <td> 0.007</td> <td> 1.97e+04</td> <td> 1.27e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-05-05 00:00:00')]</th> <td> 4.783e+04</td> <td> 2.73e+04</td> <td>    1.753</td> <td> 0.080</td> <td>-5648.581</td> <td> 1.01e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-05-06 00:00:00')]</th> <td> 5.615e+04</td> <td> 2.79e+04</td> <td>    2.013</td> <td> 0.044</td> <td> 1481.411</td> <td> 1.11e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-05-07 00:00:00')]</th> <td> 7.119e+04</td> <td> 2.81e+04</td> <td>    2.529</td> <td> 0.011</td> <td>  1.6e+04</td> <td> 1.26e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-05-08 00:00:00')]</th> <td> 1.845e+04</td> <td>  3.2e+04</td> <td>    0.577</td> <td> 0.564</td> <td>-4.42e+04</td> <td> 8.11e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-05-09 00:00:00')]</th> <td> 8.916e+04</td> <td> 9.52e+04</td> <td>    0.936</td> <td> 0.349</td> <td>-9.75e+04</td> <td> 2.76e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-05-10 00:00:00')]</th> <td> 6.369e+04</td> <td> 1.16e+05</td> <td>    0.550</td> <td> 0.582</td> <td>-1.63e+05</td> <td> 2.91e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-05-11 00:00:00')]</th> <td>  5.75e+04</td> <td> 3.37e+04</td> <td>    1.709</td> <td> 0.088</td> <td>-8462.548</td> <td> 1.23e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-05-12 00:00:00')]</th> <td> 6.241e+04</td> <td> 3.22e+04</td> <td>    1.940</td> <td> 0.052</td> <td> -649.394</td> <td> 1.25e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-05-13 00:00:00')]</th> <td>-1.222e+04</td> <td> 3.73e+04</td> <td>   -0.327</td> <td> 0.743</td> <td>-8.53e+04</td> <td> 6.09e+04</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-05-14 00:00:00')]</th> <td>-4870.9473</td> <td> 6.06e+04</td> <td>   -0.080</td> <td> 0.936</td> <td>-1.24e+05</td> <td> 1.14e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-05-15 00:00:00')]</th> <td> 7.636e+04</td> <td> 1.62e+05</td> <td>    0.470</td> <td> 0.638</td> <td>-2.42e+05</td> <td> 3.95e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-05-24 00:00:00')]</th> <td> 2.055e+05</td> <td> 1.62e+05</td> <td>    1.266</td> <td> 0.206</td> <td>-1.13e+05</td> <td> 5.24e+05</td>
+</tr>
+<tr>
+  <th>date[T.Timestamp('2015-05-27 00:00:00')]</th> <td> 4.377e+05</td> <td> 1.62e+05</td> <td>    2.696</td> <td> 0.007</td> <td> 1.19e+05</td> <td> 7.56e+05</td>
+</tr>
+<tr>
+  <th>condition</th>                                <td> 2.426e+04</td> <td> 1950.128</td> <td>   12.438</td> <td> 0.000</td> <td> 2.04e+04</td> <td> 2.81e+04</td>
+</tr>
+<tr>
+  <th>grade</th>                                    <td> 1.804e+05</td> <td> 1121.895</td> <td>  160.763</td> <td> 0.000</td> <td> 1.78e+05</td> <td> 1.83e+05</td>
+</tr>
+<tr>
+  <th>age</th>                                      <td> 2459.4164</td> <td>   47.586</td> <td>   51.684</td> <td> 0.000</td> <td> 2366.144</td> <td> 2552.688</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>1060.409</td> <th>  Durbin-Watson:     </th> <td>   1.963</td> 
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>1423.143</td> 
+</tr>
+<tr>
+  <th>Skew:</th>           <td> 0.526</td>  <th>  Prob(JB):          </th> <td>9.30e-310</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td> 3.830</td>  <th>  Cond. No.          </th> <td>2.02e+04</td> 
+</tr>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 2.02e+04. This might indicate that there are<br/>strong multicollinearity or other numerical problems.
