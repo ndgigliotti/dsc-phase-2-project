@@ -1,8 +1,11 @@
+import datetime
 from collections.abc import Mapping
 import numpy as np
 import pandas as pd
 
 NULL = frozenset([np.nan, pd.NA, None])
+DATE_FORMAT = "%Y-%m-%d"
+DATETIME_FORMAT = "%Y-%m-%dT%H-%M-%S"
 
 
 def numeric_cols(data: pd.DataFrame) -> list:
@@ -23,6 +26,11 @@ def noncat_cols(data: pd.DataFrame) -> list:
     return data.columns[~categorical].to_list()
 
 
+def cat_cols(data: pd.DataFrame) -> list:
+    categorical = data.dtypes.map(pd.api.types.is_categorical_dtype)
+    return data.columns[categorical].to_list()
+
+
 def map_list_likes(data: pd.Series, mapper: dict):
     """Apply `mapper` to elements of elements of `data`.
 
@@ -38,3 +46,40 @@ def map_list_likes(data: pd.Series, mapper: dict):
             return [mapper(x) if x not in NULL else x for x in list_]
 
     return data.map(transform, na_action="ignore")
+
+
+def datetime_from_name(name):
+    name = os.path.basename(name)
+    root, _ = os.path.splitext(name)
+    fmt = DATETIME_FORMAT if root.count("-") == 4 else DATE_FORMAT
+    return datetime.datetime.strptime(root, fmt)
+
+
+def datetime_to_name(when, ext=None):
+    if isinstance(when, datetime.datetime):
+        name = when.isoformat(timespec="seconds").replace(":", "-")
+    elif isinstance(when, datetime.date):
+        name = when.isoformat()
+    else:
+        raise ValueError("'when' must be datetime.datetime or datetime.date")
+    if ext:
+        if not ext.startswith("."):
+            ext = "." + ext
+        name += ext
+    return name
+
+
+def date_from_name(name):
+    return datetime_from_name(name).date()
+
+
+def date_to_name(when, ext=None):
+    return datetime_to_name(when, ext=ext)
+
+
+def now_name(ext=None):
+    return datetime_to_name(datetime.datetime.now(), ext=ext)
+
+
+def today_name(ext=None):
+    return date_to_name(datetime.date.today(), ext=ext)
