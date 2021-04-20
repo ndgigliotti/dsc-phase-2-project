@@ -1,10 +1,12 @@
+import re
 from types import MappingProxyType
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from matplotlib.axes import Axes
 from matplotlib import ticker
+from matplotlib.axes import Axes
 
 import utils
 
@@ -191,10 +193,13 @@ def linearity_hists(
     return axs
 
 
-def multi_joint(data: pd.DataFrame, target: str, **kwargs) -> np.ndarray:
-    data = data.loc[:, utils.numeric_cols(data)]
+def multi_joint(
+    data: pd.DataFrame, target: str, reflexive=False, **kwargs
+) -> np.ndarray:
+    data = data.select_dtypes(include="number")
     grids = []
-    for i, column in enumerate(data.columns):
+    columns = data.columns if reflexive else data.columns.drop(target)
+    for column in columns:
         g = sns.jointplot(data=data, x=column, y=target, **kwargs)
         g.fig.suptitle(f"{column} vs. {target}")
         g.fig.subplots_adjust(top=0.9)
@@ -230,111 +235,46 @@ def heated_barplot(
     return ax
 
 
-def cat_correlation(crosstab: pd.DataFrame, other: pd.Series, **kwargs) -> Axes:
-    """Make a heated bar plot of the correlation between a crosstab and `other`.
-
-    Args:
-        crosstab (pd.DataFrame): Crosstab frequency table for categorical variables.
-        other (pd.Series): Data for correlation. Must share index with `crosstab`.
-
-    Returns:
-        Axes: Axes for the plot.
-    """
-    corr = crosstab.corrwith(other).dropna().sort_values(ascending=False)
-    ax = heated_barplot(corr, **kwargs)
-    ax.set_xlabel("Correlation", labelpad=15)
+def qq_plot(resids):
+    fig, ax = plt.subplots()
+    sm.graphics.qqplot(model.resid, fit=True, line="45", ax=ax)
+    ax.set_title("Normality of Residuals")
     return ax
 
 
-def cat_corr_by_bins(
-    corr: pd.DataFrame,
-    bin1: str,
-    bin2: str,
-    interval1: pd.Interval,
-    interval2: pd.Interval,
-    suptitle: str,
-    **kwargs,
-) -> np.array:
-    """Plot correlation data for two bins side-by-side.
+def resid_scatters(data, model, formula, sp_height=5, ncols=4, dot_size=5, **kwargs):
+    target, predictors = formula.split("~")
+    predictors = predictors.split("+")
+    re_cat = r"C\(([a-zA-Z0-9_]+)\)"
+    cat_predictors = [x for x in predictors if re.fullmatch(re_cat, x)]
+    if cat_predictors:
+        predictors = list(set(predictors) - set(cat_predictors))
+        cat_predictors = re.findall(re_cat, " ".join(cat_predictors))
+        cat_predictors = pd.get_dummies(data.loc[:, cat_predictors])
+    else:
+        cat_predictors = pd.DataFrame()
 
-    Args:
-        corr (pd.DataFrame): Table of correlations indexed by bin.
-        bin1 (str): Row index for left plot.
-        bin2 (str): Row index for right plot.
-        interval1 (pd.Interval): Interval for left plot.
-        interval2 (pd.Interval): Interval for right plot.
-        suptitle (str): Title of figure.
-
-    Returns:
-        np.array: Array of Axes.
-    """
-    fig, axs = plt.subplots(ncols=2, sharex=True, figsize=(15, 10))
-    bins = [bin1, bin2]
-    intervals = [interval1, interval2]
-    for bin_, interval, ax in zip(bins, intervals, axs.flat):
-        data = corr.loc[bin_].dropna().sort_values(ascending=False)
-        ax = heated_barplot(data, ax=ax, **kwargs)
-        left = round(interval.left)
-        right = round(interval.right)
-        ax.set_title(f"{bin_}\n\${left:,.0f} to \${right:,.0f}")
-        ax.set_xlabel("Correlation", labelpad=15)
-        ax.set_ylabel(None)
-
-    fig.suptitle(suptitle, fontsize=16)
-    fig.tight_layout()
-    return axs
-
-
-def boolean_violinplots(
-    crosstab: pd.DataFrame,
-    y_series: pd.Series,
-    suptitle: str,
-    xlabels: list = None,
-    ylabel: str = None,
-    include: list = None,
-    figsize: tuple = (12, 8),
-    **kwargs,
-) -> np.array:
-    """Create multiple violin plots showing distributions for True and False.
-
-    Args:
-        crosstab (pd.DataFrame): Crosstab frequency table for categorical variables.
-        y_series (pd.Series): Data for y-axis.
-        suptitle (str): Figure title.
-        xlabels (list, optional): Labels for x-axes. Defaults to None.
-        ylabel (str, optional): Label for y-axis. Defaults to None.
-        include (list, optional): Columns of `crosstab` to plot. Defaults to None.
-        figsize (tuple, optional): Figure size. Defaults to (12, 8).
-
-    Returns:
-        np.array: Array of Axes.
-    """
-    ncols = 2
-    nrows = int(np.ceil(crosstab.shape[1] / 2))
-    if include:
-        crosstab = crosstab.loc[:, include]
-        nrows = int(np.ceil(len(include) / 2))
-    corr = crosstab.corrwith(y_series)
+    predictors = data.loc[:, predictors]
+    resid_df = model.resid.to_frame("resid")
+    resid_df = pd.concat([predictors, cat_predictors, resid_df], axis=1)
+    n_pred = predictors.columns.size + cat_predictors.columns.size
+    ncols = n_pred if n_pred < ncols else ncols
+    nrows, figsize = _calc_figsize(n_pred, ncols, sp_height)
     fig, axs = plt.subplots(nrows=nrows, ncols=ncols, sharey=True, figsize=figsize)
-    for i, ax in enumerate(axs.flat):
-        ax = sns.violinplot(x=crosstab.iloc[:, i], y=y_series, ax=ax, **kwargs)
-        ax.set_ylabel(None)
-        if xlabels:
-            ax.set_xlabel(xlabel[i])
-        cat_corr = np.round(corr.iloc[i], 2)
-        text = f"Corr: {cat_corr}"
-        ax.text(
-            0.975,
-            1.025,
-            text,
-            horizontalalignment="right",
-            verticalalignment="center",
-            transform=ax.transAxes,
-            fontsize=12,
-        )
-    if ylabel:
-        for ax in axs[:, 0]:
-            ax.set_ylabel(ylabel, labelpad=10)
-    fig.suptitle(suptitle)
-    fig.tight_layout()
+    if isinstance(axs, np.ndarray):
+        axs = axs.flatten()
+    else:
+        axs = np.array([axs], dtype="object")
+    for ax, column in zip(axs, resid_df.columns.drop("resid")):
+        if column in cat_predictors.columns:
+            ax = sns.stripplot(
+                data=resid_df, x=column, y="resid", size=dot_size / 5, ax=ax, **kwargs
+            )
+            ax.set_title(column)
+        else:
+            ax = sns.scatterplot(
+                data=resid_df, x=column, y="resid", s=dot_size, ax=ax, **kwargs
+            )
+            ax.set_title(column)
+        ax.set_xlabel(None)
     return axs
