@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+import statsmodels.api as sm
 from matplotlib import ticker
 from matplotlib.axes import Axes
 
@@ -148,6 +149,30 @@ def multi_dist(data: pd.DataFrame, ncols=3, sp_height=5, **kwargs) -> np.ndarray
     return axs
 
 
+def multi_scatter(
+    data: pd.DataFrame,
+    target: str,
+    ncols=3,
+    sp_height=5,
+    reflexive=False,
+    yformatter=None,
+    **kwargs,
+) -> np.ndarray:
+    data = data.select_dtypes(include="number")
+    target_data = data.loc[:, target]
+    if not reflexive:
+        data.drop(columns=target, inplace=True)
+    nrows, figsize = _calc_figsize(data.columns.size, ncols, sp_height)
+    fig, axs = plt.subplots(nrows=nrows, ncols=ncols, sharey=True, figsize=figsize)
+    for ax, column in zip(axs.flat, data.columns):
+        ax = sns.scatterplot(x=data[column], y=target_data, ax=ax, **kwargs)
+        ax.set_ylabel(target, labelpad=10)
+        if yformatter:
+            ax.yaxis.set_major_formatter(yformatter)
+        ax.set_title(f"{column} vs. {target}")
+    return axs
+
+
 def linearity_scatters(
     data: pd.DataFrame, target: str, ncols=3, sp_height=5, yformatter=None, **kwargs
 ) -> np.ndarray:
@@ -235,46 +260,20 @@ def heated_barplot(
     return ax
 
 
-def qq_plot(resids):
-    fig, ax = plt.subplots()
-    sm.graphics.qqplot(model.resid, fit=True, line="45", ax=ax)
+def diagnostics(
+    model,
+    height=6,
+    xformatter=big_number_formatter(),
+    yformatter=big_number_formatter(),
+):
+    fig, ax = plt.subplots(figsize=(height + 1, height + 1))
+    fig = sm.graphics.qqplot(model.resid, fit=True, line="45", ax=ax)
     ax.set_title("Normality of Residuals")
-    return ax
-
-
-def resid_scatters(data, model, formula, sp_height=5, ncols=4, dot_size=5, **kwargs):
-    target, predictors = formula.split("~")
-    predictors = predictors.split("+")
-    re_cat = r"C\(([a-zA-Z0-9_]+)\)"
-    cat_predictors = [x for x in predictors if re.fullmatch(re_cat, x)]
-    if cat_predictors:
-        predictors = list(set(predictors) - set(cat_predictors))
-        cat_predictors = re.findall(re_cat, " ".join(cat_predictors))
-        cat_predictors = pd.get_dummies(data.loc[:, cat_predictors])
-    else:
-        cat_predictors = pd.DataFrame()
-
-    predictors = data.loc[:, predictors]
-    resid_df = model.resid.to_frame("resid")
-    resid_df = pd.concat([predictors, cat_predictors, resid_df], axis=1)
-    n_pred = predictors.columns.size + cat_predictors.columns.size
-    ncols = n_pred if n_pred < ncols else ncols
-    nrows, figsize = _calc_figsize(n_pred, ncols, sp_height)
-    fig, axs = plt.subplots(nrows=nrows, ncols=ncols, sharey=True, figsize=figsize)
-    if isinstance(axs, np.ndarray):
-        axs = axs.flatten()
-    else:
-        axs = np.array([axs], dtype="object")
-    for ax, column in zip(axs, resid_df.columns.drop("resid")):
-        if column in cat_predictors.columns:
-            ax = sns.stripplot(
-                data=resid_df, x=column, y="resid", size=dot_size / 5, ax=ax, **kwargs
-            )
-            ax.set_title(column)
-        else:
-            ax = sns.scatterplot(
-                data=resid_df, x=column, y="resid", s=dot_size, ax=ax, **kwargs
-            )
-            ax.set_title(column)
-        ax.set_xlabel(None)
-    return axs
+    g = sns.jointplot(x=model.predict(), y=model.resid, height=height)
+    g.ax_joint.set_ylabel("Residuals", labelpad=10)
+    g.ax_joint.set_xlabel("Predicted Values", labelpad=10)
+    g.ax_joint.yaxis.set_major_formatter(yformatter)
+    g.ax_joint.xaxis.set_major_formatter(xformatter)
+    g.fig.suptitle("Homoscedasticity Check", fontsize=14)
+    g.fig.subplots_adjust(top=0.9)
+    return np.array([fig, g])

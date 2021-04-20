@@ -13,6 +13,7 @@ from sklearn.feature_selection import RFE
 from sklearn.linear_model import LinearRegression
 from statsmodels.formula.api import ols
 
+import plotting
 import utils
 
 TEST_DIR = "test_models"
@@ -23,7 +24,8 @@ PERM_SWEEP_DIR = os.path.join(TEST_DIR, "perm_sweep")
 def reg_model(data, formula):
     model = ols(formula=formula, data=data).fit()
     display(model.summary())
-    return model
+    plots = plotting.diagnostics(model)
+    return model, plots
 
 
 def _build_and_record(data, formula, path):

@@ -26,8 +26,10 @@ def trim(data: pd.DataFrame, outliers: pd.DataFrame) -> pd.DataFrame:
     n_dropped = outliers.any(axis=1).sum()
     report["Overlapping"] = report.sum() - n_dropped
     report["Total Dropped"] = n_dropped
+    report = report.to_frame("Observations")
+    report["Percent"] = (report.squeeze() / data.shape[0]) * 100
     print("Trim Results\n")
-    print(report.to_frame("Observations"))
+    print(report)
     return data.loc[~outliers.any(axis=1)].copy()
 
 
