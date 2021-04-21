@@ -10,6 +10,7 @@ from matplotlib import ticker
 from matplotlib.axes import Axes
 
 import utils
+import outliers
 
 HEATMAP_STYLE = MappingProxyType(
     {
@@ -59,6 +60,27 @@ def big_money_formatter(dec=0):
         return f"${_format_big_number(num, dec)}"
 
     return formatter
+
+
+def add_tukey_marks(
+    data, ax, iqr_color="r", fence_color="k", fence_style="--", show_quarts=False
+):
+    q1 = data.quantile(0.25, interpolation="midpoint")
+    q3 = data.quantile(0.75, interpolation="midpoint")
+    ax.axvspan(q1, q3, color=iqr_color, alpha=0.2)
+    iqr_mp = q1 + ((q3 - q1) / 2)
+    lower, upper = outliers.iqr_fences(data)
+    ax.axvline(lower, c=fence_color, ls=fence_style)
+    ax.axvline(upper, c=fence_color, ls=fence_style)
+    text_yval = ax.get_ylim()[1]
+    text_yval *= 1.01
+    ax.text(iqr_mp, text_yval, "IQR", ha="center")
+    if show_quarts:
+        ax.text(q1, text_yval, "Q1", ha="center")
+        ax.text(q3, text_yval, "Q3", ha="center")
+    ax.text(upper, text_yval, "Fence", ha="center")
+    ax.text(lower, text_yval, "Fence", ha="center")
+    return ax
 
 
 def topn_ranking(
@@ -146,6 +168,9 @@ def multi_dist(data: pd.DataFrame, ncols=3, sp_height=5, **kwargs) -> np.ndarray
     for ax, column in zip(axs.flat, data.columns):
         ax = sns.histplot(data=data, x=column, ax=ax, **kwargs)
         ax.set_title(f"Distribution of `{column}`")
+    if axs.ndim > 1:
+        for ax in axs[:, 1:].flat:
+            ax.set_ylabel(None)
     return axs
 
 
@@ -262,18 +287,20 @@ def heated_barplot(
 
 def diagnostics(
     model,
-    height=6,
-    xformatter=big_number_formatter(),
-    yformatter=big_number_formatter(),
+    height=7,
+    xformatter=big_number_formatter(2),
+    yformatter=big_number_formatter(2),
 ):
     fig, ax = plt.subplots(figsize=(height + 1, height + 1))
     fig = sm.graphics.qqplot(model.resid, fit=True, line="45", ax=ax)
     ax.set_title("Normality of Residuals")
-    g = sns.jointplot(x=model.predict(), y=model.resid, height=height)
+    g = sns.jointplot(x=model.predict(), y=model.resid, height=height, s=5)
     g.ax_joint.set_ylabel("Residuals", labelpad=10)
     g.ax_joint.set_xlabel("Predicted Values", labelpad=10)
     g.ax_joint.yaxis.set_major_formatter(yformatter)
     g.ax_joint.xaxis.set_major_formatter(xformatter)
+    for label in g.ax_joint.get_xticklabels():
+        label.set_rotation(45)
     g.fig.suptitle("Homoscedasticity Check", fontsize=14)
     g.fig.subplots_adjust(top=0.9)
     return np.array([fig, g])
