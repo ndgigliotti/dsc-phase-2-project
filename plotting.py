@@ -171,6 +171,9 @@ def multi_dist(data: pd.DataFrame, ncols=3, sp_height=5, **kwargs) -> np.ndarray
     if axs.ndim > 1:
         for ax in axs[:, 1:].flat:
             ax.set_ylabel(None)
+    elif axs.size > 1:
+        for ax in axs[1:]:
+            ax.set_ylabel(None)
     return axs
 
 

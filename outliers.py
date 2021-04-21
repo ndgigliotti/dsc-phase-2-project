@@ -41,27 +41,30 @@ def _print_drop_report(outliers: pd.DataFrame) -> None:
     report["total"] = n_dropped
     report = report.to_frame("n_dropped")
     report["pct_dropped"] = (report.squeeze() / outliers.shape[0]) * 100
-    print("Drop Results\n")
-    print(report)
+    # print("Drop Results\n")
+    display(report)
 
 
 @_print_drop_report.register
 def _(outliers: pd.Series) -> None:
     report = pd.Series(data=[outliers.sum()], index=["n_dropped"])
     report["pct_dropped"] = (report["n_dropped"] / outliers.size) * 100
-    print("Drop Results\n")
-    print(report.to_frame("observations"))
+    # print("Drop Results\n")
+    display(report.to_frame("observations"))
 
 
 @singledispatch
 def _print_clip_report(before: pd.DataFrame, after: pd.DataFrame) -> None:
     changes = before.compare(after)
-    report = changes.count().unstack()["self"]
-    report["total"] = changes.shape[0]
+    if changes.empty:
+        report = pd.Series(0, index=before.columns)
+    else:
+        report = changes.count().unstack()["self"]
+    report["total_obs"] = changes.shape[0]
     report = report.to_frame("n_clipped")
     report["pct_clipped"] = (report.squeeze() / before.shape[0]) * 100
-    print("Clip Results\n")
-    print(report)
+    # display("Clip Results")
+    display(report)
 
 
 @_print_clip_report.register
@@ -69,8 +72,8 @@ def _(before: pd.Series, after: pd.Series) -> None:
     changes = before.compare(after)
     report = pd.Series(data=[changes.shape[0]], index=["n_clipped"])
     report["pct_clipped"] = (report["n_clipped"] / before.shape[0]) * 100
-    print("Clip Results\n")
-    print(report.to_frame("observations"))
+    # display("Clip Results")
+    display(report.to_frame("observations"))
 
 
 @singledispatch
@@ -101,7 +104,7 @@ def _jitter(shape, dist, dtype=np.float64, positive=True):
                 dist * -1, high=dist, size=shape, dtype=dtype, endpoint=True
             )
     else:
-        raise ValueError("`dtype` must be either int or float dtype")
+        raise ValueError(f"`dtype` must be either int or float dtype, got {dtype}")
     return jitter
 
 
@@ -163,7 +166,7 @@ def iqr_clip(data: pd.Series, jitter=True, dist=None, log=False, silent=False):
     if not silent:
         _print_clip_report(data, clipped)
     if jitter:
-        dist = dist or get_iqr(data, log=log)
+        dist = dist or get_iqr(data, log=log) * 1.5
         if pd.api.types.is_integer_dtype(data.dtype):
             dist = round(dist)
         clipped = _jitter_clipped_outliers(data, clipped, dist)
@@ -172,7 +175,7 @@ def iqr_clip(data: pd.Series, jitter=True, dist=None, log=False, silent=False):
 
 @iqr_clip.register
 def _(data: pd.DataFrame, jitter=True, log=False, silent=False) -> pd.DataFrame:
-    clipped = data.apply(iqr_clip, jitter=True, log=log, silent=True)
+    clipped = data.apply(iqr_clip, jitter=jitter, log=log, silent=True)
     if not silent:
         _print_clip_report(data, clipped)
     return clipped

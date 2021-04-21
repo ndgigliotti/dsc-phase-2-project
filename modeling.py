@@ -1,5 +1,6 @@
 import datetime
 import glob
+import pickle
 import itertools
 import os
 from functools import partial
@@ -86,6 +87,10 @@ def load_sweep_results(glob_path):
     docs = {x: y for x, y in zip(formulae, docs)}
     return docs
 
+def pickle_sweep_results(sweep_results, dst):
+    with open(dst, "wb") as f:
+        f.write(pickle.dumps(sweep_results, pickle.HIGHEST_PROTOCOL))
+
 
 def rfe_feature_ranking(data, target, dummify_cats=False, n_features=None, ignore=None):
     if ignore:
@@ -110,6 +115,7 @@ def multivariate_sweep(data, target, n_vars=2, ignore=None, dst=MV_SWEEP_DIR):
         data = data.drop(columns=ignore)
     var_names = utils.noncat_cols(data)
     var_names += [f"C({x})" for x in utils.cat_cols(data)]
+    var_names.remove(target)
     combos = list(itertools.combinations(var_names, n_vars))
     combo_strs = ["+".join(x) for x in combos]
     formulae = [f"{target}~{x}" for x in combo_strs]
@@ -133,3 +139,6 @@ def permutation_sweep(data, formula, dst=PERM_SWEEP_DIR):
     with ThreadPool() as pool:
         build = partial(_build_and_record, data)
         pool.starmap(build, zip(formulae, paths))
+
+def corr(frame: pd.DataFrame, other: pd.DataFrame):
+    return other.apply(lambda x: frame.corrwith(x))
