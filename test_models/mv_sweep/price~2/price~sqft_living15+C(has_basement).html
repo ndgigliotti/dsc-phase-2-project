@@ -1,25 +1,25 @@
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
 <tr>
-  <th>Dep. Variable:</th>          <td>price</td>      <th>  R-squared:         </th>  <td>   0.418</td>  
+  <th>Dep. Variable:</th>          <td>price</td>      <th>  R-squared:         </th>  <td>   0.362</td>  
 </tr>
 <tr>
-  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th>  <td>   0.418</td>  
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th>  <td>   0.361</td>  
 </tr>
 <tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th>  <td>   6832.</td>  
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th>  <td>   5387.</td>  
 </tr>
 <tr>
-  <th>Date:</th>             <td>Mon, 19 Apr 2021</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>   
+  <th>Date:</th>             <td>Wed, 21 Apr 2021</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>   
 </tr>
 <tr>
-  <th>Time:</th>                 <td>16:55:56</td>     <th>  Log-Likelihood:    </th> <td>-2.5840e+05</td>
+  <th>Time:</th>                 <td>19:30:22</td>     <th>  Log-Likelihood:    </th> <td>-2.6679e+05</td>
 </tr>
 <tr>
-  <th>No. Observations:</th>      <td> 19030</td>      <th>  AIC:               </th>  <td>5.168e+05</td> 
+  <th>No. Observations:</th>      <td> 19030</td>      <th>  AIC:               </th>  <td>5.336e+05</td> 
 </tr>
 <tr>
-  <th>Df Residuals:</th>          <td> 19027</td>      <th>  BIC:               </th>  <td>5.168e+05</td> 
+  <th>Df Residuals:</th>          <td> 19027</td>      <th>  BIC:               </th>  <td>5.336e+05</td> 
 </tr>
 <tr>
   <th>Df Model:</th>              <td>     2</td>      <th>                     </th>      <td> </td>     
@@ -33,26 +33,26 @@
              <td></td>                <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
 </tr>
 <tr>
-  <th>Intercept</th>               <td> 7049.4339</td> <td> 4542.015</td> <td>    1.552</td> <td> 0.121</td> <td>-1853.318</td> <td>  1.6e+04</td>
+  <th>Intercept</th>               <td>-1.238e+05</td> <td> 6765.526</td> <td>  -18.305</td> <td> 0.000</td> <td>-1.37e+05</td> <td>-1.11e+05</td>
 </tr>
 <tr>
-  <th>C(has_basement)[T.True]</th> <td> 8.459e+04</td> <td> 2847.020</td> <td>   29.713</td> <td> 0.000</td> <td>  7.9e+04</td> <td> 9.02e+04</td>
+  <th>C(has_basement)[T.True]</th> <td> 1.164e+05</td> <td> 4424.206</td> <td>   26.309</td> <td> 0.000</td> <td> 1.08e+05</td> <td> 1.25e+05</td>
 </tr>
 <tr>
-  <th>sqft_living15</th>           <td>  239.0781</td> <td>    2.138</td> <td>  111.828</td> <td> 0.000</td> <td>  234.888</td> <td>  243.269</td>
+  <th>sqft_living15</th>           <td>  312.1529</td> <td>    3.143</td> <td>   99.326</td> <td> 0.000</td> <td>  305.993</td> <td>  318.313</td>
 </tr>
 </table>
 <table class="simpletable">
 <tr>
-  <th>Omnibus:</th>       <td>1527.238</td> <th>  Durbin-Watson:     </th> <td>   1.981</td>
+  <th>Omnibus:</th>       <td>18056.814</td> <th>  Durbin-Watson:     </th>  <td>   1.989</td>  
 </tr>
 <tr>
-  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>1990.295</td>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>   <th>  Jarque-Bera (JB):  </th> <td>1830623.665</td>
 </tr>
 <tr>
-  <th>Skew:</th>           <td> 0.709</td>  <th>  Prob(JB):          </th> <td>    0.00</td>
+  <th>Skew:</th>           <td> 4.307</td>   <th>  Prob(JB):          </th>  <td>    0.00</td>  
 </tr>
 <tr>
-  <th>Kurtosis:</th>       <td> 3.708</td>  <th>  Cond. No.          </th> <td>6.92e+03</td>
+  <th>Kurtosis:</th>       <td>50.271</td>   <th>  Cond. No.          </th>  <td>6.72e+03</td>  
 </tr>
-</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 6.92e+03. This might indicate that there are<br/>strong multicollinearity or other numerical problems.
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 6.72e+03. This might indicate that there are<br/>strong multicollinearity or other numerical problems.
