@@ -1,0 +1,148 @@
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>          <td>price</td>      <th>  R-squared:         </th>  <td>   0.447</td>  
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th>  <td>   0.446</td>  
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th>  <td>   480.0</td>  
+</tr>
+<tr>
+  <th>Date:</th>             <td>Wed, 21 Apr 2021</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>   
+</tr>
+<tr>
+  <th>Time:</th>                 <td>20:01:18</td>     <th>  Log-Likelihood:    </th> <td>-2.6542e+05</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td> 19030</td>      <th>  AIC:               </th>  <td>5.309e+05</td> 
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td> 18997</td>      <th>  BIC:               </th>  <td>5.312e+05</td> 
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>    32</td>      <th>                     </th>      <td> </td>     
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>      <td> </td>     
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+                 <td></td>                    <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>                       <td> 1.387e+05</td> <td> 1.13e+04</td> <td>   12.316</td> <td> 0.000</td> <td> 1.17e+05</td> <td> 1.61e+05</td>
+</tr>
+<tr>
+  <th>C(waterfront)[T.True]</th>           <td>  5.58e+05</td> <td> 2.92e+04</td> <td>   19.087</td> <td> 0.000</td> <td> 5.01e+05</td> <td> 6.15e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bedrooms)[T.3]</th>            <td> 8.462e+04</td> <td> 6358.350</td> <td>   13.308</td> <td> 0.000</td> <td> 7.22e+04</td> <td> 9.71e+04</td>
+</tr>
+<tr>
+  <th>C(cat_bedrooms)[T.4]</th>            <td> 2.163e+05</td> <td> 6777.047</td> <td>   31.919</td> <td> 0.000</td> <td> 2.03e+05</td> <td>  2.3e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bedrooms)[T.5]</th>            <td> 3.002e+05</td> <td> 9369.225</td> <td>   32.037</td> <td> 0.000</td> <td> 2.82e+05</td> <td> 3.19e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bedrooms)[T.6]</th>            <td> 3.557e+05</td> <td> 1.75e+04</td> <td>   20.311</td> <td> 0.000</td> <td> 3.21e+05</td> <td>  3.9e+05</td>
+</tr>
+<tr>
+  <th>C(cat_view)[T.1]</th>                <td> 2.032e+05</td> <td> 1.65e+04</td> <td>   12.335</td> <td> 0.000</td> <td> 1.71e+05</td> <td> 2.35e+05</td>
+</tr>
+<tr>
+  <th>C(cat_view)[T.2]</th>                <td> 2.291e+05</td> <td> 9890.751</td> <td>   23.160</td> <td> 0.000</td> <td>  2.1e+05</td> <td> 2.48e+05</td>
+</tr>
+<tr>
+  <th>C(cat_view)[T.3]</th>                <td> 3.835e+05</td> <td> 1.36e+04</td> <td>   28.149</td> <td> 0.000</td> <td> 3.57e+05</td> <td>  4.1e+05</td>
+</tr>
+<tr>
+  <th>C(cat_view)[T.4]</th>                <td> 6.137e+05</td> <td> 2.07e+04</td> <td>   29.697</td> <td> 0.000</td> <td> 5.73e+05</td> <td> 6.54e+05</td>
+</tr>
+<tr>
+  <th>C(nearby_city)[T.Bellevue]</th>      <td> 5.269e+05</td> <td> 1.25e+04</td> <td>   41.987</td> <td> 0.000</td> <td> 5.02e+05</td> <td> 5.52e+05</td>
+</tr>
+<tr>
+  <th>C(nearby_city)[T.Black Diamond]</th> <td> 1.451e+05</td> <td> 3.12e+04</td> <td>    4.652</td> <td> 0.000</td> <td> 8.39e+04</td> <td> 2.06e+05</td>
+</tr>
+<tr>
+  <th>C(nearby_city)[T.Bothell]</th>       <td> 1.926e+05</td> <td> 2.32e+04</td> <td>    8.318</td> <td> 0.000</td> <td> 1.47e+05</td> <td> 2.38e+05</td>
+</tr>
+<tr>
+  <th>C(nearby_city)[T.Carnation]</th>     <td> 2.056e+05</td> <td> 2.82e+04</td> <td>    7.285</td> <td> 0.000</td> <td>  1.5e+05</td> <td> 2.61e+05</td>
+</tr>
+<tr>
+  <th>C(nearby_city)[T.Duvall]</th>        <td> 1.481e+05</td> <td> 2.35e+04</td> <td>    6.307</td> <td> 0.000</td> <td> 1.02e+05</td> <td> 1.94e+05</td>
+</tr>
+<tr>
+  <th>C(nearby_city)[T.Enumclaw]</th>      <td> -790.0543</td> <td> 2.16e+04</td> <td>   -0.037</td> <td> 0.971</td> <td>-4.31e+04</td> <td> 4.15e+04</td>
+</tr>
+<tr>
+  <th>C(nearby_city)[T.Fall City]</th>     <td>  2.73e+05</td> <td>  3.4e+04</td> <td>    8.030</td> <td> 0.000</td> <td> 2.06e+05</td> <td>  3.4e+05</td>
+</tr>
+<tr>
+  <th>C(nearby_city)[T.Federal Way]</th>   <td>-8719.8013</td> <td> 1.43e+04</td> <td>   -0.608</td> <td> 0.543</td> <td>-3.68e+04</td> <td> 1.94e+04</td>
+</tr>
+<tr>
+  <th>C(nearby_city)[T.Issaquah]</th>      <td> 3.061e+05</td> <td> 1.45e+04</td> <td>   21.111</td> <td> 0.000</td> <td> 2.78e+05</td> <td> 3.34e+05</td>
+</tr>
+<tr>
+  <th>C(nearby_city)[T.Kenmore]</th>       <td> 1.537e+05</td> <td> 1.99e+04</td> <td>    7.719</td> <td> 0.000</td> <td> 1.15e+05</td> <td> 1.93e+05</td>
+</tr>
+<tr>
+  <th>C(nearby_city)[T.Kent]</th>          <td>  1.48e+04</td> <td> 1.29e+04</td> <td>    1.150</td> <td> 0.250</td> <td>-1.04e+04</td> <td>    4e+04</td>
+</tr>
+<tr>
+  <th>C(nearby_city)[T.Kirkland]</th>      <td> 3.219e+05</td> <td> 1.36e+04</td> <td>   23.745</td> <td> 0.000</td> <td> 2.95e+05</td> <td> 3.49e+05</td>
+</tr>
+<tr>
+  <th>C(nearby_city)[T.Maple Valley]</th>  <td> 7.968e+04</td> <td> 1.55e+04</td> <td>    5.135</td> <td> 0.000</td> <td> 4.93e+04</td> <td>  1.1e+05</td>
+</tr>
+<tr>
+  <th>C(nearby_city)[T.Medina]</th>        <td> 1.765e+06</td> <td> 4.29e+04</td> <td>   41.187</td> <td> 0.000</td> <td> 1.68e+06</td> <td> 1.85e+06</td>
+</tr>
+<tr>
+  <th>C(nearby_city)[T.Mercer Island]</th> <td> 7.104e+05</td> <td> 2.04e+04</td> <td>   34.879</td> <td> 0.000</td> <td>  6.7e+05</td> <td>  7.5e+05</td>
+</tr>
+<tr>
+  <th>C(nearby_city)[T.North Bend]</th>    <td> 1.483e+05</td> <td> 2.24e+04</td> <td>    6.624</td> <td> 0.000</td> <td> 1.04e+05</td> <td> 1.92e+05</td>
+</tr>
+<tr>
+  <th>C(nearby_city)[T.Redmond]</th>       <td> 3.622e+05</td> <td> 1.35e+04</td> <td>   26.755</td> <td> 0.000</td> <td> 3.36e+05</td> <td> 3.89e+05</td>
+</tr>
+<tr>
+  <th>C(nearby_city)[T.Renton]</th>        <td> 1.072e+05</td> <td> 1.22e+04</td> <td>    8.774</td> <td> 0.000</td> <td> 8.33e+04</td> <td> 1.31e+05</td>
+</tr>
+<tr>
+  <th>C(nearby_city)[T.Sammamish]</th>     <td> 3.738e+05</td> <td> 1.43e+04</td> <td>   26.157</td> <td> 0.000</td> <td> 3.46e+05</td> <td> 4.02e+05</td>
+</tr>
+<tr>
+  <th>C(nearby_city)[T.Seattle]</th>       <td> 2.397e+05</td> <td> 1.03e+04</td> <td>   23.307</td> <td> 0.000</td> <td>  2.2e+05</td> <td>  2.6e+05</td>
+</tr>
+<tr>
+  <th>C(nearby_city)[T.Snoqualmie]</th>    <td>     2e+05</td> <td> 1.93e+04</td> <td>   10.372</td> <td> 0.000</td> <td> 1.62e+05</td> <td> 2.38e+05</td>
+</tr>
+<tr>
+  <th>C(nearby_city)[T.Vashon]</th>        <td> 1.814e+04</td> <td> 2.92e+04</td> <td>    0.622</td> <td> 0.534</td> <td> -3.9e+04</td> <td> 7.53e+04</td>
+</tr>
+<tr>
+  <th>C(nearby_city)[T.Woodinville]</th>   <td> 3.201e+05</td> <td> 1.67e+04</td> <td>   19.150</td> <td> 0.000</td> <td> 2.87e+05</td> <td> 3.53e+05</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>16905.985</td> <th>  Durbin-Watson:     </th>  <td>   1.957</td>  
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>   <th>  Jarque-Bera (JB):  </th> <td>1634348.988</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td> 3.859</td>   <th>  Prob(JB):          </th>  <td>    0.00</td>  
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td>47.740</td>   <th>  Cond. No.          </th>  <td>    32.6</td>  
+</tr>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.

@@ -1,0 +1,310 @@
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>          <td>price</td>      <th>  R-squared:         </th>  <td>   0.648</td>  
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th>  <td>   0.646</td>  
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th>  <td>   404.6</td>  
+</tr>
+<tr>
+  <th>Date:</th>             <td>Wed, 21 Apr 2021</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>   
+</tr>
+<tr>
+  <th>Time:</th>                 <td>20:00:11</td>     <th>  Log-Likelihood:    </th> <td>-2.6114e+05</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td> 19030</td>      <th>  AIC:               </th>  <td>5.224e+05</td> 
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td> 18943</td>      <th>  BIC:               </th>  <td>5.231e+05</td> 
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>    86</td>      <th>                     </th>      <td> </td>     
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>      <td> </td>     
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+              <td></td>                 <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>                 <td> 6.895e+04</td> <td> 1.13e+05</td> <td>    0.612</td> <td> 0.541</td> <td>-1.52e+05</td> <td>  2.9e+05</td>
+</tr>
+<tr>
+  <th>C(waterfront)[T.True]</th>     <td> 1.002e+06</td> <td> 1.89e+04</td> <td>   52.910</td> <td> 0.000</td> <td> 9.65e+05</td> <td> 1.04e+06</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98002]</th>       <td> -3.57e+04</td> <td> 2.06e+04</td> <td>   -1.730</td> <td> 0.084</td> <td>-7.62e+04</td> <td> 4750.936</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98003]</th>       <td> 2246.9834</td> <td> 1.86e+04</td> <td>    0.121</td> <td> 0.904</td> <td>-3.42e+04</td> <td> 3.87e+04</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98004]</th>       <td> 9.357e+05</td> <td> 1.81e+04</td> <td>   51.570</td> <td> 0.000</td> <td>    9e+05</td> <td> 9.71e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98005]</th>       <td> 4.392e+05</td> <td> 2.15e+04</td> <td>   20.398</td> <td> 0.000</td> <td> 3.97e+05</td> <td> 4.81e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98006]</th>       <td> 4.508e+05</td> <td> 1.64e+04</td> <td>   27.535</td> <td> 0.000</td> <td> 4.19e+05</td> <td> 4.83e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98007]</th>       <td> 2.982e+05</td> <td> 2.37e+04</td> <td>   12.597</td> <td> 0.000</td> <td> 2.52e+05</td> <td> 3.45e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98008]</th>       <td> 3.171e+05</td> <td> 1.86e+04</td> <td>   17.085</td> <td> 0.000</td> <td> 2.81e+05</td> <td> 3.53e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98010]</th>       <td> 1.273e+05</td> <td> 2.67e+04</td> <td>    4.769</td> <td> 0.000</td> <td>  7.5e+04</td> <td>  1.8e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98011]</th>       <td> 1.704e+05</td> <td> 2.08e+04</td> <td>    8.174</td> <td> 0.000</td> <td>  1.3e+05</td> <td> 2.11e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98014]</th>       <td>  1.65e+05</td> <td> 2.45e+04</td> <td>    6.732</td> <td> 0.000</td> <td> 1.17e+05</td> <td> 2.13e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98019]</th>       <td> 1.006e+05</td> <td> 2.11e+04</td> <td>    4.770</td> <td> 0.000</td> <td> 5.93e+04</td> <td> 1.42e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98022]</th>       <td>   4.2e+04</td> <td> 1.97e+04</td> <td>    2.134</td> <td> 0.033</td> <td> 3429.957</td> <td> 8.06e+04</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98023]</th>       <td> -1.03e+04</td> <td> 1.62e+04</td> <td>   -0.634</td> <td> 0.526</td> <td>-4.21e+04</td> <td> 2.15e+04</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98024]</th>       <td>   2.2e+05</td> <td> 2.88e+04</td> <td>    7.633</td> <td> 0.000</td> <td> 1.64e+05</td> <td> 2.77e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98027]</th>       <td> 2.187e+05</td> <td> 1.69e+04</td> <td>   12.935</td> <td> 0.000</td> <td> 1.86e+05</td> <td> 2.52e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98028]</th>       <td> 1.554e+05</td> <td> 1.86e+04</td> <td>    8.371</td> <td> 0.000</td> <td> 1.19e+05</td> <td> 1.92e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98029]</th>       <td>  2.23e+05</td> <td> 1.79e+04</td> <td>   12.442</td> <td> 0.000</td> <td> 1.88e+05</td> <td> 2.58e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98030]</th>       <td>-1420.8948</td> <td>  1.9e+04</td> <td>   -0.075</td> <td> 0.940</td> <td>-3.87e+04</td> <td> 3.58e+04</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98031]</th>       <td>-3057.6555</td> <td> 1.88e+04</td> <td>   -0.163</td> <td> 0.871</td> <td>-3.99e+04</td> <td> 3.38e+04</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98032]</th>       <td> 8489.9379</td> <td> 2.43e+04</td> <td>    0.350</td> <td> 0.727</td> <td>-3.91e+04</td> <td> 5.61e+04</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98033]</th>       <td>  4.26e+05</td> <td> 1.68e+04</td> <td>   25.334</td> <td> 0.000</td> <td> 3.93e+05</td> <td> 4.59e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98034]</th>       <td> 2.098e+05</td> <td> 1.59e+04</td> <td>   13.187</td> <td> 0.000</td> <td> 1.79e+05</td> <td> 2.41e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98038]</th>       <td> 3.306e+04</td> <td> 1.57e+04</td> <td>    2.107</td> <td> 0.035</td> <td> 2308.507</td> <td> 6.38e+04</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98039]</th>       <td> 1.619e+06</td> <td> 3.57e+04</td> <td>   45.384</td> <td> 0.000</td> <td> 1.55e+06</td> <td> 1.69e+06</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98040]</th>       <td> 6.716e+05</td> <td> 1.89e+04</td> <td>   35.476</td> <td> 0.000</td> <td> 6.34e+05</td> <td> 7.09e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98042]</th>       <td> 4610.5828</td> <td> 1.59e+04</td> <td>    0.290</td> <td> 0.772</td> <td>-2.65e+04</td> <td> 3.57e+04</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98045]</th>       <td> 1.412e+05</td> <td> 2.03e+04</td> <td>    6.959</td> <td> 0.000</td> <td> 1.01e+05</td> <td> 1.81e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98052]</th>       <td> 2.941e+05</td> <td> 1.58e+04</td> <td>   18.628</td> <td> 0.000</td> <td> 2.63e+05</td> <td> 3.25e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98053]</th>       <td> 3.106e+05</td> <td>  1.7e+04</td> <td>   18.268</td> <td> 0.000</td> <td> 2.77e+05</td> <td> 3.44e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98055]</th>       <td> 2.617e+04</td> <td>  1.9e+04</td> <td>    1.379</td> <td> 0.168</td> <td> -1.1e+04</td> <td> 6.34e+04</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98056]</th>       <td> 1.009e+05</td> <td>  1.7e+04</td> <td>    5.948</td> <td> 0.000</td> <td> 6.77e+04</td> <td> 1.34e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98058]</th>       <td> 5.475e+04</td> <td> 1.66e+04</td> <td>    3.290</td> <td> 0.001</td> <td> 2.21e+04</td> <td> 8.74e+04</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98059]</th>       <td> 1.465e+05</td> <td> 1.65e+04</td> <td>    8.873</td> <td> 0.000</td> <td> 1.14e+05</td> <td> 1.79e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98065]</th>       <td> 1.445e+05</td> <td> 1.82e+04</td> <td>    7.941</td> <td> 0.000</td> <td> 1.09e+05</td> <td>  1.8e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98070]</th>       <td> 1.194e+04</td> <td> 2.51e+04</td> <td>    0.475</td> <td> 0.635</td> <td>-3.73e+04</td> <td> 6.12e+04</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98072]</th>       <td> 2.483e+05</td> <td> 1.89e+04</td> <td>   13.165</td> <td> 0.000</td> <td> 2.11e+05</td> <td> 2.85e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98074]</th>       <td> 3.012e+05</td> <td> 1.68e+04</td> <td>   17.911</td> <td> 0.000</td> <td> 2.68e+05</td> <td> 3.34e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98075]</th>       <td> 3.336e+05</td> <td> 1.74e+04</td> <td>   19.127</td> <td> 0.000</td> <td> 2.99e+05</td> <td> 3.68e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98077]</th>       <td> 3.001e+05</td> <td> 2.09e+04</td> <td>   14.389</td> <td> 0.000</td> <td> 2.59e+05</td> <td> 3.41e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98092]</th>       <td> 1.818e+04</td> <td> 1.76e+04</td> <td>    1.032</td> <td> 0.302</td> <td>-1.64e+04</td> <td> 5.27e+04</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98102]</th>       <td> 5.695e+05</td> <td> 2.65e+04</td> <td>   21.502</td> <td> 0.000</td> <td> 5.18e+05</td> <td> 6.21e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98103]</th>       <td> 2.891e+05</td> <td> 1.56e+04</td> <td>   18.532</td> <td> 0.000</td> <td> 2.59e+05</td> <td>  3.2e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98105]</th>       <td>   5.1e+05</td> <td> 1.96e+04</td> <td>   26.000</td> <td> 0.000</td> <td> 4.72e+05</td> <td> 5.48e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98106]</th>       <td> 5.123e+04</td> <td> 1.78e+04</td> <td>    2.872</td> <td> 0.004</td> <td> 1.63e+04</td> <td> 8.62e+04</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98107]</th>       <td>  2.75e+05</td> <td> 1.89e+04</td> <td>   14.513</td> <td> 0.000</td> <td> 2.38e+05</td> <td> 3.12e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98108]</th>       <td> 6.851e+04</td> <td> 2.12e+04</td> <td>    3.235</td> <td> 0.001</td> <td>  2.7e+04</td> <td>  1.1e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98109]</th>       <td>  5.19e+05</td> <td> 2.57e+04</td> <td>   20.165</td> <td> 0.000</td> <td> 4.69e+05</td> <td> 5.69e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98112]</th>       <td> 7.264e+05</td> <td> 1.88e+04</td> <td>   38.603</td> <td> 0.000</td> <td>  6.9e+05</td> <td> 7.63e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98115]</th>       <td> 3.431e+05</td> <td> 1.58e+04</td> <td>   21.751</td> <td> 0.000</td> <td> 3.12e+05</td> <td> 3.74e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98116]</th>       <td> 3.116e+05</td> <td> 1.78e+04</td> <td>   17.480</td> <td> 0.000</td> <td> 2.77e+05</td> <td> 3.47e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98117]</th>       <td> 3.081e+05</td> <td> 1.59e+04</td> <td>   19.409</td> <td> 0.000</td> <td> 2.77e+05</td> <td> 3.39e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98118]</th>       <td> 1.481e+05</td> <td> 1.63e+04</td> <td>    9.109</td> <td> 0.000</td> <td> 1.16e+05</td> <td>  1.8e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98119]</th>       <td> 5.053e+05</td> <td> 2.12e+04</td> <td>   23.858</td> <td> 0.000</td> <td> 4.64e+05</td> <td> 5.47e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98122]</th>       <td> 3.344e+05</td> <td> 1.85e+04</td> <td>   18.103</td> <td> 0.000</td> <td> 2.98e+05</td> <td> 3.71e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98125]</th>       <td> 1.879e+05</td> <td>  1.7e+04</td> <td>   11.057</td> <td> 0.000</td> <td> 1.55e+05</td> <td> 2.21e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98126]</th>       <td> 1.724e+05</td> <td> 1.76e+04</td> <td>    9.772</td> <td> 0.000</td> <td> 1.38e+05</td> <td> 2.07e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98133]</th>       <td> 1.351e+05</td> <td> 1.64e+04</td> <td>    8.257</td> <td> 0.000</td> <td> 1.03e+05</td> <td> 1.67e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98136]</th>       <td> 2.607e+05</td> <td>  1.9e+04</td> <td>   13.684</td> <td> 0.000</td> <td> 2.23e+05</td> <td> 2.98e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98144]</th>       <td> 2.805e+05</td> <td> 1.78e+04</td> <td>   15.788</td> <td> 0.000</td> <td> 2.46e+05</td> <td> 3.15e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98146]</th>       <td> 9.711e+04</td> <td> 1.86e+04</td> <td>    5.218</td> <td> 0.000</td> <td> 6.06e+04</td> <td> 1.34e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98148]</th>       <td> 2.955e+04</td> <td> 3.36e+04</td> <td>    0.879</td> <td> 0.379</td> <td>-3.63e+04</td> <td> 9.55e+04</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98155]</th>       <td> 1.422e+05</td> <td> 1.66e+04</td> <td>    8.546</td> <td> 0.000</td> <td>  1.1e+05</td> <td> 1.75e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98166]</th>       <td> 1.205e+05</td> <td> 1.95e+04</td> <td>    6.182</td> <td> 0.000</td> <td> 8.23e+04</td> <td> 1.59e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98168]</th>       <td> 3.776e+04</td> <td> 1.92e+04</td> <td>    1.963</td> <td> 0.050</td> <td>   55.563</td> <td> 7.55e+04</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98177]</th>       <td> 3.571e+05</td> <td>  1.9e+04</td> <td>   18.800</td> <td> 0.000</td> <td>  3.2e+05</td> <td> 3.94e+05</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98178]</th>       <td> 2.477e+04</td> <td> 1.92e+04</td> <td>    1.293</td> <td> 0.196</td> <td>-1.28e+04</td> <td> 6.23e+04</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98188]</th>       <td> 1.454e+04</td> <td> 2.38e+04</td> <td>    0.611</td> <td> 0.541</td> <td>-3.21e+04</td> <td> 6.12e+04</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98198]</th>       <td>  1.08e+04</td> <td>  1.9e+04</td> <td>    0.570</td> <td> 0.569</td> <td>-2.64e+04</td> <td>  4.8e+04</td>
+</tr>
+<tr>
+  <th>C(zipcode)[T.98199]</th>       <td> 4.554e+05</td> <td> 1.82e+04</td> <td>   25.036</td> <td> 0.000</td> <td>  4.2e+05</td> <td> 4.91e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.0.75]</th>  <td>-5.374e+04</td> <td> 1.14e+05</td> <td>   -0.471</td> <td> 0.638</td> <td>-2.77e+05</td> <td>  1.7e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.1.0]</th>   <td> 3.722e+04</td> <td> 1.11e+05</td> <td>    0.336</td> <td> 0.737</td> <td> -1.8e+05</td> <td> 2.54e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.1.25]</th>  <td> 5.895e+04</td> <td> 1.36e+05</td> <td>    0.435</td> <td> 0.664</td> <td>-2.07e+05</td> <td> 3.25e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.1.5]</th>   <td> 7.775e+04</td> <td> 1.11e+05</td> <td>    0.702</td> <td> 0.483</td> <td>-1.39e+05</td> <td> 2.95e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.1.75]</th>  <td> 1.084e+05</td> <td> 1.11e+05</td> <td>    0.979</td> <td> 0.327</td> <td>-1.09e+05</td> <td> 3.25e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.2.0]</th>   <td> 1.191e+05</td> <td> 1.11e+05</td> <td>    1.075</td> <td> 0.282</td> <td> -9.8e+04</td> <td> 3.36e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.2.25]</th>  <td>  1.71e+05</td> <td> 1.11e+05</td> <td>    1.543</td> <td> 0.123</td> <td>-4.62e+04</td> <td> 3.88e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.2.5]</th>   <td> 2.347e+05</td> <td> 1.11e+05</td> <td>    2.120</td> <td> 0.034</td> <td> 1.78e+04</td> <td> 4.52e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.2.75]</th>  <td> 2.736e+05</td> <td> 1.11e+05</td> <td>    2.468</td> <td> 0.014</td> <td> 5.63e+04</td> <td> 4.91e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.3.0]</th>   <td>   3.2e+05</td> <td> 1.11e+05</td> <td>    2.884</td> <td> 0.004</td> <td> 1.02e+05</td> <td> 5.38e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.3.25]</th>  <td> 5.046e+05</td> <td> 1.11e+05</td> <td>    4.543</td> <td> 0.000</td> <td> 2.87e+05</td> <td> 7.22e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.3.5]</th>   <td> 4.978e+05</td> <td> 1.11e+05</td> <td>    4.485</td> <td> 0.000</td> <td>  2.8e+05</td> <td> 7.15e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.3.625]</th> <td> 8.935e+05</td> <td> 1.11e+05</td> <td>    8.041</td> <td> 0.000</td> <td> 6.76e+05</td> <td> 1.11e+06</td>
+</tr>
+<tr>
+  <th>C(cat_condition)[T.3]</th>     <td> 4.173e+04</td> <td> 1.72e+04</td> <td>    2.422</td> <td> 0.015</td> <td> 7954.379</td> <td> 7.55e+04</td>
+</tr>
+<tr>
+  <th>C(cat_condition)[T.4]</th>     <td>  6.76e+04</td> <td> 1.74e+04</td> <td>    3.892</td> <td> 0.000</td> <td> 3.36e+04</td> <td> 1.02e+05</td>
+</tr>
+<tr>
+  <th>C(cat_condition)[T.5]</th>     <td> 1.123e+05</td> <td> 1.81e+04</td> <td>    6.218</td> <td> 0.000</td> <td> 7.69e+04</td> <td> 1.48e+05</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>17891.862</td> <th>  Durbin-Watson:     </th>  <td>   1.974</td>  
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>   <th>  Jarque-Bera (JB):  </th> <td>3389362.775</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td> 4.006</td>   <th>  Prob(JB):          </th>  <td>    0.00</td>  
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td>67.887</td>   <th>  Cond. No.          </th>  <td>    337.</td>  
+</tr>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.

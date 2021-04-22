@@ -1,0 +1,100 @@
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>          <td>price</td>      <th>  R-squared:         </th>  <td>   0.488</td>  
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th>  <td>   0.488</td>  
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th>  <td>   1134.</td>  
+</tr>
+<tr>
+  <th>Date:</th>             <td>Wed, 21 Apr 2021</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>   
+</tr>
+<tr>
+  <th>Time:</th>                 <td>20:00:11</td>     <th>  Log-Likelihood:    </th> <td>-2.6468e+05</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td> 19030</td>      <th>  AIC:               </th>  <td>5.294e+05</td> 
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td> 19013</td>      <th>  BIC:               </th>  <td>5.295e+05</td> 
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>    16</td>      <th>                     </th>      <td> </td>     
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>      <td> </td>     
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+              <td></td>                 <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>                 <td>-1.197e+05</td> <td> 1.33e+05</td> <td>   -0.900</td> <td> 0.368</td> <td> -3.8e+05</td> <td> 1.41e+05</td>
+</tr>
+<tr>
+  <th>C(waterfront)[T.True]</th>     <td> 8.809e+05</td> <td> 2.23e+04</td> <td>   39.451</td> <td> 0.000</td> <td> 8.37e+05</td> <td> 9.25e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.0.75]</th>  <td> 1.114e+04</td> <td> 1.37e+05</td> <td>    0.081</td> <td> 0.935</td> <td>-2.57e+05</td> <td>  2.8e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.1.0]</th>   <td> 1.303e+05</td> <td> 1.33e+05</td> <td>    0.980</td> <td> 0.327</td> <td> -1.3e+05</td> <td> 3.91e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.1.25]</th>  <td> 2.419e+05</td> <td> 1.63e+05</td> <td>    1.486</td> <td> 0.137</td> <td>-7.71e+04</td> <td> 5.61e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.1.5]</th>   <td> 1.543e+05</td> <td> 1.33e+05</td> <td>    1.159</td> <td> 0.246</td> <td>-1.07e+05</td> <td> 4.15e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.1.75]</th>  <td> 1.558e+05</td> <td> 1.33e+05</td> <td>    1.172</td> <td> 0.241</td> <td>-1.05e+05</td> <td> 4.16e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.2.0]</th>   <td> 1.764e+05</td> <td> 1.33e+05</td> <td>    1.326</td> <td> 0.185</td> <td>-8.43e+04</td> <td> 4.37e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.2.25]</th>  <td>  1.85e+05</td> <td> 1.33e+05</td> <td>    1.390</td> <td> 0.164</td> <td>-7.58e+04</td> <td> 4.46e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.2.5]</th>   <td> 1.485e+05</td> <td> 1.33e+05</td> <td>    1.117</td> <td> 0.264</td> <td>-1.12e+05</td> <td> 4.09e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.2.75]</th>  <td> 2.261e+05</td> <td> 1.33e+05</td> <td>    1.698</td> <td> 0.089</td> <td>-3.49e+04</td> <td> 4.87e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.3.0]</th>   <td> 3.068e+05</td> <td> 1.33e+05</td> <td>    2.302</td> <td> 0.021</td> <td> 4.56e+04</td> <td> 5.68e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.3.25]</th>  <td> 4.604e+05</td> <td> 1.33e+05</td> <td>    3.450</td> <td> 0.001</td> <td> 1.99e+05</td> <td> 7.22e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.3.5]</th>   <td> 4.237e+05</td> <td> 1.33e+05</td> <td>    3.178</td> <td> 0.001</td> <td> 1.62e+05</td> <td> 6.85e+05</td>
+</tr>
+<tr>
+  <th>C(cat_bathrooms)[T.3.625]</th> <td> 8.337e+05</td> <td> 1.34e+05</td> <td>    6.245</td> <td> 0.000</td> <td> 5.72e+05</td> <td>  1.1e+06</td>
+</tr>
+<tr>
+  <th>sqft_living15</th>             <td>  232.8015</td> <td>    3.515</td> <td>   66.228</td> <td> 0.000</td> <td>  225.911</td> <td>  239.692</td>
+</tr>
+<tr>
+  <th>sqft_lot15</th>                <td>   -0.4539</td> <td>    0.071</td> <td>   -6.386</td> <td> 0.000</td> <td>   -0.593</td> <td>   -0.315</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>15385.484</td> <th>  Durbin-Watson:     </th>  <td>   1.985</td>  
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>   <th>  Jarque-Bera (JB):  </th> <td>1381356.626</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td> 3.313</td>   <th>  Prob(JB):          </th>  <td>    0.00</td>  
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td>44.210</td>   <th>  Cond. No.          </th>  <td>7.88e+06</td>  
+</tr>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 7.88e+06. This might indicate that there are<br/>strong multicollinearity or other numerical problems.

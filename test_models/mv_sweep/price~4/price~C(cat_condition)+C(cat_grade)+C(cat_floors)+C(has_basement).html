@@ -1,0 +1,91 @@
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>          <td>price</td>      <th>  R-squared:         </th>  <td>   0.494</td>  
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th>  <td>   0.494</td>  
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th>  <td>   1429.</td>  
+</tr>
+<tr>
+  <th>Date:</th>             <td>Wed, 21 Apr 2021</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>   
+</tr>
+<tr>
+  <th>Time:</th>                 <td>20:03:15</td>     <th>  Log-Likelihood:    </th> <td>-2.6457e+05</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td> 19030</td>      <th>  AIC:               </th>  <td>5.292e+05</td> 
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td> 19016</td>      <th>  BIC:               </th>  <td>5.293e+05</td> 
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>    13</td>      <th>                     </th>      <td> </td>     
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>      <td> </td>     
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+             <td></td>                <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>               <td> 2.095e+05</td> <td> 2.06e+04</td> <td>   10.180</td> <td> 0.000</td> <td> 1.69e+05</td> <td>  2.5e+05</td>
+</tr>
+<tr>
+  <th>C(cat_condition)[T.3]</th>   <td> 4258.7275</td> <td> 2.06e+04</td> <td>    0.207</td> <td> 0.836</td> <td>-3.61e+04</td> <td> 4.46e+04</td>
+</tr>
+<tr>
+  <th>C(cat_condition)[T.4]</th>   <td>  6.34e+04</td> <td> 2.07e+04</td> <td>    3.059</td> <td> 0.002</td> <td> 2.28e+04</td> <td> 1.04e+05</td>
+</tr>
+<tr>
+  <th>C(cat_condition)[T.5]</th>   <td> 1.436e+05</td> <td> 2.15e+04</td> <td>    6.679</td> <td> 0.000</td> <td> 1.01e+05</td> <td> 1.86e+05</td>
+</tr>
+<tr>
+  <th>C(cat_grade)[T.7]</th>       <td> 8.416e+04</td> <td> 6801.266</td> <td>   12.374</td> <td> 0.000</td> <td> 7.08e+04</td> <td> 9.75e+04</td>
+</tr>
+<tr>
+  <th>C(cat_grade)[T.8]</th>       <td> 2.218e+05</td> <td> 7579.964</td> <td>   29.261</td> <td> 0.000</td> <td> 2.07e+05</td> <td> 2.37e+05</td>
+</tr>
+<tr>
+  <th>C(cat_grade)[T.9]</th>       <td>  4.66e+05</td> <td> 8980.857</td> <td>   51.886</td> <td> 0.000</td> <td> 4.48e+05</td> <td> 4.84e+05</td>
+</tr>
+<tr>
+  <th>C(cat_grade)[T.10]</th>      <td> 9.456e+05</td> <td> 1.01e+04</td> <td>   93.639</td> <td> 0.000</td> <td> 9.26e+05</td> <td> 9.65e+05</td>
+</tr>
+<tr>
+  <th>C(cat_floors)[T.1.5]</th>    <td> 1.132e+05</td> <td> 7081.186</td> <td>   15.991</td> <td> 0.000</td> <td> 9.94e+04</td> <td> 1.27e+05</td>
+</tr>
+<tr>
+  <th>C(cat_floors)[T.2.0]</th>    <td> 3.494e+04</td> <td> 5193.643</td> <td>    6.727</td> <td> 0.000</td> <td> 2.48e+04</td> <td> 4.51e+04</td>
+</tr>
+<tr>
+  <th>C(cat_floors)[T.2.5]</th>    <td> 2.917e+05</td> <td> 2.25e+04</td> <td>   12.987</td> <td> 0.000</td> <td> 2.48e+05</td> <td> 3.36e+05</td>
+</tr>
+<tr>
+  <th>C(cat_floors)[T.3.0]</th>    <td> 6.299e+04</td> <td> 1.22e+04</td> <td>    5.152</td> <td> 0.000</td> <td>  3.9e+04</td> <td>  8.7e+04</td>
+</tr>
+<tr>
+  <th>C(cat_floors)[T.3.5]</th>    <td> 3.679e+05</td> <td> 1.08e+05</td> <td>    3.407</td> <td> 0.001</td> <td> 1.56e+05</td> <td>  5.8e+05</td>
+</tr>
+<tr>
+  <th>C(has_basement)[T.True]</th> <td> 1.238e+05</td> <td> 4217.485</td> <td>   29.353</td> <td> 0.000</td> <td> 1.16e+05</td> <td> 1.32e+05</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>18933.540</td> <th>  Durbin-Watson:     </th>  <td>   1.999</td>  
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>   <th>  Jarque-Bera (JB):  </th> <td>3016717.227</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td> 4.503</td>   <th>  Prob(JB):          </th>  <td>    0.00</td>  
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td>64.020</td>   <th>  Cond. No.          </th>  <td>    82.5</td>  
+</tr>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.

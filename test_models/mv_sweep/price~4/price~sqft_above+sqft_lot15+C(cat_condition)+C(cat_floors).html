@@ -1,0 +1,82 @@
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>          <td>price</td>      <th>  R-squared:         </th>  <td>   0.409</td>  
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th>  <td>   0.409</td>  
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th>  <td>   1317.</td>  
+</tr>
+<tr>
+  <th>Date:</th>             <td>Wed, 21 Apr 2021</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>   
+</tr>
+<tr>
+  <th>Time:</th>                 <td>19:59:02</td>     <th>  Log-Likelihood:    </th> <td>-2.6605e+05</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td> 19030</td>      <th>  AIC:               </th>  <td>5.321e+05</td> 
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td> 19019</td>      <th>  BIC:               </th>  <td>5.322e+05</td> 
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>    10</td>      <th>                     </th>      <td> </td>     
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>      <td> </td>     
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+            <td></td>               <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>             <td>-4.585e+04</td> <td> 2.22e+04</td> <td>   -2.064</td> <td> 0.039</td> <td>-8.94e+04</td> <td>-2315.862</td>
+</tr>
+<tr>
+  <th>C(cat_condition)[T.3]</th> <td> 3.934e+04</td> <td> 2.22e+04</td> <td>    1.776</td> <td> 0.076</td> <td>-4088.993</td> <td> 8.28e+04</td>
+</tr>
+<tr>
+  <th>C(cat_condition)[T.4]</th> <td> 8.699e+04</td> <td> 2.23e+04</td> <td>    3.902</td> <td> 0.000</td> <td> 4.33e+04</td> <td> 1.31e+05</td>
+</tr>
+<tr>
+  <th>C(cat_condition)[T.5]</th> <td> 1.917e+05</td> <td> 2.31e+04</td> <td>    8.285</td> <td> 0.000</td> <td> 1.46e+05</td> <td> 2.37e+05</td>
+</tr>
+<tr>
+  <th>C(cat_floors)[T.1.5]</th>  <td> 4633.1726</td> <td> 7694.265</td> <td>    0.602</td> <td> 0.547</td> <td>-1.04e+04</td> <td> 1.97e+04</td>
+</tr>
+<tr>
+  <th>C(cat_floors)[T.2.0]</th>  <td>-1.098e+05</td> <td> 5801.094</td> <td>  -18.924</td> <td> 0.000</td> <td>-1.21e+05</td> <td>-9.84e+04</td>
+</tr>
+<tr>
+  <th>C(cat_floors)[T.2.5]</th>  <td> 1.688e+05</td> <td> 2.44e+04</td> <td>    6.906</td> <td> 0.000</td> <td> 1.21e+05</td> <td> 2.17e+05</td>
+</tr>
+<tr>
+  <th>C(cat_floors)[T.3.0]</th>  <td> 4.112e+04</td> <td> 1.29e+04</td> <td>    3.196</td> <td> 0.001</td> <td> 1.59e+04</td> <td> 6.63e+04</td>
+</tr>
+<tr>
+  <th>C(cat_floors)[T.3.5]</th>  <td> 2.034e+05</td> <td> 1.17e+05</td> <td>    1.744</td> <td> 0.081</td> <td>-2.53e+04</td> <td> 4.32e+05</td>
+</tr>
+<tr>
+  <th>sqft_above</th>            <td>  318.9562</td> <td>    3.218</td> <td>   99.105</td> <td> 0.000</td> <td>  312.648</td> <td>  325.264</td>
+</tr>
+<tr>
+  <th>sqft_lot15</th>            <td>   -0.6856</td> <td>    0.077</td> <td>   -8.890</td> <td> 0.000</td> <td>   -0.837</td> <td>   -0.534</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>13939.697</td> <th>  Durbin-Watson:     </th>  <td>   2.005</td> 
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>   <th>  Jarque-Bera (JB):  </th> <td>553089.467</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td> 3.095</td>   <th>  Prob(JB):          </th>  <td>    0.00</td> 
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td>28.676</td>   <th>  Cond. No.          </th>  <td>1.72e+06</td> 
+</tr>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 1.72e+06. This might indicate that there are<br/>strong multicollinearity or other numerical problems.
