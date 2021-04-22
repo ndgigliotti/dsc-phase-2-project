@@ -290,7 +290,7 @@ def heated_barplot(
 
 def diagnostics(
     model,
-    height=7,
+    height=5,
     xformatter=big_number_formatter(2),
     yformatter=big_number_formatter(2),
 ):
