@@ -31,55 +31,63 @@ def cat_cols(data: pd.DataFrame) -> list:
     return data.columns[categorical].to_list()
 
 
-def map_list_likes(data: pd.Series, mapper: dict):
-    """Apply `mapper` to elements of elements of `data`.
-
-    Args:
-        data (pd.Series): Series containing only list-like elements.
-        mapper (dict): Dict-like or callable to apply to elements of elements of `data`.
-    """
-
-    def transform(list_):
-        if isinstance(mapper, Mapping):
-            return [mapper[x] if x not in NULL else x for x in list_]
-        else:
-            return [mapper(x) if x not in NULL else x for x in list_]
-
-    return data.map(transform, na_action="ignore")
+def transform(data: pd.DataFrame, pipe: list):
+    tr = data.to_numpy()
+    for func in pipe:
+        tr = func(tr)
+    display([x.__name__ for x in pipe])
+    return pd.DataFrame(tr, index=data.index, columns=data.columns)
 
 
-def datetime_from_name(name):
-    name = os.path.basename(name)
-    root, _ = os.path.splitext(name)
-    fmt = DATETIME_FORMAT if root.count("-") == 4 else DATE_FORMAT
-    return datetime.datetime.strptime(root, fmt)
+# def map_list_likes(data: pd.Series, mapper: dict):
+#     """Apply `mapper` to elements of elements of `data`.
+
+#     Args:
+#         data (pd.Series): Series containing only list-like elements.
+#         mapper (dict): Dict-like or callable to apply to elements of elements of `data`.
+#     """
+
+#     def transform(list_):
+#         if isinstance(mapper, Mapping):
+#             return [mapper[x] if x not in NULL else x for x in list_]
+#         else:
+#             return [mapper(x) if x not in NULL else x for x in list_]
+
+#     return data.map(transform, na_action="ignore")
 
 
-def datetime_to_name(when, ext=None):
-    if isinstance(when, datetime.datetime):
-        name = when.isoformat(timespec="seconds").replace(":", "-")
-    elif isinstance(when, datetime.date):
-        name = when.isoformat()
-    else:
-        raise ValueError("'when' must be datetime.datetime or datetime.date")
-    if ext:
-        if not ext.startswith("."):
-            ext = "." + ext
-        name += ext
-    return name
+# def datetime_from_name(name):
+#     name = os.path.basename(name)
+#     root, _ = os.path.splitext(name)
+#     fmt = DATETIME_FORMAT if root.count("-") == 4 else DATE_FORMAT
+#     return datetime.datetime.strptime(root, fmt)
 
 
-def date_from_name(name):
-    return datetime_from_name(name).date()
+# def datetime_to_name(when, ext=None):
+#     if isinstance(when, datetime.datetime):
+#         name = when.isoformat(timespec="seconds").replace(":", "-")
+#     elif isinstance(when, datetime.date):
+#         name = when.isoformat()
+#     else:
+#         raise ValueError("'when' must be datetime.datetime or datetime.date")
+#     if ext:
+#         if not ext.startswith("."):
+#             ext = "." + ext
+#         name += ext
+#     return name
 
 
-def date_to_name(when, ext=None):
-    return datetime_to_name(when, ext=ext)
+# def date_from_name(name):
+#     return datetime_from_name(name).date()
 
 
-def now_name(ext=None):
-    return datetime_to_name(datetime.datetime.now(), ext=ext)
+# def date_to_name(when, ext=None):
+#     return datetime_to_name(when, ext=ext)
 
 
-def today_name(ext=None):
-    return date_to_name(datetime.date.today(), ext=ext)
+# def now_name(ext=None):
+#     return datetime_to_name(datetime.datetime.now(), ext=ext)
+
+
+# def today_name(ext=None):
+#     return date_to_name(datetime.date.today(), ext=ext)

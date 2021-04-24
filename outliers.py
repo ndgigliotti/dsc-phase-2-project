@@ -2,101 +2,59 @@ from functools import singledispatch
 
 import numpy as np
 import pandas as pd
+from pandas.api.types import is_integer, is_integer_dtype, is_float_dtype
 from scipy.stats import mstats
 from sklearn.preprocessing import StandardScaler
 
 import utils
 
+rng = np.random.default_rng(42)
 
-def get_iqr(data: pd.Series, log=False):
-    if log:
-        data = np.log10(data)
-    q1 = data.quantile(0.25, interpolation="midpoint")
-    q3 = data.quantile(0.75, interpolation="midpoint")
+def get_iqr(data: pd.Series):
+    q1 = data.quantile(0.25)
+    q3 = data.quantile(0.75)
     return q3 - q1
 
 
-def iqr_fences(data: pd.Series, log=False) -> tuple:
-    if log:
-        data = np.log10(data)
-    q1 = data.quantile(0.25, interpolation="midpoint")
-    q3 = data.quantile(0.75, interpolation="midpoint")
+def iqr_fences(data: pd.Series) -> tuple:
+    q1 = data.quantile(0.25)
+    q3 = data.quantile(0.75)
     iqr = q3 - q1
     lower_fence = q1 - 1.5 * iqr
     upper_fence = q3 + 1.5 * iqr
-    if log:
-        lower_fence = 10 ** lower_fence
-        upper_fence = 10 ** upper_fence
-    if pd.api.types.is_integer_dtype(data.dtype):
-        lower_fence, upper_fence = np.round([lower_fence, upper_fence]).astype(
-            data.dtype
-        )
     return lower_fence, upper_fence
 
 
-@singledispatch
-def _print_drop_report(outliers: pd.DataFrame) -> None:
+def _display_report(outliers, verb):
+    if isinstance(outliers, pd.Series):
+        outliers = outliers.to_frame()
     report = outliers.sum()
-    n_dropped = outliers.any(axis=1).sum()
-    report["total"] = n_dropped
-    report = report.to_frame("n_dropped")
-    report["pct_dropped"] = (report.squeeze() / outliers.shape[0]) * 100
-    # print("Drop Results\n")
+    n_modified = outliers.any(axis=1).sum()
+    report["total_obs"] = n_modified
+    report = report.to_frame(f"n_{verb}")
+    report[f"pct_{verb}"] = (report.squeeze() / outliers.shape[0]) * 100
     display(report)
 
 
-@_print_drop_report.register
-def _(outliers: pd.Series) -> None:
-    report = pd.Series(data=[outliers.sum()], index=["n_dropped"])
-    report["pct_dropped"] = (report["n_dropped"] / outliers.size) * 100
-    # print("Drop Results\n")
-    display(report.to_frame("observations"))
-
-
 @singledispatch
-def _print_clip_report(before: pd.DataFrame, after: pd.DataFrame) -> None:
-    changes = before.compare(after)
-    if changes.empty:
-        report = pd.Series(0, index=before.columns)
-    else:
-        report = changes.count().unstack()["self"]
-    report["total_obs"] = changes.shape[0]
-    report = report.to_frame("n_clipped")
-    report["pct_clipped"] = (report.squeeze() / before.shape[0]) * 100
-    # display("Clip Results")
-    display(report)
-
-
-@_print_clip_report.register
-def _(before: pd.Series, after: pd.Series) -> None:
-    changes = before.compare(after)
-    report = pd.Series(data=[changes.shape[0]], index=["n_clipped"])
-    report["pct_clipped"] = (report["n_clipped"] / before.shape[0]) * 100
-    # display("Clip Results")
-    display(report.to_frame("observations"))
-
-
-@singledispatch
-def iqr_outliers(data: pd.Series, log=False) -> pd.Series:
-    lower, upper = iqr_fences(data, log=log)
+def iqr_outliers(data: pd.Series) -> pd.Series:
+    lower, upper = iqr_fences(data)
     return (data < lower) | (data > upper)
 
 
 @iqr_outliers.register
-def _(data: pd.DataFrame, log=False) -> pd.DataFrame:
-    return data.apply(iqr_outliers, log=log)
+def _(data: pd.DataFrame) -> pd.DataFrame:
+    return data.apply(iqr_outliers)
 
 
 def _jitter(shape, dist, dtype=np.float64, positive=True):
-    rng = np.random.default_rng()
-    if pd.api.types.is_float_dtype(dtype):
+    if is_float_dtype(dtype):
         if positive:
             jitter = rng.uniform(0, dist, shape).astype(dtype)
         else:
             jitter = rng.uniform(dist * -1, dist, shape).astype(dtype)
-    elif pd.api.types.is_integer_dtype(dtype):
-        if not pd.api.types.is_integer(dist):
-            raise TypeError(f"`dist` must be integer if `dtype` is integer")
+    elif is_integer_dtype(dtype):
+        dist = round(dist)
         if positive:
             jitter = rng.integers(dist, size=shape, dtype=dtype, endpoint=True)
         else:
@@ -112,97 +70,95 @@ def _jitter_like(data: pd.Series, dist: float, positive=True):
     return _jitter(data.shape, dist, dtype=data.dtype, positive=positive)
 
 
-@singledispatch
-def _derive_outliers(unclipped: pd.Series, clipped: pd.Series):
-    outliers = unclipped.compare(clipped, keep_shape=True).notnull()
-    outliers = outliers.drop(columns="self").squeeze()
-    outliers.name = "outliers"
-    return outliers
-
-
-@_derive_outliers.register
-def _(unclipped: pd.DataFrame, clipped: pd.DataFrame):
-    outliers = unclipped.compare(clipped, keep_shape=True).notnull()
-    outliers = outliers.T.reset_index(level=1, drop=True).T
-    return outliers
-
-
-def _get_former_outliers(unclipped: pd.Series, clipped: pd.Series):
-    outliers = _derive_outliers(unclipped, clipped)
-    limits = clipped[outliers].unique()
-    upper = unclipped.max()
-    lower = unclipped.min()
-    if limits.size == 0:
-        pass
-    elif limits.size == 1:
-        if (clipped < limits[0]).sum() > 0:
-            upper = limits[0]
-        else:
-            lower = limits[0]
-    elif limits.size == 2:
-        lower = limits.min()
-        upper = limits.max()
-    else:
-        raise ValueError("former outliers in `clipped` have more than 2 unique values")
-    lower_end = clipped[unclipped < lower]
-    upper_end = clipped[unclipped > upper]
-    return lower_end, upper_end
-
-
-def _jitter_clipped_outliers(unclipped: pd.Series, clipped: pd.Series, dist: float):
-    lower_end, upper_end = _get_former_outliers(unclipped, clipped)
-    lower_jitter = _jitter_like(lower_end, dist)
-    upper_jitter = _jitter_like(upper_end, dist)
+def _jitter_clipped(
+    clipped: pd.Series, lower_outs: pd.Series, upper_outs: pd.Series, dist: float
+):
+    lower_jitter = _jitter_like(clipped[lower_outs], dist)
+    upper_jitter = _jitter_like(clipped[upper_outs], dist)
     jittered = clipped.copy()
-    jittered[lower_end.index] += lower_jitter
-    jittered[upper_end.index] -= upper_jitter
+    jittered[lower_outs] += lower_jitter
+    jittered[upper_outs] -= upper_jitter
     return jittered
 
 
 @singledispatch
-def iqr_clip(data: pd.Series, jitter=True, dist=None, log=False, silent=False):
-    lower, upper = iqr_fences(data, log=log)
+def iqr_clip(data: pd.Series, jitter=0, silent=False):
+    lower, upper = iqr_fences(data)
     clipped = data.clip(lower=lower, upper=upper)
+    if is_integer_dtype(data):
+        clipped = clipped.round().astype(data.dtype)
     if not silent:
-        _print_clip_report(data, clipped)
+        outliers = (data < lower) | (data > upper)
+        _display_report(outliers, "clipped")
     if jitter:
-        dist = dist or get_iqr(data, log=log) * 1.5
-        if pd.api.types.is_integer_dtype(data.dtype):
-            dist = round(dist)
-        clipped = _jitter_clipped_outliers(data, clipped, dist)
+        if is_integer_dtype(data):
+            jitter = round(jitter)
+        clipped = _jitter_clipped(clipped, data < lower, data > upper, jitter)
     return clipped
 
 
 @iqr_clip.register
-def _(data: pd.DataFrame, jitter=True, log=False, silent=False) -> pd.DataFrame:
-    clipped = data.apply(iqr_clip, jitter=jitter, log=log, silent=True)
+def _(data: pd.DataFrame, jitter=0, silent=False) -> pd.DataFrame:
+    clipped = data.apply(iqr_clip, jitter=jitter, silent=True)
     if not silent:
-        _print_clip_report(data, clipped)
+        _display_report(iqr_outliers(data), "clipped")
     return clipped
 
 
-def iqr_clip_demo(data: pd.Series, dist=None, log=False):
-    clipped_jit = iqr_clip(data, jitter=True, dist=dist, silent=True, log=log)
-    clipped_hard = iqr_clip(data, jitter=False, silent=True, log=log)
-    dropped = iqr_drop(data, silent=True, log=log)
-    outliers = _derive_outliers(data, clipped_jit)
+@singledispatch
+def iqr_tuck(data: pd.Series, silent=False):
+    lower, upper = iqr_fences(data)
+    lower_outs = data < lower
+    upper_outs = data > upper
+    q1 = data.quantile(0.25)
+    q3 = data.quantile(0.75)
+    if is_float_dtype(data):
+        lower_vals = rng.uniform(low=lower, high=q1, size=lower_outs.sum())
+        res = np.finfo(np.float64).resolution
+        upper_vals = rng.uniform(low=q3 + res, high=upper + res, size=upper_outs.sum())
+    elif is_integer_dtype(data):
+        lower_vals = rng.integers(lower, high=q1, size=lower_outs.sum())
+        upper_vals = rng.integers(q3 + 1, high=upper + 1, size=upper_outs.sum())
+    else:
+        raise TypeError("`data` must have either float or integer dtype")
+    tucked = data.copy()
+    tucked[lower_outs] = lower_vals
+    tucked[upper_outs] = upper_vals
+    if not silent:
+        _display_report(lower_outs | upper_outs, "tucked")
+    return tucked
+
+
+@iqr_tuck.register
+def _(data: pd.DataFrame, silent=False):
+    tucked = data.apply(iqr_tuck, silent=True)
+    if not silent:
+        _display_report(iqr_outliers(data), "tucked")
+    return tucked
+
+
+def iqr_tuck_demo(data: pd.Series):
+    outliers = iqr_outliers(data)
+    tucked = iqr_tuck(data)
+    clipped = iqr_clip(data, jitter=False, silent=True)
+    dropped = iqr_drop(data, silent=True)
     outliers.name = outliers.name.title()
-    return outliers, (data, clipped_jit, clipped_hard, dropped)
+    return outliers, (data, tucked, clipped, dropped)
 
 
 @singledispatch
-def iqr_drop(data: pd.DataFrame, log=False, silent=False) -> pd.DataFrame:
-    outliers = iqr_outliers(data, log=log)
+def iqr_drop(data: pd.DataFrame, silent=False) -> pd.DataFrame:
+    outliers = iqr_outliers(data)
     if not silent:
-        _print_drop_report(outliers)
+        _display_report(outliers, "dropped")
     return data.loc[~outliers.any(axis=1)].copy()
 
 
 @iqr_drop.register
-def _(data: pd.Series, log=False, silent=False) -> pd.Series:
-    outliers = iqr_outliers(data, log=log)
+def _(data: pd.Series, silent=False) -> pd.Series:
+    outliers = iqr_outliers(data)
     if not silent:
-        _print_drop_report(outliers)
+        _display_report(outliers, "dropped")
     return data.loc[~outliers].copy()
 
 
@@ -211,23 +167,17 @@ def winsorize(
     data: pd.DataFrame, limits=(0.05, 0.05), silent=False, **kwargs
 ) -> pd.DataFrame:
     clipped = data.apply(mstats.winsorize, raw=True, limits=limits, **kwargs)
-    if not silent:
-        _print_clip_report(data, clipped)
     return clipped
 
 
 @winsorize.register
 def _(data: pd.Series, limits=(0.05, 0.05), silent=False, **kwargs) -> pd.Series:
     clipped = winsorize(data.to_frame(), silent=True, **kwargs).squeeze()
-    if not silent:
-        _print_clip_report(data, clipped)
     return clipped
 
 
 @singledispatch
-def z_outliers(data: pd.DataFrame, thresh=3, log=False) -> pd.DataFrame:
-    if log:
-        data = np.log10(data)
+def z_outliers(data: pd.DataFrame, thresh=3) -> pd.DataFrame:
     ss = StandardScaler()
     z_data = ss.fit_transform(data)
     z_data = pd.DataFrame(z_data, index=data.index, columns=data.columns)
@@ -235,45 +185,41 @@ def z_outliers(data: pd.DataFrame, thresh=3, log=False) -> pd.DataFrame:
 
 
 @z_outliers.register
-def _(data: pd.Series, thresh=3, log=False) -> pd.Series:
-    return z_outliers(data.to_frame(), thresh=thresh, log=log).squeeze()
+def _(data: pd.Series, thresh=3) -> pd.Series:
+    return z_outliers(data.to_frame(), thresh=thresh).squeeze()
 
 
 @singledispatch
-def z_clip(data: pd.DataFrame, thresh=3, log=False, silent=False) -> pd.DataFrame:
-    if log:
-        data = np.log10(data)
+def z_clip(data: pd.DataFrame, thresh=3, silent=False) -> pd.DataFrame:
     ss = StandardScaler()
     z_data = ss.fit_transform(data)
     clipped = np.clip(z_data, -1 * thresh, thresh)
     clipped = ss.inverse_transform(clipped)
-    if log:
-        clipped = 10 ** clipped
     clipped = pd.DataFrame(clipped, index=data.index, columns=data.columns)
     if not silent:
-        _print_clip_report(data, clipped)
+        _display_report(z_outliers(data), "clipped")
     return clipped
 
 
 @z_clip.register
-def _(data: pd.Series, thresh=3, log=False, silent=False) -> pd.Series:
-    clipped = z_clip(data.to_frame(), thresh=thresh, log=log, silent=True).squeeze()
+def _(data: pd.Series, thresh=3, silent=False) -> pd.Series:
+    clipped = z_clip(data.to_frame(), thresh=thresh, silent=True).squeeze()
     if not silent:
-        _print_clip_report(data, clipped)
+        _display_report(z_outliers(data), "clipped")
     return clipped
 
 
 @singledispatch
-def z_drop(data: pd.DataFrame, thresh=3, log=False, silent=False) -> pd.DataFrame:
-    outliers = z_outliers(data, thresh=thresh, log=log)
+def z_drop(data: pd.DataFrame, thresh=3, silent=False) -> pd.DataFrame:
+    outliers = z_outliers(data, thresh=thresh)
     if not silent:
-        _print_drop_report(outliers)
+        _display_report(outliers, "dropped")
     return data.loc[~outliers.any(axis=1)].copy()
 
 
 @z_drop.register
-def _(data: pd.Series, thresh=3, log=False, silent=False) -> pd.Series:
-    outliers = z_outliers(data, thresh=thresh, log=log)
+def _(data: pd.Series, thresh=3, silent=False) -> pd.Series:
+    outliers = z_outliers(data, thresh=thresh)
     if not silent:
-        _print_drop_report(outliers)
+        _display_report(outliers, "dropped")
     return data.loc[~outliers].copy()

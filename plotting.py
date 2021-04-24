@@ -65,8 +65,8 @@ def big_money_formatter(dec=0):
 def add_tukey_marks(
     data, ax, iqr_color="r", fence_color="k", fence_style="--", show_quarts=False
 ):
-    q1 = data.quantile(0.25, interpolation="midpoint")
-    q3 = data.quantile(0.75, interpolation="midpoint")
+    q1 = data.quantile(0.25)
+    q3 = data.quantile(0.75)
     ax.axvspan(q1, q3, color=iqr_color, alpha=0.2)
     iqr_mp = q1 + ((q3 - q1) / 2)
     lower, upper = outliers.iqr_fences(data)
@@ -294,16 +294,16 @@ def diagnostics(
     xformatter=big_number_formatter(2),
     yformatter=big_number_formatter(2),
 ):
-    fig, ax = plt.subplots(figsize=(height + 1, height + 1))
-    fig = sm.graphics.qqplot(model.resid, fit=True, line="45", ax=ax)
-    ax.set_title("Normality of Residuals")
-    g = sns.jointplot(x=model.predict(), y=model.resid, height=height, s=5)
-    g.ax_joint.set_ylabel("Residuals", labelpad=10)
-    g.ax_joint.set_xlabel("Predicted Values", labelpad=10)
-    g.ax_joint.yaxis.set_major_formatter(yformatter)
-    g.ax_joint.xaxis.set_major_formatter(xformatter)
-    for label in g.ax_joint.get_xticklabels():
+    fig, (qq, hs) = plt.subplots(ncols=2, figsize=(height * 2, height))
+    sm.graphics.qqplot(model.resid, fit=True, line="45", ax=qq)
+    qq.set_title("Normality of Residuals")
+    hs = sns.scatterplot(x=model.predict(), y=model.resid, s=5)
+    hs.set_ylabel("Residuals", labelpad=10)
+    hs.set_xlabel("Predicted Values", labelpad=10)
+    hs.yaxis.set_major_formatter(yformatter)
+    hs.xaxis.set_major_formatter(xformatter)
+    for label in hs.get_xticklabels():
         label.set_rotation(45)
-    g.fig.suptitle("Homoscedasticity Check", fontsize=14)
-    g.fig.subplots_adjust(top=0.9)
-    return np.array([fig, g])
+    hs.set_title("Homoscedasticity Check")
+    fig.tight_layout()
+    return np.array([qq, hs])
