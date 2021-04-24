@@ -38,6 +38,24 @@ def transform(data: pd.DataFrame, pipe: list):
     display([x.__name__ for x in pipe])
     return pd.DataFrame(tr, index=data.index, columns=data.columns)
 
+def filter_pipe(data: pd.DataFrame, like: list=None, regex: list=None, axis: int=None) -> pd.DataFrame:
+    if like and regex:
+        raise ValueError("Cannot pass both `like` and `regex`")
+    elif like:
+        if isinstance(like, str):
+            like = [like]
+        for exp in like:
+            data = data.filter(like=exp, axis=axis)
+    elif regex:
+        if isinstance(regex, str):
+            regex = [regex]
+        for exp in like:
+            data = data.filter(regex=exp, axis=axis)
+    else:
+        raise ValueError("Must pass either `like` or `regex` but not both")
+    return data
+
+
 
 # def map_list_likes(data: pd.Series, mapper: dict):
 #     """Apply `mapper` to elements of elements of `data`.
