@@ -5,7 +5,7 @@ import os
 import pickle
 import re
 import shutil
-from functools import partial
+from functools import partial, singledispatch
 from multiprocessing.pool import ThreadPool
 from operator import itemgetter
 from time import perf_counter
@@ -89,6 +89,30 @@ def consolidate_results(glob_path):
     shutil.make_archive(dir_, "zip", dir_)
     shutil.rmtree(dir_)
     print(utils.elapsed(start))
+
+@singledispatch
+def _strip_patsy_cat(feature: str):
+    match = re.fullmatch(r"C\((\w+)\)", feature.strip())
+    return match.group(1) if match else feature
+
+@_strip_patsy_cat.register
+def _(feature: list):
+    return list(map(_strip_patsy_cat, feature))
+
+
+def feature_summary(sweep_results, agg=np.mean, enforce_gq=True, filter_mc=True):
+    summ = sweep_results.copy()
+    if "gq_hetero" not in summ.columns:
+        summ["gq_hetero"] = (summ.filter(like="gq_") < 0.05).any(axis=1)
+    if enforce_gq:
+        summ = summ.query("~gq_hetero")
+    if filter_mc:
+        summ = summ.query("high_corr_exog < 1")
+    feature = summ.index.to_series(name="feature")
+    feature = feature.str.split("~").map(itemgetter(1)).str.split("+")
+    feature = feature.map(_strip_patsy_cat)
+    summ = summ.join(feature)
+    return summ.explode("feature").groupby("feature").agg(agg)
 
 
 def rfe_feature_ranking(data, target, dummify_cats=False, n_features=None, ignore=None):

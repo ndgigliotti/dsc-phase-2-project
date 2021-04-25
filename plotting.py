@@ -1,4 +1,5 @@
 import re
+from functools import singledispatch
 from types import MappingProxyType
 
 import matplotlib.pyplot as plt
@@ -81,6 +82,20 @@ def add_tukey_marks(
     ax.text(upper, text_yval, "Fence", ha="center")
     ax.text(lower, text_yval, "Fence", ha="center")
     return ax
+
+
+@singledispatch
+def rotate_ticks(ax: Axes, deg: float, axis: str = "x"):
+    get_labels = getattr(ax, f"get_{axis}ticklabels")
+    for label in get_labels():
+        label.set_rotation(deg)
+
+
+@rotate_ticks.register
+def _(ax: np.ndarray, deg: float, axis: str = "x"):
+    axs = ax
+    for ax in axs:
+        rotate_ticks(ax, deg=deg, axis=axis)
 
 
 def topn_ranking(
