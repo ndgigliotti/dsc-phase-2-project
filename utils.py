@@ -55,6 +55,10 @@ def filter_pipe(data: pd.DataFrame, like: list=None, regex: list=None, axis: int
         raise ValueError("Must pass either `like` or `regex` but not both")
     return data
 
+def get_groups(groupby: pd.core.groupby.DataFrameGroupBy):
+    return {x: groupby.get_group(x) for x in groupby.groups}
+    
+
 
 
 # def map_list_likes(data: pd.Series, mapper: dict):
