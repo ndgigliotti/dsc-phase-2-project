@@ -1,4 +1,5 @@
 import datetime
+from time import perf_counter
 from collections.abc import Mapping
 import numpy as np
 import pandas as pd
@@ -38,7 +39,10 @@ def transform(data: pd.DataFrame, pipe: list):
     display([x.__name__ for x in pipe])
     return pd.DataFrame(tr, index=data.index, columns=data.columns)
 
-def filter_pipe(data: pd.DataFrame, like: list=None, regex: list=None, axis: int=None) -> pd.DataFrame:
+
+def filter_pipe(
+    data: pd.DataFrame, like: list = None, regex: list = None, axis: int = None
+) -> pd.DataFrame:
     if like and regex:
         raise ValueError("Cannot pass both `like` and `regex`")
     elif like:
@@ -55,10 +59,13 @@ def filter_pipe(data: pd.DataFrame, like: list=None, regex: list=None, axis: int
         raise ValueError("Must pass either `like` or `regex` but not both")
     return data
 
+
 def get_groups(groupby: pd.core.groupby.DataFrameGroupBy):
     return {x: groupby.get_group(x) for x in groupby.groups}
-    
 
+
+def elapsed(start_time):
+    return datetime.timedelta(seconds=perf_counter() - start_time)
 
 
 # def map_list_likes(data: pd.Series, mapper: dict):

@@ -1,13 +1,14 @@
-import re
 import datetime
 import glob
-import pickle
 import itertools
 import os
+import pickle
+import re
 import shutil
 from functools import partial
 from multiprocessing.pool import ThreadPool
 from operator import itemgetter
+from time import perf_counter
 
 import numpy as np
 import pandas as pd
@@ -16,7 +17,6 @@ import statsmodels.stats.api as sms
 from sklearn.feature_selection import RFE, SequentialFeatureSelector
 from sklearn.linear_model import LinearRegression
 from statsmodels.formula.api import ols
-
 
 import plotting
 import utils
@@ -62,9 +62,9 @@ def summarize(model):
     return results
 
 
-def load_results(glob_path):
+def load_results(glob_path, jobs=os.cpu_count()):
     paths = glob.glob(glob_path)
-    with ThreadPool() as pool:
+    with ThreadPool(jobs) as pool:
         read_json = partial(pd.read_json, typ="Series")
         docs = pool.map(read_json, paths)
     fnames = map(os.path.basename, paths)
@@ -80,6 +80,7 @@ def load_results_as_frame(glob_path):
 
 
 def consolidate_results(glob_path):
+    start = perf_counter()
     df = load_results_as_frame(glob_path)
     first_path = glob.glob(glob_path)[0]
     dir_ = os.path.dirname(first_path)
@@ -87,6 +88,7 @@ def consolidate_results(glob_path):
     df.to_json(path)
     shutil.make_archive(dir_, "zip", dir_)
     shutil.rmtree(dir_)
+    print(utils.elapsed(start))
 
 
 def rfe_feature_ranking(data, target, dummify_cats=False, n_features=None, ignore=None):
@@ -118,7 +120,10 @@ def seq_feature_selection(data, target, n_features=None):
     return predictors.iloc[:, selected].columns.to_list()
 
 
-def ols_sweep(data, target, n_vars=2, ignore=None, dst=OLS_SWEEP_DIR):
+def ols_sweep(
+    data, target, n_vars=2, ignore=None, dst=OLS_SWEEP_DIR, jobs=os.cpu_count()
+):
+    start = perf_counter()
     if ignore:
         data = data.drop(columns=ignore)
     var_names = utils.noncat_cols(data)
@@ -130,9 +135,10 @@ def ols_sweep(data, target, n_vars=2, ignore=None, dst=OLS_SWEEP_DIR):
     dst = os.path.join(dst, f"{target}~{n_vars}")
     os.makedirs(dst, exist_ok=True)
     paths = [os.path.join(dst, f"{x}.json") for x in formulae]
-    with ThreadPool() as pool:
+    with ThreadPool(jobs) as pool:
         build = partial(_build_and_record, data)
         pool.starmap(build, zip(formulae, paths))
+    print(utils.elapsed(start))
 
 
 def goldfeld_quandt(model, split=0.45, drop=0.1):
@@ -157,7 +163,7 @@ def jarque_bera(model):
     return pd.Series(results, index=["jb", "p_val", "skew", "kurt"])
 
 
-def check_multicol(model, high_corr=0.75):
+def check_multicol(model, high_corr=0.7):
     regs = pd.DataFrame(model.model.exog, columns=model.model.exog_names)
     regs.drop(columns="Intercept", inplace=True)
     corr_df = regs.corr() >= high_corr
