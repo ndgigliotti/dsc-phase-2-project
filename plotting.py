@@ -322,3 +322,51 @@ def diagnostics(
     hs.set_title("Homoscedasticity Check")
     fig.tight_layout()
     return np.array([qq, hs])
+
+def cat_palette(name: str, keys: list, offset=0):
+    pal = sns.color_palette(name, n_colors=len(keys) + offset)[offset:]
+    return dict(zip(keys, pal))
+
+def derive_coeff_labels(coeff_df):
+    re_cat = r"C\(\w+\)\[T\.([\w\s]+)\]"
+    label = coeff_df.index.to_series(name="label")
+    cat_label = label.filter(regex=re_cat, axis=0)
+    label.update(cat_label.str.extract(re_cat).squeeze())
+    return coeff_df.assign(label=label)
+
+
+def coeffs_endog_barplot(main_df, coeff_df, exog, endog, estimator=np.median):
+    if "label" not in coeff_df.columns:
+        coeff_df = derive_coeff_labels(coeff_df)
+    fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=(10, 5))
+    uniq_exog = main_df[exog].sort_values().unique()
+    # pal = pd.Series(sns.color_palette("deep", uniq_exog.size), index=uniq_exog)
+    pal = cat_palette("deep", uniq_exog)
+    coeff_df = coeff_df.filter(like=exog, axis=0)
+    coeff_df = coeff_df.assign(label=coeff_df.label.astype(uniq_exog.dtype))
+    coeff_df.sort_values("label", inplace=True)
+    ax1 = sns.barplot(
+        data=coeff_df,
+        x="label",
+        y="coeff",
+        palette=pal,
+        ax=ax1,
+    )
+    ax2 = sns.barplot(
+        data=main_df,
+        x=exog,
+        y=endog,
+        estimator=estimator,
+        palette=pal,
+        ax=ax2,
+    )
+    ax1.set_ylabel("Coefficient", labelpad=10)
+    ax2.set_ylabel(endog.title(), labelpad=10)
+    ax1.set_title(f"{exog.title()} Coefficients", pad=10)
+    ax2.set_ylabel(endog.title(), labelpad=10)
+    est_name = estimator.__name__.title()
+    ax2.set_title(f"{est_name} {endog.title()} by {exog.title()}", pad=10)
+    for ax in (ax1, ax2):
+        ax.set_xlabel(exog.title())
+    fig.tight_layout()
+    return fig
