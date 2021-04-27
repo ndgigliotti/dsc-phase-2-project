@@ -241,26 +241,6 @@ def linearity_scatters(
     return axs
 
 
-def linearity_hists(
-    data: pd.DataFrame,
-    target: str,
-    ncols=3,
-    sp_height=5,
-    cmap="dark:salmon_r",
-    yformatter=None,
-) -> np.ndarray:
-    data = data.loc[:, utils.numeric_cols(data)]
-    nrows = round(data.columns.size / ncols)
-    figsize = (ncols * sp_height, nrows * sp_height)
-    fig, axs = plt.subplots(nrows=nrows, ncols=ncols, sharey=True, figsize=figsize)
-    for ax, column in zip(axs.flat, data.columns):
-        ax = sns.histplot(data=data, x=column, y=target, ax=ax, cmap=cmap)
-        if yformatter:
-            ax.yaxis.set_major_formatter(yformatter)
-        ax.set_title(f"{column} vs. {target}")
-    return axs
-
-
 def multi_joint(
     data: pd.DataFrame, target: str, reflexive=False, **kwargs
 ) -> np.ndarray:
@@ -273,6 +253,33 @@ def multi_joint(
         g.fig.subplots_adjust(top=0.9)
         grids.append(g)
     return np.array(grids)
+
+
+def _annot_vbars(ax, color="k"):
+    raise NotImplementedError()
+    # max_bar = np.abs([b.get_width() for b in ax.patches]).max()
+    # dist = 0.15 * max_bar
+    # for bar in ax.patches:
+    #     x = bar.get_x() + bar.get_width() / 2
+    #     y = bar.get_height() - dist
+    #     val = round(bar.get_height(), 2)
+    #     text = f"{val:,.2f}"
+    #     ax.annotate(text, (x, y), ha="center", va="center", c=color, fontsize=14)
+    # return ax
+
+
+def _annot_hbars(ax, color="k"):
+    raise NotImplementedError()
+    # max_bar = np.abs([b.get_width() for b in ax.patches]).max()
+    # dist = 0.15 * max_bar
+    # for bar in ax.patches:
+    #     x = bar.get_width()
+    #     x = x + dist if x < 0 else x - dist
+    #     y = bar.get_y() + bar.get_height() / 2
+    #     val = round(bar.get_width(), 2)
+    #     text = f"{val:,.2f}"
+    #     ax.annotate(text, (x, y), ha="center", va="center", c=color, fontsize=14)
+    # return ax
 
 
 def heated_barplot(
@@ -323,9 +330,11 @@ def diagnostics(
     fig.tight_layout()
     return np.array([qq, hs])
 
+
 def cat_palette(name: str, keys: list, offset=0):
     pal = sns.color_palette(name, n_colors=len(keys) + offset)[offset:]
     return dict(zip(keys, pal))
+
 
 def derive_coeff_labels(coeff_df):
     re_cat = r"C\(\w+\)\[T\.([\w\s]+)\]"
@@ -333,6 +342,23 @@ def derive_coeff_labels(coeff_df):
     cat_label = label.filter(regex=re_cat, axis=0)
     label.update(cat_label.str.extract(re_cat).squeeze())
     return coeff_df.assign(label=label)
+
+
+def simple_barplot(data, x, y, estimator=np.mean, figsize=(5, 5), **kwargs):
+    fig, ax = plt.subplots(figsize=figsize)
+    ax = sns.barplot(
+        data=data,
+        x=x,
+        y=y,
+        estimator=estimator,
+        ax=ax,
+        **kwargs
+    )
+    est_name = estimator.__name__.title()
+    ax.set_title(f"{est_name} {y.title()} by {x.title()}", pad=10)
+    ax.set_xlabel(x.title(), labelpad=10)
+    ax.set_ylabel(y.title(), labelpad=15)
+    return ax
 
 
 def coeffs_endog_barplot(main_df, coeff_df, exog, endog, estimator=np.median):
@@ -360,10 +386,9 @@ def coeffs_endog_barplot(main_df, coeff_df, exog, endog, estimator=np.median):
         palette=pal,
         ax=ax2,
     )
-    ax1.set_ylabel("Coefficient", labelpad=10)
+    ax1.set_ylabel(f"Effect on {endog.title()}", labelpad=10)
     ax2.set_ylabel(endog.title(), labelpad=10)
-    ax1.set_title(f"{exog.title()} Coefficients", pad=10)
-    ax2.set_ylabel(endog.title(), labelpad=10)
+    ax1.set_title(f"Projected Effects of {exog.title()} on {endog.title()}", pad=10)
     est_name = estimator.__name__.title()
     ax2.set_title(f"{est_name} {endog.title()} by {exog.title()}", pad=10)
     for ax in (ax1, ax2):
