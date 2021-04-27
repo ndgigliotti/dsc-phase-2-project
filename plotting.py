@@ -255,7 +255,7 @@ def multi_joint(
     return np.array(grids)
 
 
-def _annot_vbars(ax, color="k"):
+def annot_vbars(ax, color="k"):
     raise NotImplementedError()
     # max_bar = np.abs([b.get_width() for b in ax.patches]).max()
     # dist = 0.15 * max_bar
@@ -268,22 +268,34 @@ def _annot_vbars(ax, color="k"):
     # return ax
 
 
-def _annot_hbars(ax, color="k"):
-    raise NotImplementedError()
-    # max_bar = np.abs([b.get_width() for b in ax.patches]).max()
-    # dist = 0.15 * max_bar
-    # for bar in ax.patches:
-    #     x = bar.get_width()
-    #     x = x + dist if x < 0 else x - dist
-    #     y = bar.get_y() + bar.get_height() / 2
-    #     val = round(bar.get_width(), 2)
-    #     text = f"{val:,.2f}"
-    #     ax.annotate(text, (x, y), ha="center", va="center", c=color, fontsize=14)
-    # return ax
+def annot_hbars(ax, dist=0.15, color="k", fontsize=14, alpha=0.75, **kwargs):
+    max_bar = np.abs([b.get_width() for b in ax.patches]).max()
+    dist = dist * max_bar
+    for bar in ax.patches:
+        x = bar.get_width()
+        x = x + dist if x < 0 else x - dist
+        y = bar.get_y() + bar.get_height() / 2
+        val = round(bar.get_width(), 2)
+        text = f"{val:,.2f}"
+        ax.annotate(
+            text,
+            (x, y),
+            ha="center",
+            va="center",
+            c=color,
+            fontsize=fontsize,
+            alpha=alpha,
+            **kwargs,
+        )
+    return ax
 
 
 def heated_barplot(
-    data: pd.Series, desat: float = 0.6, ax: Axes = None, figsize: tuple = (8, 10)
+    data: pd.Series,
+    desat: float = 0.6,
+    ax: Axes = None,
+    figsize: tuple = (8, 10),
+    **kwargs,
 ) -> Axes:
     """Plot a sharply divided ranking of positive and negative values.
 
@@ -304,7 +316,7 @@ def heated_barplot(
     reds = sns.color_palette("Reds_r", (data > 0).sum(), desat=desat)
     palette = reds + blues
     ax = sns.barplot(
-        x=data.values, y=data.index, palette=palette, orient="h", ec="gray", ax=ax
+        x=data.values, y=data.index, palette=palette, orient="h", ax=ax, **kwargs
     )
     ax.axvline(0.0, color="gray", lw=1, ls="-")
     return ax
@@ -346,14 +358,7 @@ def derive_coeff_labels(coeff_df):
 
 def simple_barplot(data, x, y, estimator=np.mean, figsize=(5, 5), **kwargs):
     fig, ax = plt.subplots(figsize=figsize)
-    ax = sns.barplot(
-        data=data,
-        x=x,
-        y=y,
-        estimator=estimator,
-        ax=ax,
-        **kwargs
-    )
+    ax = sns.barplot(data=data, x=x, y=y, estimator=estimator, ax=ax, **kwargs)
     est_name = estimator.__name__.title()
     ax.set_title(f"{est_name} {y.title()} by {x.title()}", pad=10)
     ax.set_xlabel(x.title(), labelpad=10)
@@ -391,6 +396,57 @@ def coeffs_endog_barplot(main_df, coeff_df, exog, endog, estimator=np.median):
     ax1.set_title(f"Projected Effects of {exog.title()} on {endog.title()}", pad=10)
     est_name = estimator.__name__.title()
     ax2.set_title(f"{est_name} {endog.title()} by {exog.title()}", pad=10)
+    for ax in (ax1, ax2):
+        ax.set_xlabel(exog.title())
+    fig.tight_layout()
+    return fig
+
+
+def coeffs_endog_barplot2(
+    main_df, coeff_df, exog, endog, annot_kws=None, estimator=np.median
+):
+    if "label" not in coeff_df.columns:
+        coeff_df = derive_coeff_labels(coeff_df)
+    fig, (ax1, ax2, ax3) = plt.subplots(ncols=3, figsize=(15, 5))
+    uniq_exog = main_df[exog].sort_values().unique()
+    # pal = pd.Series(sns.color_palette("deep", uniq_exog.size), index=uniq_exog)
+    pal = cat_palette("deep", uniq_exog)
+    coeff_df = coeff_df.filter(like=exog, axis=0)
+    coeff_df = coeff_df.assign(label=coeff_df.label.astype(uniq_exog.dtype))
+    coeff_df.sort_values("label", inplace=True)
+    ax1 = sns.barplot(
+        data=coeff_df,
+        x="label",
+        y="coeff",
+        palette=pal,
+        saturation=0.7,
+        ax=ax1,
+    )
+    ax2 = sns.barplot(
+        data=main_df,
+        x=exog,
+        y=endog,
+        estimator=estimator,
+        palette=pal,
+        saturation=0.7,
+        ax=ax2,
+    )
+
+    ax1.set_ylabel(f"Effect on {endog.title()}", labelpad=10)
+    ax2.set_ylabel(endog.title(), labelpad=10)
+    ax1.set_title(f"Projected Effects of {exog.title()} on {endog.title()}", pad=10)
+    est_name = estimator.__name__.title()
+    ax2.set_title(f"{est_name} {endog.title()} by {exog.title()}", pad=10)
+    ax3 = heated_barplot(pd.get_dummies(main_df[exog]).corrwith(main_df[endog]), ax=ax3)
+    if annot_kws:
+        if "fontsize" not in annot_kws:
+            annot_kws.update({"fontsize": 10})
+        ax3 = annot_hbars(ax3, **annot_kws)
+    else:
+        ax3 = annot_hbars(ax3, fontsize=10)
+    ax3.set_title(f"Correlation: {exog.title()} and {endog.title()}")
+    ax3.set_xlabel("Correlation", labelpad=10)
+    ax3.set_ylabel(exog.title(), labelpad=10)
     for ax in (ax1, ax2):
         ax.set_xlabel(exog.title())
     fig.tight_layout()
