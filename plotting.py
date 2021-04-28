@@ -9,7 +9,6 @@ import seaborn as sns
 import statsmodels.api as sm
 from sklearn.preprocessing import minmax_scale
 from matplotlib import ticker
-from matplotlib.axes import Axes
 
 import utils
 import outliers
@@ -66,14 +65,41 @@ def big_money_formatter(dec=0):
     return formatter
 
 
-def figsize_like(data, scale=0.85):
+def figsize_like(data: pd.DataFrame, scale: float = 0.85) -> np.ndarray:
+    """Calculate figure size based on the shape of data.
+
+    Args:
+        data (pd.DataFrame): Ndarray, Series, or Dataframe for figsize.
+        scale (float, optional): Scale multiplier for figsize. Defaults to 0.85.
+
+    Returns:
+        [np.ndarray]: array([width, height]).
+    """
     figsize = (np.array(data.shape)[::-1] * scale).round()
     return figsize.astype(np.int64)
 
 
 def add_tukey_marks(
-    data, ax, iqr_color="r", fence_color="k", fence_style="--", show_quarts=False
-):
+    data: pd.Series,
+    ax: plt.Axes,
+    iqr_color: str = "r",
+    fence_color: str = "k",
+    fence_style: str = "--",
+    show_quarts: bool = False,
+) -> plt.Axes:
+    """Add IQR box and fences to a histogram-like plot.
+
+    Args:
+        data (pd.Series): Data for calculating IQR and fences.
+        ax (plt.Axes): Axes to annotate.
+        iqr_color (str, optional): Color of shaded IQR box. Defaults to "r".
+        fence_color (str, optional): Fence line color. Defaults to "k".
+        fence_style (str, optional): Fence line style. Defaults to "--".
+        show_quarts (bool, optional): Annotate Q1 and Q3. Defaults to False.
+
+    Returns:
+        plt.Axes: Annotated Axes object.
+    """
     q1 = data.quantile(0.25)
     q3 = data.quantile(0.75)
     ax.axvspan(q1, q3, color=iqr_color, alpha=0.2)
@@ -93,7 +119,7 @@ def add_tukey_marks(
 
 
 @singledispatch
-def rotate_ticks(ax: Axes, deg: float, axis: str = "x"):
+def rotate_ticks(ax: plt.Axes, deg: float, axis: str = "x"):
     get_labels = getattr(ax, f"get_{axis}ticklabels")
     for label in get_labels():
         label.set_rotation(deg)
@@ -134,20 +160,6 @@ def pair_corr_heatmap(
     )
     ax.set_title(title, pad=10)
     return ax
-    # return sns.heatmap(
-    #     data=corr_df,
-    #     cmap="vlag",
-    #     mask=mask,
-    #     square=True,
-    #     center=center,
-    #     annot=annot,
-    #     fmt=".2f",
-    #     ax=ax,
-    #     cbar=False,
-    #     linewidths=0.1,
-    #     linecolor="k",
-    #     **kwargs,
-    # )
 
 
 def calc_subplots_size(nplots, ncols, sp_height):
@@ -232,7 +244,7 @@ def linearity_scatters(
 
 
 def multi_joint(
-    data: pd.DataFrame, target: str, reflexive=False, **kwargs
+    data: pd.DataFrame, target: str, reflexive: bool = False, **kwargs
 ) -> np.ndarray:
     data = data.select_dtypes(include="number")
     grids = []
@@ -246,17 +258,36 @@ def multi_joint(
 
 
 def annot_bars(
-    ax,
-    dist=0.15,
-    color="k",
-    compact=False,
-    orient="h",
-    format_spec="{x:.2f}",
-    fontsize=12,
-    alpha=0.5,
-    drop_last=0,
+    ax: plt.Axes,
+    dist: float = 0.15,
+    color: str = "k",
+    compact: bool = False,
+    orient: str = "h",
+    format_spec: str = "{x:.2f}",
+    fontsize: int = 12,
+    alpha: float = 0.5,
+    drop_last: int = 0,
     **kwargs,
-):
+) -> plt.Axes:
+    """Annotate a bar graph with the bar values.
+
+    Args:
+        ax (plt.Axes): Axes object to annotate.
+        dist (float, optional): Distance from ends as fraction of max bar. Defaults to 0.15.
+        color (str, optional): Text color. Defaults to "k".
+        compact (bool, optional): Annotate inside the bars. Defaults to False.
+        orient (str, optional): Bar orientation. Defaults to "h".
+        format_spec (str, optional): Format string for annotations. Defaults to "{x:.2f}".
+        fontsize (int, optional): Font size. Defaults to 12.
+        alpha (float, optional): Opacity of text. Defaults to 0.5.
+        drop_last (int, optional): Number of bars to ignore on tail end. Defaults to 0.
+
+    Raises:
+        ValueError: `orient` only accepts 'h' or 'v'.
+
+    Returns:
+        plt.Axes: Annotated axes object.
+    """
     if not compact:
         dist = -dist
 
@@ -265,7 +296,7 @@ def annot_bars(
 
     max_bar = np.abs([b.get_width() for b in ax.patches]).max()
     dist = dist * max_bar
-    for bar in ax.patches[:-drop_last or len(ax.patches)]:
+    for bar in ax.patches[: -drop_last or len(ax.patches)]:
         if orient.lower() == "h":
             x = bar.get_width()
             x = x + dist if x < 0 else x - dist
@@ -297,20 +328,21 @@ def annot_hbars(ax, **kwargs):
 
 def heated_barplot(
     data: pd.Series,
-    heat="coolwarm",
-    heat_desat=0.6,
+    heat: str = "coolwarm",
+    heat_desat: float = 0.6,
+    ax: plt.Axes = None,
     **kwargs,
-) -> Axes:
+) -> plt.Axes:
     """Plot a sharply divided ranking of positive and negative values.
 
     Args:
         data (pd.Series): Data to plot.
-        desat (float, optional): Saturation of bar colors. Defaults to 0.6.
-        ax (Axes, optional): Axes to plot on. Defaults to None.
-        figsize (tuple, optional): Figure size. Defaults to (8, 10).
+        heat (str): Name of color palette to be passed to Seaborn.
+        heat_desat (float, optional): Saturation of color palette. Defaults to 0.6.
+        ax (plt.Axes, optional): Axes to plot on. Defaults to None.
 
     Returns:
-        Axes: Axes for the plot.
+        plt.Axes: Axes for the plot.
     """
     data.index = data.index.astype(str)
     data.sort_values(ascending=False, inplace=True)
@@ -320,7 +352,13 @@ def heated_barplot(
     )
     pal_vals = np.around(minmax_scale(data, feature_range=(-100, 100))).astype(np.int64)
     palette = heat.loc[pal_vals]
-    ax = sns.barplot(x=data.values, y=data.index, palette=palette, orient="h", **kwargs)
+    if ax is None:
+        figsize = np.repeat(figsize_like(data, scale=scale), 2)
+        figsize[0] = figsize[0] // 1.5
+        fig, ax = plt.subplots(figsize=figsize)
+    ax = sns.barplot(
+        x=data.values, y=data.index, palette=palette, orient="h", ax=ax, **kwargs
+    )
     ax.axvline(0.0, color="k", lw=1, ls="-", alpha=0.33)
     return ax
 
@@ -343,10 +381,23 @@ def diagnostics(
         label.set_rotation(45)
     hs.set_title("Homoscedasticity Check")
     fig.tight_layout()
-    return np.array([qq, hs])
+    return fig
 
 
-def cat_palette(name: str, keys: list, shuffle=False, offset=0, **kwargs):
+def cat_palette(
+    name: str, keys: list, shuffle: bool = False, offset: int = 0, **kwargs
+) -> dict:
+    """Create a color palette dictionary for a categorical variable.
+
+    Args:
+        name (str): Color palette name to be passed to Seaborn.
+        keys (list): Keys for mapping to colors.
+        shuffle (bool, optional): Shuffle the palette. Defaults to False.
+        offset (int, optional): Number of colors to skip over at start. Defaults to 0.
+
+    Returns:
+        dict: Categorical-style color mapping.
+    """
     n_colors = len(keys) + offset
     pal = sns.color_palette(name, n_colors=n_colors, **kwargs)[offset:]
     if shuffle:
@@ -362,7 +413,9 @@ def derive_coeff_labels(coeff_df):
     return coeff_df.assign(label=label)
 
 
-def simple_barplot(data, x, y, sort="asc", orient="v", estimator=np.mean, scale=0.5, ax=None, **kwargs):
+def simple_barplot(
+    data, x, y, sort="asc", orient="v", estimator=np.mean, scale=0.5, ax=None, **kwargs
+):
     if ax is None:
         figsize = np.repeat(figsize_like(data[x], scale=scale), 2)
         figsize[0] = figsize[0] // 1.5
@@ -388,7 +441,14 @@ def simple_barplot(data, x, y, sort="asc", orient="v", estimator=np.mean, scale=
     elif orient.lower() != "v":
         raise ValueError("`orient` must be 'v' or 'h'")
     ax = sns.barplot(
-        data=data, x=x, y=y, estimator=estimator, orient=orient, order=order, ax=ax, **kwargs
+        data=data,
+        x=x,
+        y=y,
+        estimator=estimator,
+        orient=orient,
+        order=order,
+        ax=ax,
+        **kwargs,
     )
 
     ax.set_title("{est} {y} by {x}".format(**titles), pad=10)

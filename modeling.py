@@ -28,13 +28,12 @@ OLS_SWEEP_DIR = os.path.join(TEST_DIR, "ols_sweep")
 def reg_model(data, formula):
     model = ols(formula=formula, data=data).fit()
     display(model.summary())
-    axs = plotting.diagnostics(model)
+    fig = plotting.diagnostics(model)
     gq = goldfeld_quandt(model)
     gq.index.name = "goldfeld_quandt"
     bad_p = bad_pvalues(model).to_frame("bad_pvalue")
     display(gq)
     display(bad_p)
-    display(axs)
     return model
 
 
