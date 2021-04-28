@@ -67,7 +67,8 @@ def get_groups(groupby: pd.core.groupby.DataFrameGroupBy):
 def elapsed(start_time):
     return datetime.timedelta(seconds=perf_counter() - start_time)
 
-
+def to_title(pylabel):
+    return pylabel.replace("_", " ").strip().title()
 # def map_list_likes(data: pd.Series, mapper: dict):
 #     """Apply `mapper` to elements of elements of `data`.
 

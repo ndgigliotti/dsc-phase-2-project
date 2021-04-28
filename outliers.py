@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler
 
 import utils
 
-rng = np.random.default_rng(42)
+_rng = np.random.default_rng(42)
 
 def get_iqr(data: pd.Series):
     q1 = data.quantile(0.25)
@@ -50,15 +50,15 @@ def _(data: pd.DataFrame) -> pd.DataFrame:
 def _jitter(shape, dist, dtype=np.float64, positive=True):
     if is_float_dtype(dtype):
         if positive:
-            jitter = rng.uniform(0, dist, shape).astype(dtype)
+            jitter = _rng.uniform(0, dist, shape).astype(dtype)
         else:
-            jitter = rng.uniform(dist * -1, dist, shape).astype(dtype)
+            jitter = _rng.uniform(dist * -1, dist, shape).astype(dtype)
     elif is_integer_dtype(dtype):
         dist = round(dist)
         if positive:
-            jitter = rng.integers(dist, size=shape, dtype=dtype, endpoint=True)
+            jitter = _rng.integers(dist, size=shape, dtype=dtype, endpoint=True)
         else:
-            jitter = rng.integers(
+            jitter = _rng.integers(
                 dist * -1, high=dist, size=shape, dtype=dtype, endpoint=True
             )
     else:
@@ -113,12 +113,12 @@ def iqr_tuck(data: pd.Series, silent=False):
     q1 = data.quantile(0.25)
     q3 = data.quantile(0.75)
     if is_float_dtype(data):
-        lower_vals = rng.uniform(low=lower, high=q1, size=lower_outs.sum())
+        lower_vals = _rng.uniform(low=lower, high=q1, size=lower_outs.sum())
         res = np.finfo(np.float64).resolution
-        upper_vals = rng.uniform(low=q3 + res, high=upper + res, size=upper_outs.sum())
+        upper_vals = _rng.uniform(low=q3 + res, high=upper + res, size=upper_outs.sum())
     elif is_integer_dtype(data):
-        lower_vals = rng.integers(lower, high=q1, size=lower_outs.sum())
-        upper_vals = rng.integers(q3 + 1, high=upper + 1, size=upper_outs.sum())
+        lower_vals = _rng.integers(lower, high=q1, size=lower_outs.sum())
+        upper_vals = _rng.integers(q3 + 1, high=upper + 1, size=upper_outs.sum())
     else:
         raise TypeError("`data` must have either float or integer dtype")
     tucked = data.copy()

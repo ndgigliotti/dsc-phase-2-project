@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import statsmodels.api as sm
+from sklearn.preprocessing import minmax_scale
 from matplotlib import ticker
 from matplotlib.axes import Axes
 
@@ -20,11 +21,13 @@ HEATMAP_STYLE = MappingProxyType(
         "fmt": ".2f",
         "cbar": False,
         "center": 0,
-        "cmap": "vlag",
+        "cmap": sns.color_palette("coolwarm", n_colors=100, desat=0.6),
         "linewidths": 0.1,
         "linecolor": "k",
     }
 )
+
+_rng = np.random.default_rng(31)
 
 
 def _format_big_number(num, dec):
@@ -63,6 +66,11 @@ def big_money_formatter(dec=0):
     return formatter
 
 
+def figsize_like(data, scale=0.85):
+    figsize = (np.array(data.shape)[::-1] * scale).round()
+    return figsize.astype(np.int64)
+
+
 def add_tukey_marks(
     data, ax, iqr_color="r", fence_color="k", fence_style="--", show_quarts=False
 ):
@@ -98,79 +106,51 @@ def _(ax: np.ndarray, deg: float, axis: str = "x"):
         rotate_ticks(ax, deg=deg, axis=axis)
 
 
-def topn_ranking(
-    data: pd.DataFrame,
-    rankby: str,
-    names: str = None,
-    topn: int = 15,
-    orient: str = "h",
-    figsize: tuple = (5, 8),
-    reverse: bool = False,
-    **kwargs,
-) -> Axes:
-    """Plot the top observations sorted by the specified column.
-
-    Args:
-        data (pd.DataFrame): Data to plot.
-        names (str): Column containing names, titles, or identifiers.
-        rankby (str): Column to sort by.
-        topn (int, optional): Number of observations to show. Defaults to 15.
-        figsize (tuple, optional): Figure size. Defaults to (5, 8).
-
-    Returns:
-        Axes: Axes for the plot.
-    """
-    fig, ax = plt.subplots(figsize=figsize)
-    data.index = data.index.astype(str)
-    rank_df = data.sort_values(rankby, ascending=reverse).head(topn)
-    if not names:
-        names = rank_df.index.to_numpy()
-    if orient.lower() == "h":
-        x, y = rankby, names
-    elif orient.lower() == "v":
-        y, x = rankby, names
-        if figsize == (5, 8):
-            figsize = (8, 5)
-    else:
-        raise ValueError("orient must be 'h' or 'v'")
-    ax = sns.barplot(data=rank_df, x=x, y=y, ec="gray", ax=ax, **kwargs)
-    if orient.lower() == "v":
-        for label in ax.get_xticklabels():
-            label.set_rotation(90)
-    return ax
-
-
 def pair_corr_heatmap(
-    data, ignore=None, annot=True, thresh=None, figsize=(10, 10), **kwargs
+    data, ignore=None, annot=True, high_corr=None, scale=0.85, ax=None, **kwargs
 ):
     if not ignore:
         ignore = []
-    corr_df = data.corr().drop(columns=ignore, index=ignore)
-    center = 0
-    if thresh is not None:
+    corr_df = data.drop(columns=ignore).corr()
+    title = "Correlations Between Features"
+    if ax is None:
+        figsize = figsize_like(corr_df, scale)
+        fig, ax = plt.subplots(figsize=figsize)
+    if high_corr is not None:
         if annot:
             annot = corr_df.values
-        corr_df = corr_df > thresh
-        center = None
+        corr_df = corr_df > high_corr
+        kwargs["center"] = None
+        title = f"High {title}"
     mask = np.triu(np.ones_like(corr_df, dtype="int64"), k=0)
-    fig, ax = plt.subplots(figsize=figsize)
-    return sns.heatmap(
+    style = dict(HEATMAP_STYLE)
+    style.update(kwargs)
+    style.update({"annot": annot})
+    ax = sns.heatmap(
         data=corr_df,
-        cmap="vlag",
         mask=mask,
-        square=True,
-        center=center,
-        annot=annot,
-        fmt=".2f",
         ax=ax,
-        cbar=False,
-        linewidths=0.1,
-        linecolor="k",
-        **kwargs,
+        **style,
     )
+    ax.set_title(title, pad=10)
+    return ax
+    # return sns.heatmap(
+    #     data=corr_df,
+    #     cmap="vlag",
+    #     mask=mask,
+    #     square=True,
+    #     center=center,
+    #     annot=annot,
+    #     fmt=".2f",
+    #     ax=ax,
+    #     cbar=False,
+    #     linewidths=0.1,
+    #     linecolor="k",
+    #     **kwargs,
+    # )
 
 
-def _calc_figsize(nplots, ncols, sp_height):
+def calc_subplots_size(nplots, ncols, sp_height):
     nrows = round(nplots / ncols)
     figsize = (ncols * sp_height, nrows * sp_height)
     return nrows, figsize
@@ -178,9 +158,12 @@ def _calc_figsize(nplots, ncols, sp_height):
 
 def multi_dist(data: pd.DataFrame, ncols=3, sp_height=5, **kwargs) -> np.ndarray:
     data = data.loc[:, utils.numeric_cols(data)]
-    nrows, figsize = _calc_figsize(data.columns.size, ncols, sp_height)
+    nrows, figsize = calc_subplots_size(data.columns.size, ncols, sp_height)
     fig, axs = plt.subplots(nrows=nrows, ncols=ncols, figsize=figsize)
+    for ax in axs.flat:
+        ax.set_visible(False)
     for ax, column in zip(axs.flat, data.columns):
+        ax.set_visible(True)
         ax = sns.histplot(data=data, x=column, ax=ax, **kwargs)
         ax.set_title(f"Distribution of `{column}`")
     if axs.ndim > 1:
@@ -205,9 +188,12 @@ def multi_scatter(
     target_data = data.loc[:, target]
     if not reflexive:
         data.drop(columns=target, inplace=True)
-    nrows, figsize = _calc_figsize(data.columns.size, ncols, sp_height)
+    nrows, figsize = calc_subplots_size(data.columns.size, ncols, sp_height)
     fig, axs = plt.subplots(nrows=nrows, ncols=ncols, sharey=True, figsize=figsize)
+    for ax in axs.flat:
+        ax.set_visible(False)
     for ax, column in zip(axs.flat, data.columns):
+        ax.set_visible(True)
         ax = sns.scatterplot(x=data[column], y=target_data, ax=ax, **kwargs)
         ax.set_ylabel(target, labelpad=10)
         if yformatter:
@@ -221,9 +207,12 @@ def linearity_scatters(
 ) -> np.ndarray:
     data = data.loc[:, utils.numeric_cols(data)]
     corr_df = data.corrwith(data[target]).round(2)
-    nrows, figsize = _calc_figsize(data.columns.size, ncols, sp_height)
+    nrows, figsize = calc_subplots_size(data.columns.size, ncols, sp_height)
     fig, axs = plt.subplots(nrows=nrows, ncols=ncols, sharey=True, figsize=figsize)
+    for ax in axs:
+        ax.set_visible(False)
     for ax, column in zip(axs.flat, data.columns):
+        ax.set_visible(True)
         ax = sns.scatterplot(data=data, x=column, y=target, ax=ax, **kwargs)
         text = f"r={corr_df[column]:.2f}"
         ax.text(
@@ -255,28 +244,39 @@ def multi_joint(
     return np.array(grids)
 
 
-def annot_vbars(ax, color="k"):
-    raise NotImplementedError()
-    # max_bar = np.abs([b.get_width() for b in ax.patches]).max()
-    # dist = 0.15 * max_bar
-    # for bar in ax.patches:
-    #     x = bar.get_x() + bar.get_width() / 2
-    #     y = bar.get_height() - dist
-    #     val = round(bar.get_height(), 2)
-    #     text = f"{val:,.2f}"
-    #     ax.annotate(text, (x, y), ha="center", va="center", c=color, fontsize=14)
-    # return ax
+def annot_bars(
+    ax,
+    dist=0.15,
+    color="k",
+    compact=False,
+    orient="h",
+    format_spec="{x:.2f}",
+    fontsize=12,
+    alpha=0.5,
+    **kwargs,
+):
+    if not compact:
+        dist = -dist
 
+    xb = np.array(ax.get_xbound()) * (1 + abs(2 * dist))
+    ax.set_xbound(*xb)
 
-def annot_hbars(ax, dist=0.15, color="k", fontsize=14, alpha=0.75, **kwargs):
     max_bar = np.abs([b.get_width() for b in ax.patches]).max()
     dist = dist * max_bar
+
     for bar in ax.patches:
-        x = bar.get_width()
-        x = x + dist if x < 0 else x - dist
-        y = bar.get_y() + bar.get_height() / 2
-        val = round(bar.get_width(), 2)
-        text = f"{val:,.2f}"
+        if orient.lower() == "h":
+            x = bar.get_width()
+            x = x + dist if x < 0 else x - dist
+            y = bar.get_y() + bar.get_height() / 2
+        elif orient.lower() == "v":
+            x = bar.get_x() + bar.get_width() / 2
+            y = bar.get_height()
+            y = y + dist if y < 0 else y - dist
+        else:
+            raise ValueError("`orient` must be 'h' or 'v'")
+
+        text = format_spec.format(x=x)
         ax.annotate(
             text,
             (x, y),
@@ -290,11 +290,14 @@ def annot_hbars(ax, dist=0.15, color="k", fontsize=14, alpha=0.75, **kwargs):
     return ax
 
 
+def annot_hbars(ax, **kwargs):
+    return annot_bars(ax, orient="h", **kwargs)
+
+
 def heated_barplot(
     data: pd.Series,
-    desat: float = 0.6,
-    ax: Axes = None,
-    figsize: tuple = (8, 10),
+    heat="coolwarm",
+    heat_desat=0.6,
     **kwargs,
 ) -> Axes:
     """Plot a sharply divided ranking of positive and negative values.
@@ -308,17 +311,16 @@ def heated_barplot(
     Returns:
         Axes: Axes for the plot.
     """
-    if not ax:
-        fig, ax = plt.subplots(figsize=figsize)
     data.index = data.index.astype(str)
     data.sort_values(ascending=False, inplace=True)
-    blues = sns.color_palette("Blues", (data <= 0).sum(), desat=desat)
-    reds = sns.color_palette("Reds_r", (data > 0).sum(), desat=desat)
-    palette = reds + blues
-    ax = sns.barplot(
-        x=data.values, y=data.index, palette=palette, orient="h", ax=ax, **kwargs
+    heat = pd.Series(
+        sns.color_palette(heat, desat=heat_desat, n_colors=201),
+        index=pd.RangeIndex(-100, 101),
     )
-    ax.axvline(0.0, color="gray", lw=1, ls="-")
+    pal_vals = np.around(minmax_scale(data, feature_range=(-100, 100))).astype(np.int64)
+    palette = heat.loc[pal_vals]
+    ax = sns.barplot(x=data.values, y=data.index, palette=palette, orient="h", **kwargs)
+    ax.axvline(0.0, color="k", lw=1, ls="-", alpha=0.33)
     return ax
 
 
@@ -343,8 +345,11 @@ def diagnostics(
     return np.array([qq, hs])
 
 
-def cat_palette(name: str, keys: list, offset=0):
-    pal = sns.color_palette(name, n_colors=len(keys) + offset)[offset:]
+def cat_palette(name: str, keys: list, shuffle=False, offset=0, **kwargs):
+    n_colors = len(keys) + offset
+    pal = sns.color_palette(name, n_colors=n_colors, **kwargs)[offset:]
+    if shuffle:
+        _rng.shuffle(pal)
     return dict(zip(keys, pal))
 
 
@@ -356,70 +361,75 @@ def derive_coeff_labels(coeff_df):
     return coeff_df.assign(label=label)
 
 
-def simple_barplot(data, x, y, estimator=np.mean, figsize=(5, 5), **kwargs):
-    fig, ax = plt.subplots(figsize=figsize)
-    ax = sns.barplot(data=data, x=x, y=y, estimator=estimator, ax=ax, **kwargs)
-    est_name = estimator.__name__.title()
-    ax.set_title(f"{est_name} {y.title()} by {x.title()}", pad=10)
-    ax.set_xlabel(x.title(), labelpad=10)
-    ax.set_ylabel(y.title(), labelpad=15)
+def simple_barplot(data, x, y, sort="asc", orient="v", estimator=np.mean, **kwargs):
+    if sort:
+        if sort.lower() in ("asc", "desc"):
+            asc = sort.lower() == "asc"
+        else:
+            raise ValueError("`sort` must be 'asc', 'desc', or None")
+        order = data.groupby(x)[y].agg(estimator)
+        order = order.sort_values(ascending=asc).index.to_list()
+    else:
+        order = None
+
+    titles = {
+        "y": utils.to_title(y),
+        "x": utils.to_title(x),
+        "est": utils.to_title(estimator.__name__),
+    }
+
+    if orient.lower() == "h":
+        x, y = y, x
+    elif orient.lower() != "v":
+        raise ValueError("`orient` must be 'v' or 'h'")
+    ax = sns.barplot(
+        data=data, x=x, y=y, estimator=estimator, orient=orient, order=order, **kwargs
+    )
+
+    ax.set_title("{est} {y} by {x}".format(**titles), pad=10)
+    ax.set_xlabel(titles["x" if orient.lower() == "v" else "y"], labelpad=10)
+    ax.set_ylabel(titles["y" if orient.lower() == "v" else "x"], labelpad=15)
     return ax
 
 
-def coeffs_endog_barplot(main_df, coeff_df, exog, endog, estimator=np.median):
-    if "label" not in coeff_df.columns:
-        coeff_df = derive_coeff_labels(coeff_df)
-    fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=(10, 5))
-    uniq_exog = main_df[exog].sort_values().unique()
-    # pal = pd.Series(sns.color_palette("deep", uniq_exog.size), index=uniq_exog)
-    pal = cat_palette("deep", uniq_exog)
-    coeff_df = coeff_df.filter(like=exog, axis=0)
-    coeff_df = coeff_df.assign(label=coeff_df.label.astype(uniq_exog.dtype))
-    coeff_df.sort_values("label", inplace=True)
-    ax1 = sns.barplot(
-        data=coeff_df,
-        x="label",
-        y="coeff",
-        palette=pal,
-        ax=ax1,
-    )
-    ax2 = sns.barplot(
-        data=main_df,
-        x=exog,
-        y=endog,
-        estimator=estimator,
-        palette=pal,
-        ax=ax2,
-    )
-    ax1.set_ylabel(f"Effect on {endog.title()}", labelpad=10)
-    ax2.set_ylabel(endog.title(), labelpad=10)
-    ax1.set_title(f"Projected Effects of {exog.title()} on {endog.title()}", pad=10)
-    est_name = estimator.__name__.title()
-    ax2.set_title(f"{est_name} {endog.title()} by {exog.title()}", pad=10)
-    for ax in (ax1, ax2):
-        ax.set_xlabel(exog.title())
-    fig.tight_layout()
-    return fig
-
-
-def coeffs_endog_barplot2(
-    main_df, coeff_df, exog, endog, annot_kws=None, estimator=np.median
+def cat_regressor_barplots(
+    main_df,
+    coeff_df,
+    exog,
+    endog,
+    sp_height=5,
+    plot_corr=True,
+    palette=None,
+    saturation=0.75,
+    annot_kws=None,
+    corr_kws=None,
+    estimator=np.median,
 ):
     if "label" not in coeff_df.columns:
         coeff_df = derive_coeff_labels(coeff_df)
-    fig, (ax1, ax2, ax3) = plt.subplots(ncols=3, figsize=(15, 5))
+    if plot_corr:
+        _, figsize = calc_subplots_size(3, 3, sp_height)
+        fig, (ax1, ax2, ax3) = plt.subplots(ncols=3, figsize=figsize)
+    else:
+        _, figsize = calc_subplots_size(2, 2, sp_height)
+        fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=figsize)
+
     uniq_exog = main_df[exog].sort_values().unique()
-    # pal = pd.Series(sns.color_palette("deep", uniq_exog.size), index=uniq_exog)
-    pal = cat_palette("deep", uniq_exog)
+    if not palette:
+        palette = cat_palette(None, uniq_exog)
+    if isinstance(palette, str):
+        palette = cat_palette(palette, uniq_exog)
     coeff_df = coeff_df.filter(like=exog, axis=0)
     coeff_df = coeff_df.assign(label=coeff_df.label.astype(uniq_exog.dtype))
     coeff_df.sort_values("label", inplace=True)
+
     ax1 = sns.barplot(
         data=coeff_df,
         x="label",
         y="coeff",
-        palette=pal,
-        saturation=0.7,
+        palette=palette,
+        saturation=saturation,
+        order=coeff_df.label,
         ax=ax1,
     )
     ax2 = sns.barplot(
@@ -427,8 +437,8 @@ def coeffs_endog_barplot2(
         x=exog,
         y=endog,
         estimator=estimator,
-        palette=pal,
-        saturation=0.7,
+        palette=palette,
+        saturation=saturation,
         ax=ax2,
     )
 
@@ -437,17 +447,52 @@ def coeffs_endog_barplot2(
     ax1.set_title(f"Projected Effects of {exog.title()} on {endog.title()}", pad=10)
     est_name = estimator.__name__.title()
     ax2.set_title(f"{est_name} {endog.title()} by {exog.title()}", pad=10)
-    ax3 = heated_barplot(pd.get_dummies(main_df[exog]).corrwith(main_df[endog]), ax=ax3)
-    if annot_kws:
-        if "fontsize" not in annot_kws:
-            annot_kws.update({"fontsize": 10})
-        ax3 = annot_hbars(ax3, **annot_kws)
-    else:
-        ax3 = annot_hbars(ax3, fontsize=10)
-    ax3.set_title(f"Correlation: {exog.title()} and {endog.title()}")
-    ax3.set_xlabel("Correlation", labelpad=10)
-    ax3.set_ylabel(exog.title(), labelpad=10)
     for ax in (ax1, ax2):
         ax.set_xlabel(exog.title())
+
+    if plot_corr:
+        if not corr_kws:
+            corr_kws = dict()
+        ax3 = heated_barplot(
+            pd.get_dummies(main_df[exog]).corrwith(main_df[endog]),
+            saturation=saturation,
+            ax=ax3,
+            **corr_kws,
+        )
+        default_annot_kws = {"color": "k", "dist": 0.2, "fontsize": 11}
+        if annot_kws:
+            default_annot_kws.update(annot_kws)
+        ax3 = annot_hbars(ax3, **default_annot_kws)
+        ax3.set_title(f"Correlation: {exog.title()} and {endog.title()}")
+        ax3.set_xlabel("Correlation", labelpad=10)
+        ax3.set_ylabel(exog.title(), labelpad=10)
     fig.tight_layout()
     return fig
+
+
+def frame_corr_heatmap(
+    data, categorical, scale=0.85, no_prefix=True, ax=None, **kwargs
+):
+    if isinstance(categorical, str):
+        ylabel = utils.to_title(categorical)
+        categorical = [categorical]
+        single_cat = True
+    else:
+        ylabel = "Categorical Features"
+        single_cat = False
+
+    cat_df = data.filter(categorical, axis=1)
+    if no_prefix and single_cat:
+        dummies = pd.get_dummies(cat_df, prefix="", prefix_sep="")
+    else:
+        dummies = pd.get_dummies(cat_df)
+    corr_df = dummies.apply(lambda x: data.corrwith(x)).T
+    if ax is None:
+        fig, ax = plt.subplots(figsize=figsize_like(corr_df, scale=scale))
+    style = dict(HEATMAP_STYLE)
+    style.update(kwargs)
+    ax = sns.heatmap(corr_df, ax=ax, **style)
+    ax.set_xlabel("Numeric Features", labelpad=10)
+    ax.set_ylabel(ylabel, labelpad=10)
+    ax.set_title("Correlation with Numeric Features", pad=10)
+    return ax
