@@ -162,7 +162,20 @@ def pair_corr_heatmap(
     return ax
 
 
-def calc_subplots_size(nplots, ncols, sp_height):
+def calc_subplots_size(nplots: int, ncols: int, sp_height: int) -> tuple:
+    """Calculate number of rows and figsize for subplots.
+
+    Args:
+        nplots (int): Number of subplots.
+        ncols (int): Number of columns in figure.
+        sp_height (int): Height of each subplot.
+
+    Returns:
+        [tuple]: Tuple containing:
+                nrows (int): Number of rows in figure.
+                figsize (tuple): (width, height)
+
+    """
     nrows = round(nplots / ncols)
     figsize = (ncols * sp_height, nrows * sp_height)
     return nrows, figsize
@@ -323,6 +336,10 @@ def annot_bars(
 
 
 def annot_hbars(ax, **kwargs):
+    """Deprecated alias of `annot_bars`."""
+    raise DeprecationWarning(
+        "`annot_hbars` was renamed to `annot_bars` and is pending removal"
+    )
     return annot_bars(ax, orient="h", **kwargs)
 
 
@@ -333,7 +350,7 @@ def heated_barplot(
     ax: plt.Axes = None,
     **kwargs,
 ) -> plt.Axes:
-    """Plot a sharply divided ranking of positive and negative values.
+    """Create a sharply divided barplot ranking positive and negative values.
 
     Args:
         data (pd.Series): Data to plot.
@@ -536,8 +553,25 @@ def cat_regressor_barplots(
 
 
 def frame_corr_heatmap(
-    data, categorical, scale=0.85, no_prefix=True, ax=None, **kwargs
-):
+    data: pd.DataFrame,
+    categorical: str,
+    scale: float = 0.85,
+    no_prefix: bool = True,
+    ax: plt.Axes = None,
+    **kwargs,
+) -> plt.Axes:
+    """Plot a correlation heatmap of categorical vs. numeric features.
+
+    Args:
+        data (pd.DataFrame): Frame containing categorical and numeric data.
+        categorical (str): Name or list of names of categorical features.
+        scale (float, optional): Multiplier for determining figsize. Defaults to 0.85.
+        no_prefix (bool, optional): Do not prefix dummies (requires single cat). Defaults to True.
+        ax (plt.Axes, optional): Axes to plot on. Defaults to None.
+
+    Returns:
+        plt.Axes: Axes of the plot.
+    """
     if isinstance(categorical, str):
         ylabel = utils.to_title(categorical)
         categorical = [categorical]
