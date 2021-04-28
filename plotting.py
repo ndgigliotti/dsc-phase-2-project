@@ -204,12 +204,12 @@ def multi_scatter(
 
 def linearity_scatters(
     data: pd.DataFrame, target: str, ncols=3, sp_height=5, yformatter=None, **kwargs
-) -> np.ndarray:
+) -> plt.Figure:
     data = data.loc[:, utils.numeric_cols(data)]
     corr_df = data.corrwith(data[target]).round(2)
     nrows, figsize = calc_subplots_size(data.columns.size, ncols, sp_height)
     fig, axs = plt.subplots(nrows=nrows, ncols=ncols, sharey=True, figsize=figsize)
-    for ax in axs:
+    for ax in axs.flat:
         ax.set_visible(False)
     for ax, column in zip(axs.flat, data.columns):
         ax.set_visible(True)
@@ -227,7 +227,8 @@ def linearity_scatters(
         if yformatter:
             ax.yaxis.set_major_formatter(yformatter)
         ax.set_title(f"{column} vs. {target}")
-    return axs
+    fig.tight_layout()
+    return fig
 
 
 def multi_joint(
@@ -253,6 +254,7 @@ def annot_bars(
     format_spec="{x:.2f}",
     fontsize=12,
     alpha=0.5,
+    drop_last=0,
     **kwargs,
 ):
     if not compact:
@@ -263,8 +265,7 @@ def annot_bars(
 
     max_bar = np.abs([b.get_width() for b in ax.patches]).max()
     dist = dist * max_bar
-
-    for bar in ax.patches:
+    for bar in ax.patches[:-drop_last or len(ax.patches)]:
         if orient.lower() == "h":
             x = bar.get_width()
             x = x + dist if x < 0 else x - dist
@@ -276,7 +277,7 @@ def annot_bars(
         else:
             raise ValueError("`orient` must be 'h' or 'v'")
 
-        text = format_spec.format(x=x)
+        text = format_spec.format(x=bar.get_width())
         ax.annotate(
             text,
             (x, y),
@@ -361,7 +362,11 @@ def derive_coeff_labels(coeff_df):
     return coeff_df.assign(label=label)
 
 
-def simple_barplot(data, x, y, sort="asc", orient="v", estimator=np.mean, **kwargs):
+def simple_barplot(data, x, y, sort="asc", orient="v", estimator=np.mean, scale=0.5, ax=None, **kwargs):
+    if ax is None:
+        figsize = np.repeat(figsize_like(data[x], scale=scale), 2)
+        figsize[0] = figsize[0] // 1.5
+        fig, ax = plt.subplots(figsize=figsize)
     if sort:
         if sort.lower() in ("asc", "desc"):
             asc = sort.lower() == "asc"
@@ -383,7 +388,7 @@ def simple_barplot(data, x, y, sort="asc", orient="v", estimator=np.mean, **kwar
     elif orient.lower() != "v":
         raise ValueError("`orient` must be 'v' or 'h'")
     ax = sns.barplot(
-        data=data, x=x, y=y, estimator=estimator, orient=orient, order=order, **kwargs
+        data=data, x=x, y=y, estimator=estimator, orient=orient, order=order, ax=ax, **kwargs
     )
 
     ax.set_title("{est} {y} by {x}".format(**titles), pad=10)
