@@ -335,14 +335,6 @@ def annot_bars(
     return ax
 
 
-def annot_hbars(ax, **kwargs):
-    """Deprecated alias of `annot_bars`."""
-    raise DeprecationWarning(
-        "`annot_hbars` was renamed to `annot_bars` and is pending removal"
-    )
-    return annot_bars(ax, orient="h", **kwargs)
-
-
 def heated_barplot(
     data: pd.Series,
     heat: str = "coolwarm",
@@ -477,82 +469,83 @@ def simple_barplot(
     return ax
 
 
-def cat_regressor_barplots(
-    main_df,
-    coeff_df,
-    exog,
-    endog,
-    sp_height=5,
-    plot_corr=True,
-    palette=None,
-    saturation=0.75,
-    annot_kws=None,
-    corr_kws=None,
-    estimator=np.median,
-):
-    if "label" not in coeff_df.columns:
-        coeff_df = derive_coeff_labels(coeff_df)
-    if plot_corr:
-        _, figsize = calc_subplots_size(3, 3, sp_height)
-        fig, (ax1, ax2, ax3) = plt.subplots(ncols=3, figsize=figsize)
-    else:
-        _, figsize = calc_subplots_size(2, 2, sp_height)
-        fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=figsize)
+# def cat_regressor_barplots(
+#     main_df,
+#     coeff_df,
+#     exog,
+#     endog,
+#     sp_height=5,
+#     plot_corr=True,
+#     palette=None,
+#     saturation=0.75,
+#     annot_kws=None,
+#     corr_kws=None,
+#     estimator=np.median,
+# ):
+#     if "label" not in coeff_df.columns:
+#         coeff_df = derive_coeff_labels(coeff_df)
+#     if plot_corr:
+#         _, figsize = calc_subplots_size(3, 3, sp_height)
+#         fig, (ax1, ax2, ax3) = plt.subplots(ncols=3, figsize=figsize)
+#     else:
+#         _, figsize = calc_subplots_size(2, 2, sp_height)
+#         fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=figsize)
 
-    uniq_exog = main_df[exog].sort_values().unique()
-    if not palette:
-        palette = cat_palette(None, uniq_exog)
-    if isinstance(palette, str):
-        palette = cat_palette(palette, uniq_exog)
-    coeff_df = coeff_df.filter(like=exog, axis=0)
-    coeff_df = coeff_df.assign(label=coeff_df.label.astype(uniq_exog.dtype))
-    coeff_df.sort_values("label", inplace=True)
+#     uniq_exog = main_df[exog].sort_values().unique()
+#     if not palette:
+#         palette = cat_palette(None, uniq_exog)
+#     if isinstance(palette, str):
+#         palette = cat_palette(palette, uniq_exog)
+#     coeff_df = coeff_df.filter(like=exog, axis=0)
+#     coeff_df = coeff_df.assign(label=coeff_df.label.astype(uniq_exog.dtype))
+#     coeff_df.sort_values("label", inplace=True)
 
-    ax1 = sns.barplot(
-        data=coeff_df,
-        x="label",
-        y="coeff",
-        palette=palette,
-        saturation=saturation,
-        order=coeff_df.label,
-        ax=ax1,
-    )
-    ax2 = sns.barplot(
-        data=main_df,
-        x=exog,
-        y=endog,
-        estimator=estimator,
-        palette=palette,
-        saturation=saturation,
-        ax=ax2,
-    )
+#     ax1 = sns.barplot(
+#         data=coeff_df,
+#         x="label",
+#         y="coeff",
+#         palette=palette,
+#         saturation=saturation,
+#         order=coeff_df.label,
+#         ax=ax1,
+#     )
+#     ax2 = sns.barplot(
+#         data=main_df,
+#         x=exog,
+#         y=endog,
+#         estimator=estimator,
+#         palette=palette,
+#         saturation=saturation,
+#         ax=ax2,
+#     )
 
-    ax1.set_ylabel(f"Effect on {endog.title()}", labelpad=10)
-    ax2.set_ylabel(endog.title(), labelpad=10)
-    ax1.set_title(f"Projected Effects of {exog.title()} on {endog.title()}", pad=10)
-    est_name = estimator.__name__.title()
-    ax2.set_title(f"{est_name} {endog.title()} by {exog.title()}", pad=10)
-    for ax in (ax1, ax2):
-        ax.set_xlabel(exog.title())
+#     ax1.set_ylabel(f"Effect on {endog.title()}", labelpad=10)
+#     ax2.set_ylabel(endog.title(), labelpad=10)
+#     ax1.set_title(f"Projected Effects of {exog.title()} on {endog.title()}", pad=10)
+#     est_name = estimator.__name__.title()
+#     ax2.set_title(f"{est_name} {endog.title()} by {exog.title()}", pad=10)
+#     for ax in (ax1, ax2):
+#         ax.set_xlabel(exog.title())
 
-    if plot_corr:
-        if not corr_kws:
-            corr_kws = dict()
-        ax3 = heated_barplot(
-            pd.get_dummies(main_df[exog]).corrwith(main_df[endog]),
-            saturation=saturation,
-            ax=ax3,
-            **corr_kws,
-        )
-        default_annot_kws = {"color": "k", "dist": 0.2, "fontsize": 11}
-        if annot_kws:
-            default_annot_kws.update(annot_kws)
-        ax3 = annot_bars(ax3, **default_annot_kws)
-        ax3.set_title(f"Correlation: {exog.title()} and {endog.title()}")
-        ax3.set_xlabel("Correlation", labelpad=10)
-        ax3.set_ylabel(exog.title(), labelpad=10)
-    fig.tight_layout()
-    return fig
+#     if plot_corr:
+#         if not corr_kws:
+#             corr_kws = dict()
+#         ax3 = heated_barplot(
+#             pd.get_dummies(main_df[exog]).corrwith(main_df[endog]),
+#             saturation=saturation,
+#             ax=ax3,
+#             **corr_kws,
+#         )
+#         default_annot_kws = {"color": "k", "dist": 0.2, "fontsize": 11}
+#         if annot_kws:
+#             default_annot_kws.update(annot_kws)
+#         ax3 = annot_bars(ax3, **default_annot_kws)
+#         ax3.set_title(f"Correlation: {exog.title()} and {endog.title()}")
+#         ax3.set_xlabel("Correlation", labelpad=10)
+#         ax3.set_ylabel(exog.title(), labelpad=10)
+#     fig.tight_layout()
+#     return fig
+
 
 def cat_regressor_lineplots(
     main_df,
@@ -606,11 +599,11 @@ def cat_regressor_lineplots(
 
     ax1.set_ylabel(f"Effect on {endog.title()}", labelpad=10)
     ax2.set_ylabel(endog.title(), labelpad=10)
-    ax1.set_title(f"Projected Effects of {exog.title()} on {endog.title()}", pad=10)
+    ax1.set_title(f"Average Effect of {exog.title()} on {endog.title()}", pad=10)
     est_name = estimator.__name__.title()
     ax2.set_title(f"{est_name} {endog.title()} by {exog.title()}", pad=10)
     for ax in (ax1, ax2):
-        ax.set_xlabel(exog.title())
+        ax.set_xlabel(exog.title(), labelpad=10)
 
     if plot_corr:
         if not corr_kws:
@@ -629,6 +622,7 @@ def cat_regressor_lineplots(
         ax3.set_ylabel(exog.title(), labelpad=10)
     fig.tight_layout()
     return fig
+
 
 def frame_corr_heatmap(
     data: pd.DataFrame,
