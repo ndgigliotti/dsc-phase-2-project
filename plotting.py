@@ -547,13 +547,88 @@ def cat_regressor_barplots(
         default_annot_kws = {"color": "k", "dist": 0.2, "fontsize": 11}
         if annot_kws:
             default_annot_kws.update(annot_kws)
-        ax3 = annot_hbars(ax3, **default_annot_kws)
+        ax3 = annot_bars(ax3, **default_annot_kws)
         ax3.set_title(f"Correlation: {exog.title()} and {endog.title()}")
         ax3.set_xlabel("Correlation", labelpad=10)
         ax3.set_ylabel(exog.title(), labelpad=10)
     fig.tight_layout()
     return fig
 
+def cat_regressor_lineplots(
+    main_df,
+    coeff_df,
+    exog,
+    endog,
+    sp_height=5,
+    lw=3,
+    ms=10,
+    marker="o",
+    plot_corr=True,
+    palette=None,
+    annot_kws=None,
+    corr_kws=None,
+    estimator=np.median,
+):
+    if "label" not in coeff_df.columns:
+        coeff_df = derive_coeff_labels(coeff_df)
+    if plot_corr:
+        _, figsize = calc_subplots_size(3, 3, sp_height)
+        fig, (ax1, ax2, ax3) = plt.subplots(ncols=3, figsize=figsize)
+    else:
+        _, figsize = calc_subplots_size(2, 2, sp_height)
+        fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=figsize)
+
+    coeff_df = coeff_df.filter(like=exog, axis=0)
+    coeff_df = coeff_df.assign(label=coeff_df.label.astype(main_df[exog].dtype))
+    coeff_df.sort_values("label", inplace=True)
+
+    ax1 = sns.lineplot(
+        data=coeff_df,
+        x="label",
+        y="coeff",
+        palette=palette,
+        lw=lw,
+        ms=ms,
+        marker=marker,
+        ax=ax1,
+    )
+    ax2 = sns.lineplot(
+        data=main_df,
+        x=exog,
+        y=endog,
+        estimator=estimator,
+        palette=palette,
+        lw=lw,
+        ms=ms,
+        marker=marker,
+        ax=ax2,
+    )
+
+    ax1.set_ylabel(f"Effect on {endog.title()}", labelpad=10)
+    ax2.set_ylabel(endog.title(), labelpad=10)
+    ax1.set_title(f"Projected Effects of {exog.title()} on {endog.title()}", pad=10)
+    est_name = estimator.__name__.title()
+    ax2.set_title(f"{est_name} {endog.title()} by {exog.title()}", pad=10)
+    for ax in (ax1, ax2):
+        ax.set_xlabel(exog.title())
+
+    if plot_corr:
+        if not corr_kws:
+            corr_kws = dict()
+        ax3 = heated_barplot(
+            pd.get_dummies(main_df[exog]).corrwith(main_df[endog]),
+            ax=ax3,
+            **corr_kws,
+        )
+        default_annot_kws = {"color": "k", "dist": 0.2, "fontsize": 11}
+        if annot_kws:
+            default_annot_kws.update(annot_kws)
+        ax3 = annot_bars(ax3, **default_annot_kws)
+        ax3.set_title(f"Correlation: {exog.title()} and {endog.title()}")
+        ax3.set_xlabel("Correlation", labelpad=10)
+        ax3.set_ylabel(exog.title(), labelpad=10)
+    fig.tight_layout()
+    return fig
 
 def frame_corr_heatmap(
     data: pd.DataFrame,
