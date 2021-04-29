@@ -410,7 +410,7 @@ def cat_palette(
         name (str): Color palette name to be passed to Seaborn.
         keys (list): Keys for mapping to colors.
         shuffle (bool, optional): Shuffle the palette. Defaults to False.
-        offset (int, optional): Number of colors to skip over at start. Defaults to 0.
+        offset (int, optional): Number of initial colors to skip over. Defaults to 0.
 
     Returns:
         dict: Categorical-style color mapping.
@@ -434,8 +434,11 @@ def simple_barplot(
     data, x, y, sort="asc", orient="v", estimator=np.mean, scale=0.5, ax=None, **kwargs
 ):
     if ax is None:
-        figsize = np.repeat(figsize_like(data[x], scale=scale), 2)
-        figsize[0] = figsize[0] // 1.5
+        width = data[x].nunique()
+        width *= scale
+        height = width / 2
+        figsize = (width, height) if orient == "v" else (height, width)
+        figsize = np.array(figsize).round().astype(np.int64)
         fig, ax = plt.subplots(figsize=figsize)
     if sort:
         if sort.lower() in ("asc", "desc"):
@@ -566,7 +569,7 @@ def frame_corr_heatmap(
         data (pd.DataFrame): Frame containing categorical and numeric data.
         categorical (str): Name or list of names of categorical features.
         scale (float, optional): Multiplier for determining figsize. Defaults to 0.85.
-        no_prefix (bool, optional): Do not prefix dummies (requires single cat). Defaults to True.
+        no_prefix (bool, optional): If only one cat, do not prefix dummies. Defaults to True.
         ax (plt.Axes, optional): Axes to plot on. Defaults to None.
 
     Returns:
