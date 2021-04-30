@@ -145,7 +145,7 @@ def pair_corr_heatmap(
     if high_corr is not None:
         if annot:
             annot = corr_df.values
-        corr_df = corr_df > high_corr
+        corr_df = corr_df.abs() > high_corr
         kwargs["center"] = None
         title = f"High {title}"
     mask = np.triu(np.ones_like(corr_df, dtype="int64"), k=0)
@@ -627,6 +627,7 @@ def cat_regressor_lineplots(
 def frame_corr_heatmap(
     data: pd.DataFrame,
     categorical: str,
+    high_corr:float=None,
     scale: float = 0.85,
     no_prefix: bool = True,
     ax: plt.Axes = None,
@@ -637,6 +638,7 @@ def frame_corr_heatmap(
     Args:
         data (pd.DataFrame): Frame containing categorical and numeric data.
         categorical (str): Name or list of names of categorical features.
+        high_corr (float): Threshold for high correlation. Defaults to None.
         scale (float, optional): Multiplier for determining figsize. Defaults to 0.85.
         no_prefix (bool, optional): If only one cat, do not prefix dummies. Defaults to True.
         ax (plt.Axes, optional): Axes to plot on. Defaults to None.
@@ -651,13 +653,19 @@ def frame_corr_heatmap(
     else:
         ylabel = "Categorical Features"
         single_cat = False
-
+    title = "Correlation with Numeric Features"
     cat_df = data.filter(categorical, axis=1)
     if no_prefix and single_cat:
         dummies = pd.get_dummies(cat_df, prefix="", prefix_sep="")
     else:
         dummies = pd.get_dummies(cat_df)
     corr_df = dummies.apply(lambda x: data.corrwith(x)).T
+    if high_corr is not None:
+        if "annot" not in kwargs or kwargs.get("annot"):
+            kwargs["annot"] = corr_df.values
+        corr_df = corr_df.abs() > high_corr
+        kwargs["center"] = None
+        title = f"High {title}"
     if ax is None:
         fig, ax = plt.subplots(figsize=figsize_like(corr_df, scale=scale))
     style = dict(HEATMAP_STYLE)
@@ -665,5 +673,5 @@ def frame_corr_heatmap(
     ax = sns.heatmap(corr_df, ax=ax, **style)
     ax.set_xlabel("Numeric Features", labelpad=10)
     ax.set_ylabel(ylabel, labelpad=10)
-    ax.set_title("Correlation with Numeric Features", pad=10)
+    ax.set_title(title, pad=10)
     return ax
