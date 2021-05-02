@@ -69,6 +69,9 @@ def elapsed(start_time):
 
 def to_title(pylabel):
     return pylabel.replace("_", " ").strip().title()
+
+def cartesian(*xi):
+    return np.array(np.meshgrid(*xi)).T.reshape(-1, len(xi))
 # def map_list_likes(data: pd.Series, mapper: dict):
 #     """Apply `mapper` to elements of elements of `data`.
 

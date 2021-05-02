@@ -14,6 +14,7 @@ import numpy as np
 import pandas as pd
 import statsmodels.api as sm
 import statsmodels.stats.api as sms
+from statsmodels.regression.linear_model import RegressionResultsWrapper
 from sklearn.feature_selection import RFE, SequentialFeatureSelector
 from sklearn.linear_model import LinearRegression
 from statsmodels.formula.api import ols
@@ -25,14 +26,13 @@ TEST_DIR = "test_models"
 OLS_SWEEP_DIR = os.path.join(TEST_DIR, "ols_sweep")
 
 
-def reg_model(data, formula):
+def ols_model(data, formula):
     model = ols(formula=formula, data=data).fit()
     display(model.summary())
     fig = plotting.diagnostics(model)
-    gq = goldfeld_quandt(model)
-    gq.index.name = "goldfeld_quandt"
+    bp = breusch_pagan(model).to_frame("breusch_pagan")
     bad_p = bad_pvalues(model).to_frame("bad_pvalue")
-    display(gq)
+    display(bp)
     display(bad_p)
     return model
 
@@ -54,8 +54,9 @@ def summarize(model):
     results = results.append(pd.Series(model.diagn))
     results = results.append(model.pvalues.add_prefix("pval_"))
     results = results.append(model.params.add_prefix("coef_"))
-    gq = goldfeld_quandt(model)
-    results = results.append(gq["p_val"].add_prefix("gq_"))
+    # results = results.append(gq_summary(model).add_prefix("gq_"))
+    results = results.append(breusch_pagan(model).add_prefix("bp_"))
+    results["bp_hetero"] = results["bp_lm_pval"] < 0.05
     results["high_corr_exog"] = check_multicol(model).sum().sum()
     results["bad_pvals"] = bad_pvalues(model).size
     return results
@@ -89,22 +90,20 @@ def consolidate_results(glob_path):
     shutil.rmtree(dir_)
     print(utils.elapsed(start))
 
+
 @singledispatch
 def _strip_patsy_cat(feature: str):
     match = re.fullmatch(r"C\((\w+)\)", feature.strip())
     return match.group(1) if match else feature
+
 
 @_strip_patsy_cat.register
 def _(feature: list):
     return list(map(_strip_patsy_cat, feature))
 
 
-def feature_summary(sweep_results, agg=np.mean, enforce_gq=True, filter_mc=True):
+def feature_summary(sweep_results, agg=np.mean, filter_mc=True):
     summ = sweep_results.copy()
-    if "gq_hetero" not in summ.columns:
-        summ["gq_hetero"] = (summ.filter(like="gq_") < 0.05).any(axis=1)
-    if enforce_gq:
-        summ = summ.query("~gq_hetero")
     if filter_mc:
         summ = summ.query("high_corr_exog < 1")
     feature = summ.index.to_series(name="feature")
@@ -164,21 +163,67 @@ def ols_sweep(
     print(utils.elapsed(start))
 
 
-def goldfeld_quandt(model, split=0.45, drop=0.1):
-    all_alts = []
-    for alt in ["increasing", "decreasing", "two-sided"]:
-        results = sms.het_goldfeldquandt(
-            model.resid, model.model.exog, alternative=alt, split=split, drop=drop
-        )
-        all_alts.append(results)
-    all_alts = pd.DataFrame(all_alts, columns=["f_val", "p_val", "hypothesis"])
-    return all_alts.set_index("hypothesis")
+def goldfeld_quandt(model: RegressionResultsWrapper, split:float=0.45, drop:float=0.1, jobs:int=os.cpu_count()) -> pd.DataFrame:
+    """Run a battery of GQ tests, sorting by each exog variable in `model`.
+
+    Args:
+        model (RegressionResultsWrapper): Statsmodels regression results.
+        split (float, optional): Fraction of observations for split point. Defaults to 0.45.
+        drop (float, optional): Fraction of observations to drop. Defaults to 0.1.
+        jobs (int, optional): Number of threads to create. Defaults to os.cpu_count().
+
+    Returns:
+        [pd.DataFrame]: DataFrame of results for each exog variable.
+    """    
+    resid = model.resid
+    exog = model.model.data.orig_exog
+    resid, exog = resid.align(exog, axis=0)
+    sort_cols = np.arange(exog.shape[1])
+
+    if jobs > 1:
+        gq = partial(sms.het_goldfeldquandt, resid.to_numpy(), exog.to_numpy(), alternative="two-sided", split=split, drop=drop)
+        with ThreadPool(jobs) as pool:
+            all_results = pool.map(lambda x: gq(idx=x), sort_cols)
+    else:
+        all_results = []
+        for idx in sort_cols:
+            results = sms.het_goldfeldquandt(
+                resid.to_numpy(),
+                exog.to_numpy(),
+                idx=idx,
+                alternative="two-sided",
+                split=split,
+                drop=drop,
+            )
+            all_results.append(results)
+    all_results = pd.DataFrame(
+        all_results, columns=["f_val", "p_val", "hypothesis"], index=sort_cols
+    )
+    all_results.index = all_results.index.map(lambda x: exog.columns.values[x])
+    all_results.index.name = "sort_by"
+    return all_results.sort_values("p_val")
 
 
-def breusch_pagan(model, robust=True):
-    results = sms.het_breuschpagan(model.resid, model.model.exog, robust=robust)
-    index = ["lagrange_mult", "p_val", "f_val", "f_pval"]
-    return pd.Series(results, index=index)
+def gq_summary(model, split=0.45, drop=0.1):
+    results = goldfeld_quandt(model, split=split, drop=drop)
+    n_hetero = (results["p_val"] < 0.05).sum()
+    n_total = results.shape[0]
+    n_pass = n_total - n_hetero
+    ratio = n_pass / n_total
+    max_f = results.query("p_val < .05")["f_val"].max()
+    summ = pd.Series([ratio, max_f], index=["pass_ratio", "max_f"])
+    summ.name = "goldfeld_quandt"
+    return summ
+
+
+def white(model):
+    results = sms.het_white(model.resid, model.model.exog)
+    return pd.Series(results, index=["lm", "lm_pval", "f_val", "f_pval"])
+
+
+def breusch_pagan(model, **kwargs):
+    results = sms.het_breuschpagan(model.resid, model.model.exog, **kwargs)
+    return pd.Series(results, index=["lm", "lm_pval", "f_val", "f_pval"])
 
 
 def jarque_bera(model):

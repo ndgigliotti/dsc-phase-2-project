@@ -546,6 +546,55 @@ def simple_barplot(
 #     fig.tight_layout()
 #     return fig
 
+def cat_line_and_corr(
+    main_df,
+    exog,
+    endog,
+    sp_height=5,
+    lw=3,
+    ms=10,
+    marker="o",
+    palette=None,
+    annot_kws=None,
+    corr_kws=None,
+    estimator=np.median,
+):
+    _, figsize = calc_subplots_size(2, 2, sp_height)
+    fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=figsize)
+
+    ax1 = sns.lineplot(
+        data=main_df,
+        x=exog,
+        y=endog,
+        estimator=estimator,
+        palette=palette,
+        lw=lw,
+        ms=ms,
+        marker=marker,
+        ax=ax1,
+    )
+
+    ax1.set_ylabel(endog.title(), labelpad=10)
+    ax1.set_xlabel(exog.title(), labelpad=10)
+    est_name = estimator.__name__.title()
+    ax1.set_title(f"{est_name} {endog.title()} by {exog.title()}", pad=10)
+
+    if not corr_kws:
+        corr_kws = dict()
+    ax2 = heated_barplot(
+        pd.get_dummies(main_df[exog]).corrwith(main_df[endog]),
+        ax=ax2,
+        **corr_kws,
+    )
+    default_annot_kws = {"color": "k", "dist": 0.2, "fontsize": 11}
+    if annot_kws:
+        default_annot_kws.update(annot_kws)
+    ax2 = annot_bars(ax2, **default_annot_kws)
+    ax2.set_title(f"Correlation: {exog.title()} and {endog.title()}")
+    ax2.set_xlabel("Correlation", labelpad=10)
+    ax2.set_ylabel(exog.title(), labelpad=10)
+    fig.tight_layout()
+    return fig
 
 def cat_regressor_lineplots(
     main_df,
