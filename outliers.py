@@ -10,19 +10,35 @@ import utils
 
 _rng = np.random.default_rng(42)
 
-def get_iqr(data: pd.Series):
+def get_iqr(data: pd.Series) -> float:
+    """Returns IQR of `data`.
+
+    Args:
+        data (pd.Series): Series for calculating IQR.
+
+    Returns:
+        [float]: IQR
+    """    
     q1 = data.quantile(0.25)
     q3 = data.quantile(0.75)
     return q3 - q1
 
 
 def iqr_fences(data: pd.Series) -> tuple:
+    """Returns lower and upper Tukey fences.
+
+    Args:
+        data (pd.Series): Series for calculating fences.
+
+    Returns:
+        tuple: (lower, upper)
+    """    
     q1 = data.quantile(0.25)
     q3 = data.quantile(0.75)
     iqr = q3 - q1
-    lower_fence = q1 - 1.5 * iqr
-    upper_fence = q3 + 1.5 * iqr
-    return lower_fence, upper_fence
+    lower = q1 - 1.5 * iqr
+    upper = q3 + 1.5 * iqr
+    return lower, upper
 
 
 def _display_report(outliers, verb):
@@ -38,12 +54,21 @@ def _display_report(outliers, verb):
 
 @singledispatch
 def iqr_outliers(data: pd.Series) -> pd.Series:
+    """Returns boolean mask of IQR-fence outliers.
+
+    Args:
+        data (pd.Series): Series or DataFrame for finding outliers.
+
+    Returns:
+        pd.Series: Series or DataFrame mask.
+    """    
     lower, upper = iqr_fences(data)
     return (data < lower) | (data > upper)
 
 
 @iqr_outliers.register
 def _(data: pd.DataFrame) -> pd.DataFrame:
+    """Function for DataFrames"""
     return data.apply(iqr_outliers)
 
 
@@ -82,7 +107,17 @@ def _jitter_clipped(
 
 
 @singledispatch
-def iqr_clip(data: pd.Series, jitter=0, silent=False):
+def iqr_clip(data: pd.Series, jitter=False, silent=False):
+    """Move outliers to the Tukey fences.
+
+    Args:
+        data (pd.Series): Series or DataFrame for clipping.
+        jitter (bool, optional): Add uniform noise. Defaults to False.
+        silent (bool, optional): Do not display report. Defaults to False.
+
+    Returns:
+        [pd.Series]: Series or DataFrame
+    """    
     lower, upper = iqr_fences(data)
     clipped = data.clip(lower=lower, upper=upper)
     if is_integer_dtype(data):
@@ -91,14 +126,16 @@ def iqr_clip(data: pd.Series, jitter=0, silent=False):
         outliers = (data < lower) | (data > upper)
         _display_report(outliers, "clipped")
     if jitter:
+        dist = get_iqr(data) / 5
         if is_integer_dtype(data):
-            jitter = round(jitter)
-        clipped = _jitter_clipped(clipped, data < lower, data > upper, jitter)
+            dist = round(dist)
+        clipped = _jitter_clipped(clipped, data < lower, data > upper, dist)
     return clipped
 
 
 @iqr_clip.register
-def _(data: pd.DataFrame, jitter=0, silent=False) -> pd.DataFrame:
+"""Function for DataFrames"""
+def _(data: pd.DataFrame, jitter=False, silent=False) -> pd.DataFrame:
     clipped = data.apply(iqr_clip, jitter=jitter, silent=True)
     if not silent:
         _display_report(iqr_outliers(data), "clipped")
@@ -107,6 +144,18 @@ def _(data: pd.DataFrame, jitter=0, silent=False) -> pd.DataFrame:
 
 @singledispatch
 def iqr_tuck(data: pd.Series, silent=False):
+    """Uniformly redistribute outliers between the nearest Tukey fence and IQR.
+
+    Args:
+        data (pd.Series): Series for random outlier redistribution.
+        silent (bool, optional): Do not display report. Defaults to False.
+
+    Raises:
+        TypeError: `data` dtype must be float or integer
+
+    Returns:
+        [pd.Series]: Copy of Series or DataFrame with redistributed outliers.
+    """    
     lower, upper = iqr_fences(data)
     lower_outs = data < lower
     upper_outs = data > upper
@@ -130,6 +179,7 @@ def iqr_tuck(data: pd.Series, silent=False):
 
 
 @iqr_tuck.register
+"""Function for DataFrames"""
 def _(data: pd.DataFrame, silent=False):
     tucked = data.apply(iqr_tuck, silent=True)
     if not silent:
@@ -137,17 +187,17 @@ def _(data: pd.DataFrame, silent=False):
     return tucked
 
 
-def iqr_tuck_demo(data: pd.Series):
-    outliers = iqr_outliers(data)
-    tucked = iqr_tuck(data)
-    clipped = iqr_clip(data, jitter=False, silent=True)
-    dropped = iqr_drop(data, silent=True)
-    outliers.name = outliers.name.title()
-    return outliers, (data, tucked, clipped, dropped)
-
-
 @singledispatch
 def iqr_drop(data: pd.DataFrame, silent=False) -> pd.DataFrame:
+    """Drop IQR-fence outliers from `data`.
+
+    Args:
+        data (pd.DataFrame): Series or DataFrame for removing outliers.
+        silent (bool, optional): Do not display report. Defaults to False.
+
+    Returns:
+        pd.DataFrame: Copy of `data` with outliers dropped.
+    """    
     outliers = iqr_outliers(data)
     if not silent:
         _display_report(outliers, "dropped")
@@ -156,6 +206,7 @@ def iqr_drop(data: pd.DataFrame, silent=False) -> pd.DataFrame:
 
 @iqr_drop.register
 def _(data: pd.Series, silent=False) -> pd.Series:
+    """Function for Series"""
     outliers = iqr_outliers(data)
     if not silent:
         _display_report(outliers, "dropped")
@@ -178,6 +229,15 @@ def _(data: pd.Series, limits=(0.05, 0.05), silent=False, **kwargs) -> pd.Series
 
 @singledispatch
 def z_outliers(data: pd.DataFrame, thresh=3) -> pd.DataFrame:
+    """Returns boolean mask of z-score outliers.
+
+    Args:
+        data (pd.DataFrame): Series or DataFrame for finding outliers.
+        thresh (int, optional): Z-score threshold for outliers. Defaults to 3.
+
+    Returns:
+        pd.DataFrame: Series or DataFrame mask
+    """    
     ss = StandardScaler()
     z_data = ss.fit_transform(data)
     z_data = pd.DataFrame(z_data, index=data.index, columns=data.columns)
@@ -186,11 +246,22 @@ def z_outliers(data: pd.DataFrame, thresh=3) -> pd.DataFrame:
 
 @z_outliers.register
 def _(data: pd.Series, thresh=3) -> pd.Series:
+    """Function for Series"""
     return z_outliers(data.to_frame(), thresh=thresh).squeeze()
 
 
 @singledispatch
 def z_clip(data: pd.DataFrame, thresh=3, silent=False) -> pd.DataFrame:
+    """Move z-score outliers to z-score `thresh`.
+
+    Args:
+        data (pd.DataFrame): Series or DataFrame for clipping outliers.
+        thresh (int, optional): Z-score threshold for outliers. Defaults to 3.
+        silent (bool, optional): Do not display report. Defaults to False.
+
+    Returns:
+        pd.DataFrame: Copy of Series or DataFrame with outliers clipped.
+    """    
     ss = StandardScaler()
     z_data = ss.fit_transform(data)
     clipped = np.clip(z_data, -1 * thresh, thresh)
@@ -203,6 +274,7 @@ def z_clip(data: pd.DataFrame, thresh=3, silent=False) -> pd.DataFrame:
 
 @z_clip.register
 def _(data: pd.Series, thresh=3, silent=False) -> pd.Series:
+    """Function for Series"""
     clipped = z_clip(data.to_frame(), thresh=thresh, silent=True).squeeze()
     if not silent:
         _display_report(z_outliers(data), "clipped")
@@ -211,6 +283,16 @@ def _(data: pd.Series, thresh=3, silent=False) -> pd.Series:
 
 @singledispatch
 def z_drop(data: pd.DataFrame, thresh=3, silent=False) -> pd.DataFrame:
+    """Drop z-score outliers from `data`.
+
+    Args:
+        data (pd.DataFrame): Series or DataFrame for removing outliers.
+        thresh (int, optional): Z-score threshold for outliers. Defaults to 3.
+        silent (bool, optional): Do not display report. Defaults to False.
+
+    Returns:
+        pd.DataFrame: Copy of Series or DataFrame with outliers dropped.
+    """    
     outliers = z_outliers(data, thresh=thresh)
     if not silent:
         _display_report(outliers, "dropped")
@@ -219,6 +301,7 @@ def z_drop(data: pd.DataFrame, thresh=3, silent=False) -> pd.DataFrame:
 
 @z_drop.register
 def _(data: pd.Series, thresh=3, silent=False) -> pd.Series:
+    """Function for Series"""
     outliers = z_outliers(data, thresh=thresh)
     if not silent:
         _display_report(outliers, "dropped")
