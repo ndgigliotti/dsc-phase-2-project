@@ -54,7 +54,6 @@ def summarize(model):
     results = results.append(pd.Series(model.diagn))
     results = results.append(model.pvalues.add_prefix("pval_"))
     results = results.append(model.params.add_prefix("coef_"))
-    # results = results.append(gq_summary(model).add_prefix("gq_"))
     results = results.append(breusch_pagan(model).add_prefix("bp_"))
     results["bp_hetero"] = results["bp_lm_pval"] < 0.05
     results["high_corr_exog"] = check_multicol(model).sum().sum()

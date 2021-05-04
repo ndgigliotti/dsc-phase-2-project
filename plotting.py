@@ -677,6 +677,7 @@ def cat_regressor_lineplots(
 def frame_corr_heatmap(
     data: pd.DataFrame,
     categorical: str,
+    transpose:bool=False,
     high_corr:float=None,
     scale: float = 0.85,
     no_prefix: bool = True,
@@ -709,7 +710,9 @@ def frame_corr_heatmap(
         dummies = pd.get_dummies(cat_df, prefix="", prefix_sep="")
     else:
         dummies = pd.get_dummies(cat_df)
-    corr_df = dummies.apply(lambda x: data.corrwith(x)).T
+    corr_df = dummies.apply(lambda x: data.corrwith(x))
+    if not transpose:
+        corr_df = corr_df.T
     if high_corr is not None:
         if "annot" not in kwargs or kwargs.get("annot"):
             kwargs["annot"] = corr_df.values
@@ -721,7 +724,10 @@ def frame_corr_heatmap(
     style = dict(HEATMAP_STYLE)
     style.update(kwargs)
     ax = sns.heatmap(corr_df, ax=ax, **style)
-    ax.set_xlabel("Numeric Features", labelpad=10)
+    xlabel = "Numeric Features"
+    if transpose:
+        xlabel, ylabel = ylabel, xlabel
+    ax.set_xlabel(xlabel, labelpad=10)
     ax.set_ylabel(ylabel, labelpad=10)
     ax.set_title(title, pad=10)
     return ax

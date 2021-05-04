@@ -134,8 +134,8 @@ def iqr_clip(data: pd.Series, jitter=False, silent=False):
 
 
 @iqr_clip.register
-"""Function for DataFrames"""
 def _(data: pd.DataFrame, jitter=False, silent=False) -> pd.DataFrame:
+    """Function for DataFrames"""
     clipped = data.apply(iqr_clip, jitter=jitter, silent=True)
     if not silent:
         _display_report(iqr_outliers(data), "clipped")
@@ -154,7 +154,7 @@ def iqr_tuck(data: pd.Series, silent=False):
         TypeError: `data` dtype must be float or integer
 
     Returns:
-        [pd.Series]: Copy of Series or DataFrame with redistributed outliers.
+        [pd.Series]: Copy of Series or DataFrame with tucked outliers.
     """    
     lower, upper = iqr_fences(data)
     lower_outs = data < lower
@@ -179,8 +179,8 @@ def iqr_tuck(data: pd.Series, silent=False):
 
 
 @iqr_tuck.register
-"""Function for DataFrames"""
 def _(data: pd.DataFrame, silent=False):
+    """Function for DataFrames"""
     tucked = data.apply(iqr_tuck, silent=True)
     if not silent:
         _display_report(iqr_outliers(data), "tucked")
