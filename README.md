@@ -54,8 +54,8 @@ In an auxilliary notebook (sweeps.py), I run feature selection sweeps for OLS mu
 ## Conclusion
 I arrive at the following recommendations for King County residents:
 * Increase your housing grade as much as possible.
-* Try to attain a view rating of at least $1$ by landscaping, installing windows, or removing junk.
-* Aim to have at least $4$ bedrooms, and then expect diminishing returns if you keep adding more.
+* Try to attain a view rating of at least 1 by landscaping, installing windows, or removing junk.
+* Aim to have at least 4 bedrooms, and then expect diminishing returns if you keep adding more.
 * Add more full, half, and quarter-bathrooms.
 
 
