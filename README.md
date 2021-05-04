@@ -43,7 +43,7 @@ I do some feature engineering before processing all of the outliers. This includ
 
 After preparing the data, I produce numerous heatmaps to explore correlations between features. This is important in order to avoid multicollinearity in my regression models. I also make scatterplots to examine any possible linear relationships with price.
 
-<div align="center"><img src="figures/main_notebook_76_0.svg" width=350></div>
+<div align="center"><img src="figures/main_notebook_76_0.svg" width=450></div>
 
 In an auxilliary notebook (sweeps.py), I run feature selection sweeps for OLS multiple regression by building models for nearly every combination of features and recording their statistics. I do this for 1-variable through 5-variable regressions. Then I use this sweep data in the main notebook to iteratively develop a final model which has high R<sup>2</sup><sub>adj</sub> and many renovatable features.
 
