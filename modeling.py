@@ -163,7 +163,12 @@ def ols_sweep(
     print(utils.elapsed(start))
 
 
-def goldfeld_quandt(model: RegressionResultsWrapper, split:float=0.45, drop:float=0.1, jobs:int=os.cpu_count()) -> pd.DataFrame:
+def goldfeld_quandt(
+    model: RegressionResultsWrapper,
+    split: float = 0.45,
+    drop: float = 0.1,
+    jobs: int = os.cpu_count(),
+) -> pd.DataFrame:
     """Run a battery of GQ tests, sorting by each exog variable in `model`.
 
     Args:
@@ -174,14 +179,21 @@ def goldfeld_quandt(model: RegressionResultsWrapper, split:float=0.45, drop:floa
 
     Returns:
         [pd.DataFrame]: DataFrame of results for each exog variable.
-    """    
+    """
     resid = model.resid
     exog = model.model.data.orig_exog
     resid, exog = resid.align(exog, axis=0)
     sort_cols = np.arange(exog.shape[1])
 
     if jobs > 1:
-        gq = partial(sms.het_goldfeldquandt, resid.to_numpy(), exog.to_numpy(), alternative="two-sided", split=split, drop=drop)
+        gq = partial(
+            sms.het_goldfeldquandt,
+            resid.to_numpy(),
+            exog.to_numpy(),
+            alternative="two-sided",
+            split=split,
+            drop=drop,
+        )
         with ThreadPool(jobs) as pool:
             all_results = pool.map(lambda x: gq(idx=x), sort_cols)
     else:
@@ -249,3 +261,11 @@ def bad_pvalues(model, alpha=0.05):
 
 def corr(frame: pd.DataFrame, other: pd.DataFrame):
     return other.apply(lambda x: frame.corrwith(x))
+
+
+def get_high_corrs(data, high_corr=0.7):
+    corr_df = data.corr()
+    mask = np.tril(np.ones_like(corr_df, dtype=np.bool_))
+    corr_df = corr_df.mask(mask).stack()
+    high_mask = corr_df >= high_corr
+    return corr_df[high_mask].index.to_list()

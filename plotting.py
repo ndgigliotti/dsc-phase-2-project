@@ -339,6 +339,7 @@ def heated_barplot(
     data: pd.Series,
     heat: str = "coolwarm",
     heat_desat: float = 0.6,
+    scale: int = 0.85,
     ax: plt.Axes = None,
     **kwargs,
 ) -> plt.Axes:
