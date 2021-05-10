@@ -385,8 +385,8 @@ def diagnostics(
     hs = sns.scatterplot(x=model.predict(), y=model.resid, s=5)
     hs.set_ylabel("Residuals", labelpad=10)
     hs.set_xlabel("Predicted Values", labelpad=10)
-    hs.yaxis.set_major_formatter(yformatter)
-    hs.xaxis.set_major_formatter(xformatter)
+    # hs.yaxis.set_major_formatter(yformatter)
+    # hs.xaxis.set_major_formatter(xformatter)
     for label in hs.get_xticklabels():
         label.set_rotation(45)
     hs.set_title("Homoscedasticity Check")
