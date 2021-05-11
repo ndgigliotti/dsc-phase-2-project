@@ -127,7 +127,7 @@ def iqr_winsorize(data: pd.Series, silent=False):
 @iqr_winsorize.register
 def _(data: pd.DataFrame, silent=False) -> pd.DataFrame:
     """Function for DataFrames"""
-    clipped = data.apply(iqr_clip, silent=True)
+    clipped = data.apply(iqr_winsorize, silent=True)
     if not silent:
         _display_report(iqr_outliers(data), "clipped")
     return clipped
