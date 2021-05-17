@@ -117,6 +117,25 @@ def add_tukey_marks(
     ax.text(lower, text_yval, "Fence", ha="center")
     return ax
 
+def add_quantile_marks(
+    data: np.ndarray,
+    quantiles: list,
+    ax: plt.Axes,
+    line_color: str = "k",
+    line_style: str = "--",
+    percent_fmt: bool= True,
+) -> plt.Axes:
+    quant_labels = quantiles
+    quantiles = np.quantile(data, quant_labels)
+    text_yval = ax.get_ylim()[1]
+    text_yval *= 1.01
+    quant_labels = np.asarray(quant_labels) * 100
+    quant_labels = quant_labels.round().astype(np.int64)
+    for quant, label in zip(quantiles, quant_labels):
+        ax.axvline(quant, c=line_color, ls=line_style)
+        label = f"{label}%" if percent_fmt else str(label)
+        ax.text(quant, text_yval, label, ha="center")
+    return ax
 
 @singledispatch
 def rotate_ticks(ax: plt.Axes, deg: float, axis: str = "x"):
